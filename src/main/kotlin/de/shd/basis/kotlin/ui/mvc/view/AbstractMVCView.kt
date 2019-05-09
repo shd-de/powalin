@@ -9,7 +9,13 @@ import kotlin.browser.document
  *
  * @author Florian Steitz (fst)
  */
-@Suppress("unused")
+@Suppress("unused", "MemberVisibilityCanBePrivate")
 abstract class AbstractMVCView : MVCView {
-    final override val rootNode = document.create.div { }
+
+    // Ableitende Views sollen mit diesem Alias arbeiten, damit das Framework bei Bedarf eine eigene Factory für Knoten zur Verfügung stellen kann,
+    // ohne dabei Migrationsaufwand zu verursachen.
+    protected val nodeFactory = document.create;
+
+    // Eine View soll immer ein "div" als Wurzel-Knoten haben. Eine ableitende View soll dies auch nicht überschreiben können.
+    final override val rootNode = nodeFactory.div { }
 }
