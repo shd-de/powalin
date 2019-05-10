@@ -7,7 +7,6 @@ import de.shd.basis.kotlin.ui.mvc.view.MVCView
  *
  * @author Florian Steitz (fst)
  */
-@Suppress("unused")
 abstract class AbstractMVCController<VIEW : MVCView> : MVCController<VIEW> {
 
     final override val view: VIEW by lazy {
