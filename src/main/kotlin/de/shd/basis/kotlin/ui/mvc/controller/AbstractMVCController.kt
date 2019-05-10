@@ -1,6 +1,7 @@
 package de.shd.basis.kotlin.ui.mvc.controller
 
 import de.shd.basis.kotlin.ui.mvc.view.MVCView
+import kotlin.reflect.KClass
 
 /**
  * Die abstrakte Standard-Implementierung von [MVCController], die u.a. die Verwaltung und Initialisierung der zugehörigen [MVCView] übernimmt.
@@ -16,6 +17,13 @@ abstract class AbstractMVCController<VIEW : MVCView> : MVCController<VIEW> {
     final override fun init() {
         view.init()
         afterInit()
+    }
+
+    /**
+     * Erzeugt eine neue Instanz von der spezifizierten Implementierung von [MVCController] via [MVCControllerFactory.create].
+     */
+    protected fun <CONTROLLER : MVCController<*>> createController(controllerClass: KClass<CONTROLLER>): CONTROLLER {
+        return MVCControllerFactory.create(controllerClass);
     }
 
     /**

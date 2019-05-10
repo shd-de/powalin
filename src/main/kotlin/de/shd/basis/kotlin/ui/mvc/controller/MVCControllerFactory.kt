@@ -19,8 +19,8 @@ object MVCControllerFactory {
      * Erzeugt eine neue Instanz von der spezifizierten Implementierung von [MVCController] und initialisiert sie via [MVCController.init], bevor sie
      * zurückgegeben wird.
      */
-    fun <CONTROLLER : MVCController<*>> create(klass: KClass<CONTROLLER>): CONTROLLER {
-        val ctrl = createInstance(klass)
+    fun <CONTROLLER : MVCController<*>> create(controllerClass: KClass<CONTROLLER>): CONTROLLER {
+        val ctrl = createInstance(controllerClass)
         ctrl.init()
 
         return ctrl
