@@ -61,7 +61,7 @@ class SHDApp(private val appTitle: String) {
     /**
      * Importiert die spezifizierte JavaScript-Datei, indem via [appendScript] ein zusätzliches `script`-Element zum DOM hinzugefügt wird.
      */
-    fun withCustomScript(scriptURL: String): SHDApp {
+    fun withScript(scriptURL: String): SHDApp {
         customScripts.add(scriptURL)
         return this
     }
@@ -69,7 +69,7 @@ class SHDApp(private val appTitle: String) {
     /**
      * Importiert die spezifizierte CSS-Datei, indem via [appendStylesheet] ein zusätzliches `link`-Element zum DOM hinzugefügt wird.
      */
-    fun withCustomStylesheet(stylesheetURL: String): SHDApp {
+    fun withStylesheet(stylesheetURL: String): SHDApp {
         customStylesheets.add(stylesheetURL)
         return this
     }
