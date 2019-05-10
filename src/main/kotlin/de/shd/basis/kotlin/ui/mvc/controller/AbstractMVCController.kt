@@ -14,10 +14,7 @@ abstract class AbstractMVCController<VIEW : MVCView> : MVCController<VIEW> {
         createView()
     }
 
-    /**
-     *
-     */
-    init {
+    final override fun init() {
         view.init()
         afterInit()
     }

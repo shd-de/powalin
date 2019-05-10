@@ -12,6 +12,8 @@ import de.shd.basis.kotlin.ui.mvc.view.MVCView
  * Darüber hinaus stellt der Controller die öffentliche API einer Komponente dar, mit der andere Komponenten interagieren sollen. Ein Controller soll
  * niemals mit der View eines anderen Controllers direkt interagieren.
  *
+ * Implementierungen von diesem Interface sollen ausschließlich via [MVCControllerFactory.create] instanziiert werden.
+ *
  * @author Florian Steitz (fst)
  */
 interface MVCController<VIEW : MVCView> {
@@ -21,4 +23,11 @@ interface MVCController<VIEW : MVCView> {
      * direkt interagieren.
      */
     val view: VIEW
+
+    /**
+     * Initialisiert diesen Controller, indem u.a. die verwaltete View erzeugt und initialisiert wird. Darüber hinaus wird im Regelfall auch die
+     * Verbindung zwischen diesem Controller und der View initialisiert, damit dieser Controller die Steuerung der View übernehmen kann (wie z.B. das
+     * Registrieren von Klick-Listenern, damit dieser Controller auf Klicks reagieren kann).
+     */
+    fun init()
 }
