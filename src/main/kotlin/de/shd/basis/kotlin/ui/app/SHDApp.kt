@@ -3,12 +3,15 @@
 package de.shd.basis.kotlin.ui.app
 
 import de.shd.basis.kotlin.ui.component.menu.app.AppMenuController
+import de.shd.basis.kotlin.ui.i18n.I18n
+import de.shd.basis.kotlin.ui.i18n.I18nMessageProvider
 import de.shd.basis.kotlin.ui.mvc.controller.MVCController
 import de.shd.basis.kotlin.ui.mvc.controller.MVCControllerFactory
 import de.shd.basis.kotlin.ui.util.appendScript
 import de.shd.basis.kotlin.ui.util.appendScripts
 import de.shd.basis.kotlin.ui.util.appendStylesheet
 import de.shd.basis.kotlin.ui.util.appendStylesheets
+import org.w3c.dom.HTMLElement
 import kotlin.browser.document
 import kotlin.browser.window
 import kotlin.reflect.KClass
@@ -75,6 +78,32 @@ class SHDApp(private val appTitle: String) {
     }
 
     /**
+     * Legt die Implementierung von [I18nMessageProvider] fest, die von [I18n.getText] zum Auflösen von Übersetzung auf Basis von I18n-Schlüsseln
+     * verwendet werden soll.
+     */
+    fun withI18nMessageProvider(messageProvider: I18nMessageProvider): SHDApp {
+        I18n.messageProvider = messageProvider
+        return this
+    }
+
+    /**
+     * Legt die aktuelle Sprache der Anwendung anhand eines Sprach-Codes fest.
+     *
+     * Das Format, das Sprach-Codes haben müssen, ist durch [BCP 47](https://tools.ietf.org/rfc/bcp/bcp47.txt) festgelegt. Zum Beispiel sind die
+     * folgenden Sprach-Code-Formate valide:
+     * - en
+     * - en-US
+     * - de
+     * - de-DE
+     *
+     * @see I18n.currentLanguage
+     */
+    fun withLanguage(language: String): SHDApp {
+        I18n.currentLanguage = language
+        return this
+    }
+
+    /**
      * Ermöglicht die Konfiguration des zentralen Anwendungsmenüs des Frameworks über die übergebene Funktion, indem der intern vorgehaltene
      * [AppMenuController] als Receiver an die übergebene Funktion übergeben wird.
      */
@@ -95,10 +124,20 @@ class SHDApp(private val appTitle: String) {
         // "Anwendungstitel".
         document.title = appTitle
 
-        // Den DOM-Subtree der Standard-Komponente in den DOM-Tree des Frameworks integrieren, sobald der Webbrowser die Datei "index.html"
-        // vollständig geladen und geparst hat. Erst danach kann via JavaScript zuverlässig auf die Elemente des DOMs zugegriffen werden.
-        window.addEventListener("DOMContentLoaded", {
-            document.querySelector(".shd-app")?.appendChild(defaultRootCtrl.view.rootNode)
-        })
+        // Die grundlegende DOM-Struktur für die Anwendung initialisieren, sobald der Webbrowser die Datei "index.html" vollständig geladen und
+        // geparst hat. Erst danach kann via JavaScript zuverlässig auf die (bereits vorhandenen) Elemente des DOMs zugegriffen werden.
+        window.addEventListener("DOMContentLoaded", { updateDOM() })
+    }
+
+    /**
+     * Initialisiert die grundlegende DOM-Struktur für die Anwendung und überschreibt bei Bedarf auch die Attribute-Werte von bereits vorhandenen
+     * Elementen.
+     */
+    private fun updateDOM() {
+        // Den DOM-Subtree der (initialen) Standard-Komponente in den DOM-Tree des Frameworks integrieren.
+        document.querySelector(".shd-app")?.appendChild(defaultRootCtrl.view.rootNode)
+
+        // Die (deklarative) Sprache des Dokuments aktualisieren, damit sie auch zur tatsächlich verwendeten bzw. angezeigten Sprache passt.
+        (document.documentElement as HTMLElement).lang = I18n.currentLanguage
     }
 }
