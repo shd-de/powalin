@@ -119,14 +119,14 @@
                                     <artifactId>kotlin-stdlib-js</artifactId>
                                     <version>${kotlin.version}</version>
                                     <outputDirectory>${project.build.directory}/classes/app/basis/js/lib</outputDirectory>
-                                    <includes>*.js, *.js.map</includes>
+                                    <includes>*.js, *.js.map, **/*.kjsm</includes>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.jetbrains.kotlinx</groupId>
                                     <artifactId>kotlinx-html-js</artifactId>
                                     <version>${kotlin.html.version}</version>
                                     <outputDirectory>${project.build.directory}/classes/app/basis/js/lib</outputDirectory>
-                                    <includes>*.js, *.js.map</includes>
+                                    <includes>*.js, *.js.map, **/*.kjsm</includes>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>de.shd.basis</groupId>
