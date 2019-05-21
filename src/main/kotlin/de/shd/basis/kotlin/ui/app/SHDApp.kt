@@ -7,9 +7,8 @@ import de.shd.basis.kotlin.ui.i18n.I18n
 import de.shd.basis.kotlin.ui.i18n.I18nMessageProvider
 import de.shd.basis.kotlin.ui.mvc.controller.MVCController
 import de.shd.basis.kotlin.ui.mvc.controller.MVCControllerFactory
-import de.shd.basis.kotlin.ui.util.appendScript
+import de.shd.basis.kotlin.ui.util.appendChild
 import de.shd.basis.kotlin.ui.util.appendScripts
-import de.shd.basis.kotlin.ui.util.appendStylesheet
 import de.shd.basis.kotlin.ui.util.appendStylesheets
 import org.w3c.dom.HTMLElement
 import kotlin.browser.document
@@ -137,7 +136,7 @@ class SHDApp(private val appTitle: String) {
      */
     private fun updateDOM() {
         // Den DOM-Subtree der (initialen) Standard-Komponente in den DOM-Tree des Frameworks integrieren.
-        document.querySelector(".shd-app")?.appendChild(defaultRootCtrl.view.rootNode)
+        document.querySelector(".shd-app")?.appendChild(defaultRootCtrl.view)
 
         // Die (deklarative) Sprache des Dokuments aktualisieren, damit sie auch zur tatsächlich verwendeten bzw. angezeigten Sprache passt.
         (document.documentElement as HTMLElement).lang = I18n.currentLanguage
