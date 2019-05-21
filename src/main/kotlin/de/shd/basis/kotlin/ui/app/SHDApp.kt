@@ -62,18 +62,20 @@ class SHDApp(private val appTitle: String) {
     }
 
     /**
-     * Importiert die spezifizierte JavaScript-Datei, indem via [appendScript] ein zusätzliches `script`-Element zum DOM hinzugefügt wird.
+     * Importiert die spezifizierten JavaScript-Dateien, indem via [appendScript] ein zusätzliches `script`-Element pro übergebener Datei-URL zum DOM
+     * hinzugefügt wird.
      */
-    fun withScript(scriptURL: String): SHDApp {
-        customScripts.add(scriptURL)
+    fun withScripts(vararg scriptURLs: String): SHDApp {
+        customScripts.addAll(scriptURLs)
         return this
     }
 
     /**
-     * Importiert die spezifizierte CSS-Datei, indem via [appendStylesheet] ein zusätzliches `link`-Element zum DOM hinzugefügt wird.
+     * Importiert die spezifizierten CSS-Dateien, indem via [appendStylesheet] ein zusätzliches `link`-Element pro übergebener Datei-URL zum DOM
+     * hinzugefügt wird.
      */
-    fun withStylesheet(stylesheetURL: String): SHDApp {
-        customStylesheets.add(stylesheetURL)
+    fun withStylesheets(vararg stylesheetURLs: String): SHDApp {
+        customStylesheets.addAll(stylesheetURLs)
         return this
     }
 
