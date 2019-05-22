@@ -2,6 +2,7 @@ package de.shd.basis.kotlin.ui.util
 
 import de.shd.basis.kotlin.ui.mvc.view.MVCView
 import org.w3c.dom.Node
+import org.w3c.dom.events.EventTarget
 
 /**
  * Fügt die übergebene [MVCView] via [Node.appendChild] an das Ende der Liste der Kindknoten dieses Elements hinzu.
@@ -11,4 +12,15 @@ import org.w3c.dom.Node
  */
 fun Node.appendChild(view: MVCView) {
     appendChild(view.rootNode)
+}
+
+/**
+ * Fügt einen Event-Listener zu diesem Element hinzu, der ausgeführt wird, wenn ein Anwender auf dieses Element klickt.
+ *
+ * @see EventTarget.addEventListener
+ * @author Florian Steitz (fst)
+ */
+@Suppress("unused")
+fun Node.addClickListener(listener: () -> Unit) {
+    addEventListener("click", { listener() })
 }
