@@ -15,6 +15,18 @@ fun Node.appendChild(view: MVCView) {
 }
 
 /**
+ * Entfernt alle Kindknoten dieses Elements.
+ *
+ * @see Node.removeChild
+ * @author Florian Steitz (fst)
+ */
+fun Node.removeAllChildren() {
+    while (firstChild != null) {
+        removeChild(firstChild as Node);
+    }
+}
+
+/**
  * Fügt einen Event-Listener zu diesem Element hinzu, der ausgeführt wird, wenn ein Anwender auf dieses Element klickt.
  *
  * @see EventTarget.addEventListener
