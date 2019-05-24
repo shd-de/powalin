@@ -87,6 +87,18 @@ object AppStateManager {
     }
 
     /**
+     * Hängt den Wurzelknoten der aktuellen Ansicht aus dem DOM-Baum des Frameworks und hängt den Wurzelknoten der View, die vom Controller der
+     * Standard-Ansicht verwaltet wird, stattdessen in den DOM-Baum des Frameworks. Damit wird im Prinzip die aktuelle Ansicht durch die
+     * Standard-Ansicht ersetzt.
+     *
+     * Der Zustand der aktuellen Ansicht verbleibt allerdings im internen Cache dieses Managers. D.h. dieser Zustand kann jederzeit wiederhergestellt
+     * werden, sofern er noch nicht durch die Anwendung explizit verworfen oder die Anwendung geschlossen wurde.
+     */
+    fun openDefaultState() {
+        replaceCurrentStateWith(defaultStateController)
+    }
+
+    /**
      * Gibt die von diesem Manager derzeit verwaltete "Zustands-Instanz" des spezifizierten [Controllers][MVCController] zurück. Falls dieser Manager
      * noch keine solche Instanz verwaltet, wird `null` zurückgegeben.
      */

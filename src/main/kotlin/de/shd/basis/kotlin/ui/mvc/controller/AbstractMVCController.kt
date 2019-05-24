@@ -66,6 +66,18 @@ abstract class AbstractMVCController<VIEW : MVCView> : MVCController<VIEW> {
     }
 
     /**
+     * Hängt via [AppStateManager.openDefaultState] den Wurzelknoten der aktuellen Ansicht aus dem DOM-Baum des Frameworks und hängt den Wurzelknoten
+     * der View, die vom Controller der Standard-Ansicht verwaltet wird, stattdessen in den DOM-Baum des Frameworks. Damit wird im Prinzip die
+     * aktuelle Ansicht durch die Standard-Ansicht ersetzt.
+     *
+     * Der Zustand der aktuellen Ansicht verbleibt allerdings im internen Cache des Frameworks. D.h. dieser Zustand kann jederzeit wiederhergestellt
+     * werden, sofern er noch nicht durch die Anwendung explizit verworfen oder die Anwendung geschlossen wurde.
+     */
+    protected fun openDefaultState() {
+        AppStateManager.openDefaultState()
+    }
+
+    /**
      * Gibt die vom Framework derzeit verwaltete "Zustands-Instanz" des spezifizierten [Controllers][MVCController] via [AppStateManager.getState]
      * zurück. Falls das Framework noch keine solche Instanz verwaltet, wird `null` zurückgegeben.
      */
