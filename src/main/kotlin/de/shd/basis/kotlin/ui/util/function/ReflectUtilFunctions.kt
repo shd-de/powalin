@@ -1,4 +1,4 @@
-package de.shd.basis.kotlin.ui.util
+package de.shd.basis.kotlin.ui.util.function
 
 import kotlin.reflect.KClass
 

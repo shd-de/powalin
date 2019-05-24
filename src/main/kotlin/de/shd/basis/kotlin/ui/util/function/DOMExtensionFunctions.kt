@@ -1,4 +1,4 @@
-package de.shd.basis.kotlin.ui.util
+package de.shd.basis.kotlin.ui.util.function
 
 import de.shd.basis.kotlin.ui.mvc.view.MVCView
 import org.w3c.dom.Node

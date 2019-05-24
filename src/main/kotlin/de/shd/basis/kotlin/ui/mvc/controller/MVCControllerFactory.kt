@@ -2,7 +2,7 @@ package de.shd.basis.kotlin.ui.mvc.controller
 
 import de.shd.basis.kotlin.ui.component.menu.app.AppMenuCtrl
 import de.shd.basis.kotlin.ui.mvc.controller.MVCControllerFactory.create
-import de.shd.basis.kotlin.ui.util.createInstance
+import de.shd.basis.kotlin.ui.util.function.createInstance
 import kotlin.reflect.KClass
 
 /**

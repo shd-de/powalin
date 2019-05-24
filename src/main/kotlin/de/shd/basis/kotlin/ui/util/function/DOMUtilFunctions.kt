@@ -1,4 +1,4 @@
-package de.shd.basis.kotlin.ui.util
+package de.shd.basis.kotlin.ui.util.function
 
 import kotlinx.html.TagConsumer
 import kotlinx.html.dom.create

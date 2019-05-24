@@ -8,10 +8,12 @@ import de.shd.basis.kotlin.ui.i18n.I18nMessageProvider
 import de.shd.basis.kotlin.ui.mvc.controller.MVCController
 import de.shd.basis.kotlin.ui.mvc.controller.MVCControllerFactory
 import de.shd.basis.kotlin.ui.state.AppStateManager
-import de.shd.basis.kotlin.ui.util.appendChild
-import de.shd.basis.kotlin.ui.util.appendScripts
-import de.shd.basis.kotlin.ui.util.appendStylesheets
-import de.shd.basis.kotlin.ui.util.removeAllChildren
+import de.shd.basis.kotlin.ui.util.function.appendChild
+import de.shd.basis.kotlin.ui.util.function.appendScript
+import de.shd.basis.kotlin.ui.util.function.appendScripts
+import de.shd.basis.kotlin.ui.util.function.appendStylesheet
+import de.shd.basis.kotlin.ui.util.function.appendStylesheets
+import de.shd.basis.kotlin.ui.util.function.removeAllChildren
 import org.w3c.dom.Element
 import org.w3c.dom.HTMLElement
 import kotlin.browser.document
