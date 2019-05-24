@@ -7,9 +7,12 @@ import de.shd.basis.kotlin.ui.i18n.I18n
 import de.shd.basis.kotlin.ui.i18n.I18nMessageProvider
 import de.shd.basis.kotlin.ui.mvc.controller.MVCController
 import de.shd.basis.kotlin.ui.mvc.controller.MVCControllerFactory
+import de.shd.basis.kotlin.ui.state.AppStateManager
 import de.shd.basis.kotlin.ui.util.appendChild
 import de.shd.basis.kotlin.ui.util.appendScripts
 import de.shd.basis.kotlin.ui.util.appendStylesheets
+import de.shd.basis.kotlin.ui.util.removeAllChildren
+import org.w3c.dom.Element
 import org.w3c.dom.HTMLElement
 import kotlin.browser.document
 import kotlin.browser.window
@@ -36,27 +39,33 @@ import kotlin.reflect.KClass
 @Suppress("unused", "MemberVisibilityCanBePrivate")
 class SHDApp(private val appTitle: String) {
 
-    private val appMenuCtrl = MVCControllerFactory.createAppMenuCtrl()
-    private var defaultRootCtrl: MVCController<*> = appMenuCtrl // Standardmäßig das zentrale Anwendungsmenü anzeigen.
+    private var frameworkRootElement: Element? = null
 
     private val customScripts = mutableListOf<String>()
     private val customStylesheets = mutableListOf<String>()
 
     /**
-     * Legt anhand der übergebenen Klasse fest, welche MVC-Komponente standardmäßig bzw. initial angezeigt werden soll. Das Framework merkt sich diese
-     * Komponente und daher kann stets zu ihr wieder "navigiert" werden. Denn das Framework instanziiert den spezifizierten [MVCController] selbst und
-     * hält sich diese Instanz als Singleton permanent vor.
+     * Legt anhand der übergebenen [Controller-Klasse][MVCController] fest, welche (anwendungsspezifische) Ansicht standardmäßig bzw. initial
+     * angezeigt werden soll.
+     *
+     * Das Framework übernimmt die Erzeugung einer "Zustands-Instanz" für den spezifizierten Controller und hälts sie intern vor. Daher kann dieser
+     * Standard-Zustand (bzw. diese Standard-Ansicht) jederzeit wiederhergestellt werden, falls die Anwendung via [AppStateManager.openState]
+     * oder [AppStateManager.openAsNewState] zwischenzeitlich die Ansicht gewechselt hat.
      */
-    fun <CONTROLLER : MVCController<*>> withDefaultRootComponent(controllerClass: KClass<CONTROLLER>): SHDApp {
-        return withDefaultRootComponent(MVCControllerFactory.create(controllerClass))
+    fun <CONTROLLER : MVCController<*>> withDefaultState(controllerClass: KClass<CONTROLLER>): SHDApp {
+        return withDefaultState(MVCControllerFactory.create(controllerClass))
     }
 
     /**
-     * Legt anhand des übergebenen [MVCControllers][MVCController] fest, welche MVC-Komponente standardmäßig bzw. initial angezeigt werden soll. Das
-     * Framework merkt sich diese Komponente und daher kann stets zu ihr wieder "navigiert" werden.
+     * Legt anhand des übergebenen [Controllers][MVCController] fest, welche (anwendungsspezifische) Ansicht standardmäßig bzw. initial angezeigt
+     * werden soll.
+     *
+     * Das Framework hält anschließend die übergebene "Zustands-Instanz" intern vor. Daher kann dieser Standard-Zustand (bzw. diese Standard-Ansicht)
+     * jederzeit wiederhergestellt werden, falls die Anwendung via [AppStateManager.openState] oder [AppStateManager.openAsNewState] zwischenzeitlich
+     * die Ansicht gewechselt hat.
      */
-    fun withDefaultRootComponent(controller: MVCController<*>): SHDApp {
-        defaultRootCtrl = controller
+    fun withDefaultState(controller: MVCController<*>): SHDApp {
+        AppStateManager.defaultStateController = controller
         return this
     }
 
@@ -105,11 +114,11 @@ class SHDApp(private val appTitle: String) {
     }
 
     /**
-     * Ermöglicht die Konfiguration des zentralen Anwendungsmenüs des Frameworks über die übergebene Funktion, indem der intern vorgehaltene
-     * [AppMenuController] als Receiver an die übergebene Funktion übergeben wird.
+     * Ermöglicht die Konfiguration des zentralen Anwendungsmenüs über die übergebene Funktion, indem dessen [Controller][AppMenuController] als
+     * Receiver an diese Funktion übergeben wird.
      */
     fun configureAppMenu(configurator: AppMenuController.() -> Unit): SHDApp {
-        configurator(appMenuCtrl)
+        AppStateManager.configureAppMenuState(configurator)
         return this
     }
 
@@ -127,18 +136,34 @@ class SHDApp(private val appTitle: String) {
 
         // Die grundlegende DOM-Struktur für die Anwendung initialisieren, sobald der Webbrowser die Datei "index.html" vollständig geladen und
         // geparst hat. Erst danach kann via JavaScript zuverlässig auf die (bereits vorhandenen) Elemente des DOMs zugegriffen werden.
-        window.addEventListener("DOMContentLoaded", { updateDOM() })
+        window.addEventListener("DOMContentLoaded", { initializeAppDOM() })
+
+        // Auf Änderungen des Anwendungszustands lauschen, damit die DOM-Struktur entsprechend aktualisiert werden kann.
+        AppStateManager.addStateChangeListener(this::replaceAppSubTree)
     }
 
     /**
-     * Initialisiert die grundlegende DOM-Struktur für die Anwendung und überschreibt bei Bedarf auch die Attribute-Werte von bereits vorhandenen
-     * Elementen.
+     * Initialisiert die grundlegende DOM-Struktur der Anwendung und überschreibt bei Bedarf auch Attribute-Werte von bereits vorhandenen Elementen.
      */
-    private fun updateDOM() {
-        // Den DOM-Subtree der (initialen) Standard-Komponente in den DOM-Tree des Frameworks integrieren.
-        document.querySelector(".shd-app")?.appendChild(defaultRootCtrl.view)
+    private fun initializeAppDOM() {
+        // Das Framework-interne Wurzelelement der Anwendung ermitteln und den DOM-Subtree der (initialen) Standard-Ansicht als Kindelement hinzufügen.
+        frameworkRootElement = document.querySelector(".shd-app")
+        frameworkRootElement?.appendChild(AppStateManager.defaultStateController.view)
 
         // Die (deklarative) Sprache des Dokuments aktualisieren, damit sie auch zur tatsächlich verwendeten bzw. angezeigten Sprache passt.
         (document.documentElement as HTMLElement).lang = I18n.currentLanguage
+    }
+
+    /**
+     * Den Wurzelknoten der aktuellen Ansicht aus dem DOM-Baum des Frameworks aushängen und den Wurzelknoten der View, die vom übergebenen Controller
+     * verwaltet wird, stattdessen in den DOM-Baum des Frameworks einhängen.
+     */
+    private fun replaceAppSubTree(newStateCtrl: MVCController<*>) {
+        val rootElement = frameworkRootElement
+
+        if (rootElement != null) {
+            rootElement.removeAllChildren()
+            rootElement.appendChild(newStateCtrl.view)
+        }
     }
 }
