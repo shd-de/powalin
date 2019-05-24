@@ -3,6 +3,7 @@ package de.shd.basis.kotlin.ui.state
 import de.shd.basis.kotlin.ui.component.menu.app.AppMenuController
 import de.shd.basis.kotlin.ui.mvc.controller.MVCController
 import de.shd.basis.kotlin.ui.mvc.controller.MVCControllerFactory
+import de.shd.basis.kotlin.ui.mvc.view.MVCView
 import kotlin.reflect.KClass
 
 /**
@@ -60,7 +61,7 @@ object AppStateManager {
      */
     @Suppress("UNCHECKED_CAST")
     fun <CONTROLLER : MVCController<*>> openState(controllerClass: KClass<CONTROLLER>): CONTROLLER {
-        return notifyListeners(stateControllers.getOrPut(controllerClass, { MVCControllerFactory.create(controllerClass) }) as CONTROLLER)
+        return replaceCurrentStateWith(stateControllers.getOrPut(controllerClass, { MVCControllerFactory.create(controllerClass) }) as CONTROLLER)
     }
 
     /**
@@ -77,12 +78,12 @@ object AppStateManager {
      * Methode explizit verworfen und die Anwendung auch noch nicht geschlossen wurde.
      */
     fun <CONTROLLER : MVCController<*>> openAsNewState(controllerClass: KClass<CONTROLLER>): CONTROLLER {
-        val ctrl = MVCControllerFactory.create(controllerClass)
+        val newStateCtrl = MVCControllerFactory.create(controllerClass)
 
-        stateControllers[controllerClass] = ctrl
-        notifyListeners(ctrl)
+        stateControllers[controllerClass] = newStateCtrl
+        replaceCurrentStateWith(newStateCtrl)
 
-        return ctrl
+        return newStateCtrl
     }
 
     /**
@@ -111,11 +112,17 @@ object AppStateManager {
     }
 
     /**
-     * Benachrichtigt alle Listener, die via [addStateChangeListener] registriert wurden, indem der übergebene Controller an die registrierte Funktion
-     * übergeben wird.
+     * Sorgt dafür, dass der Wurzelknoten der aktuellen Ansicht aus dem DOM-Baum des Frameworks ausgehängt und der Wurzelknoten der View, die vom
+     * übergebenen Controller verwaltet wird, stattdessen in den DOM-Baum des Frameworks eingehängt wird, indem alle Listener, die via
+     * [addStateChangeListener] registriert wurden, benachrichtigt werden. Diese Listener-Funktionen erhalten den übergebenen Controller als Argument.
+     *
+     * Anschließend wird die Methode [MVCController.onEnter] des übergebenen Controllers aufgerufen, damit er an dieser Stelle die Möglichkeit hat,
+     * seine Daten und/oder seine [View][MVCView] automatisch zu aktualisieren.
      */
-    private fun <CONTROLLER : MVCController<*>> notifyListeners(ctrl: CONTROLLER): CONTROLLER {
-        stateChangeListeners.forEach { accept -> accept(ctrl) }
-        return ctrl
+    private fun <CONTROLLER : MVCController<*>> replaceCurrentStateWith(newStateCtrl: CONTROLLER): CONTROLLER {
+        stateChangeListeners.forEach { accept -> accept(newStateCtrl) }
+        newStateCtrl.onEnter()
+
+        return newStateCtrl
     }
 }

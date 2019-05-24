@@ -1,6 +1,7 @@
 package de.shd.basis.kotlin.ui.mvc.controller
 
 import de.shd.basis.kotlin.ui.mvc.view.MVCView
+import de.shd.basis.kotlin.ui.state.AppStateManager
 
 /**
  * Der [Controller](https://de.wikipedia.org/wiki/Model_View_Controller#Steuerung_(controller)) einer Komponente, der die Steuerung und Verwaltung der
@@ -30,4 +31,17 @@ interface MVCController<VIEW : MVCView> {
      * Registrieren von Klick-Listenern, damit dieser Controller auf Klicks reagieren kann).
      */
     fun init()
+
+    /**
+     * Diese Methode kann vom implementierenden Controller überschrieben werden, um die Daten und/oder die View, die er verwaltet, automatisch zu
+     * aktualisieren, wenn dessen View via [AppStateManager.openState] oder [AppStateManager.openAsNewState] als Wurzelknoten in den DOM-Baum des
+     * Frameworks eingehängt wird.
+     *
+     * **Wichtig:**
+     *
+     * Diese Methode soll nicht manuell innerhalb der Anwendung aufgerufen werden.
+     */
+    fun onEnter() {
+        // Standardmäßig tut diese Methode nichts.
+    }
 }
