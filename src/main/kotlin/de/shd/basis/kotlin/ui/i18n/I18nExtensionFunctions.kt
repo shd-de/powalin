@@ -47,8 +47,8 @@ fun Tag.i18nText(i18nKey: String, vararg args: String?) {
  * @author Florian Steitz (fst)
  */
 @Suppress("unused")
-fun Node.setI18nTextContent(i18nKey: I18nKey, vararg args: String?) {
-    setI18nTextContent(i18nKey.get(), *args)
+fun Node.withI18nTextContent(i18nKey: I18nKey, vararg args: String?): Node {
+    return withI18nTextContent(i18nKey.get(), *args)
 }
 
 /**
@@ -62,8 +62,9 @@ fun Node.setI18nTextContent(i18nKey: I18nKey, vararg args: String?) {
  * @see Node.textContent
  * @author Florian Steitz (fst)
  */
-fun Node.setI18nTextContent(i18nKey: String, vararg args: String?) {
+fun Node.withI18nTextContent(i18nKey: String, vararg args: String?): Node {
     textContent = I18n.getText(i18nKey, *args)
+    return this
 }
 
 /**
