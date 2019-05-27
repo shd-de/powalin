@@ -22,11 +22,15 @@ import kotlin.js.Promise
  * "`shd`" und weist ihr die Version `1` zu. D.h. jeder `ObjectStore`, der so von der Anwendung erzeugt wird, befindet sich dadurch in der gleichen
  * Datenbank. Allerdings erzeugt dieser Builder standardmäßig keinen `ObjectStore`, weshalb die über diesen Builder erzeugte [SHDDatabase] nur
  * sinnvoll genutzt werden kann, wenn zuvor über die Methode [withObjectStores] mindestens ein `ObjectStore` explizit erzeugt bzw. initialisiert wurde.
- * Dieser Builder übernimmt dabei die Entscheidung, ob eine `ObjectStore` neu erzeugt werden muss oder ob ein bestehender ausgelesen werden soll.
+ * Dieser Builder übernimmt dabei die Entscheidung, wann ein `ObjectStore` (neu) erzeugt wird.
+ *
+ * Es muss aber beachtet werden, dass neue `ObjectStores` nur in der Transaktion neu erzeugt werden können, innerhalb der die Datenbank initialisiert
+ * wird. D.h. wenn zu einem späteren Zeitpunkt zusätzliche `ObjectStores` benötigt werden, muss eine neue Datenbank-Version erzeugt und damit
+ * (Bestands-)Daten migriert werden.
  *
  * Damit Anwendungen die Referenzen auf die verfügbaren `ObjectStores` nicht selbst halten und verwalten müssen, kümmert sich die über diesen Builder
  * erzeugte [SHDDatabase] um die Verwaltung der verfügbaren `ObjectStores`. Auf den jeweiligen `ObjectStore` kann über den Enum-Wert zugegriffen
- * werden, der ihm beim Aufruf von [withObjectStores] zugewiesen wurde . Der generischer Parameter dieser Klasse gibt an, mit welchem `ObjectStore`-Enum
+ * werden, der ihm beim Aufruf von [withObjectStores] zugewiesen wurde. Der generischer Parameter dieser Klasse gibt an, mit welchem `ObjectStore`-Enum
  * diese Builder-API arbeitet. Dabei steht jeder Enum-Wert für genau einen `ObjectStore`.
  *
  * **Beispiel**
@@ -78,7 +82,8 @@ class SHDDatabaseBuilder<STORE : Enum<STORE>>() {
      * entsprechenden [Schemas][SHDStoreSchema] angelegt, die in den Konfigurationsobjekten enthalten sind. Diese Methode aktualisiert allerdings
      * keine `ObjectStores` nachträglich, weil dies technisch ohne eine neue Datenbank-Version oder ohne das Löschen des `ObjectStores` nicht möglich
      * ist. D.h. falls ein `ObjectStore` bereits in der zugrunde liegenden Datenbank existiert, wird das Schema im Konfigurationsobjekt ignoriert.
-     * Auch wenn das Schema-Objekt anders als das Schema-Objekt aufgebaut ist, das bei der initialen Anlage des `ObjectStores` angegeben wurde.
+     * Auch wenn das übergebene Schema-Objekt anders als das Schema-Objekt aufgebaut ist, das bei der initialen Anlage des `ObjectStores` übergeben
+     * wurde.
      */
     fun withObjectStores(vararg storeConfigs: SHDStoreConfig<STORE>): SHDDatabaseBuilder<STORE> {
         this.storeConfigs.addAll(storeConfigs)
@@ -86,8 +91,8 @@ class SHDDatabaseBuilder<STORE : Enum<STORE>>() {
     }
 
     /**
-     * Stellt asynchron eine Verbindung zur Standard-Datenbank (oder zur konfigurierten Datenbank) her, konfiguriert bzw. initialisiert sie falls
-     * notwendig und erzeugt bei Bedarf auch die konfigurierten `ObjectStores`. Sobald dieser asynchrone Prozess abgeschlossen ist, wird die Methode
+     * Stellt asynchron eine Verbindung zur Standard-Datenbank (oder zur konfigurierten Datenbank) her, konfiguriert bzw. initialisiert sie, falls
+     * notwendig, und erzeugt bei Bedarf auch die konfigurierten `ObjectStores`. Sobald dieser asynchrone Prozess abgeschlossen ist, wird die Methode
      * [Promise.then] des zurückgegebenen [Promises][Promise] mit der von diesem Builder erstellten Instanz von [SHDDatabase] als Argument aufgerufen.
      * Dieses Datenbankobjekt repräsentiert dabei die Datenbankverbindung und ermöglicht Zugriffe auf die konfigurierten `ObjectStores`.
      *
@@ -113,31 +118,49 @@ class SHDDatabaseBuilder<STORE : Enum<STORE>>() {
     }
 
     /**
+     * Erzeugt ein Objekt vom Typ [SHDDatabase], ohne dabei `ObjectStores` in der zugrunde liegenden Datenbank anzulegen. D.h. es wird schlicht ein
+     * [SHDObjectStore] pro [SHDStoreConfig] erstellt und auf deren Basis eine Instanz von [SHDDatabase] erzeugt. Diese wird anschließend an die
+     * übergebene Funktion `resolve` übergeben.
      *
+     * Es gilt zu beachten, dass diese Methode nicht prüft, ob ein `ObjectStore` wirklich existiert. Ihre Implementierung basiert darauf, dass die
+     * zugrunde liegende Datenbank bereits vollständig initialisiert wurde. Daher werden bspw. erst Verbindungen zu `ObjectStores` aufgebaut, wenn
+     * entsprechende Methoden von [SHDObjectStore] aufgerufen werden.
      */
     private fun resolveWithExistingStores(indexedDB: IDBDatabase, resolve: (SHDDatabase<STORE>) -> Unit) {
         return resolve({ config -> SHDObjectStore(toStoreName(config.storeType), indexedDB) }, resolve)
     }
 
     /**
+     * Erzeugt ein Objekt vom Typ [SHDDatabase] und legt dabei alle konfigurierten `ObjectStores` in der zugrunde liegenden Datenbank an. D.h. es wird
+     * ein `ObjectStore` pro [SHDStoreConfig] angelegt. Im Zuge dessen wird auch ein [SHDObjectStore] pro angelegtem `ObjectStore` erstellt, auf deren
+     * Basis eine Instanz von [SHDDatabase] erzeugt wird. Diese wird anschließend an die übergebene Funktion `resolve` übergeben.
      *
+     * Es gilt zu beachten, dass diese Methode nicht prüft, ob ein `ObjectStore` bereits existiert. Ihre Implementierung basiert darauf, dass die
+     * zugrunde liegende Datenbank noch "leer" ist, d.h. gerade frisch angelegt wurde. Daher werden bspw. erst Verbindungen zu `ObjectStores`
+     * aufgebaut, wenn entsprechende Methoden von [SHDObjectStore] aufgerufen werden.
      */
     private fun resolveWithNewStores(indexedDB: IDBDatabase, resolve: (SHDDatabase<STORE>) -> Unit) {
-        return resolve({ config -> createNewObjectStore(config.storeType, config.storeSchema, indexedDB) }, resolve)
+        return resolve({ config -> createNewObjectStore(config, indexedDB) }, resolve)
     }
 
     /**
+     * Erzeugt ein Objekt vom Typ [SHDDatabase], indem ein [SHDObjectStore] pro [SHDStoreConfig] durch den übergebenen `storeMapper` erzeugt wird und
+     * diese Objekte in Form einer Map an die zu erstellende Instanz von [SHDDatabase] übergeben werden. Dadurch kann nachträglich kein weiterer
+     * `ObjectStore` zur [SHDDatabase] hinzugefügt werden.
      *
+     * Die erzeugte [SHDDatabase] wird schließlich an die übergebene Funktion `resolve` übergeben.
      */
     private fun resolve(storeMapper: (SHDStoreConfig<STORE>) -> SHDObjectStore, resolve: (SHDDatabase<STORE>) -> Unit) {
         return resolve(SHDDatabase(storeConfigs.associateBy({ config -> config.storeType }, storeMapper)))
     }
 
     /**
-     *
+     * Legt einen neuen `ObjectStore` auf Basis des übergebenen Konfigurationsobjekts in der übergebenen [IDBDatabase] an und gibt eine neue Instanz
+     * von [SHDObjectStore] zurück, die den neu erstellten `ObjectStore` repräsentiert.
      */
-    private fun createNewObjectStore(storeType: STORE, storeSchema: SHDStoreSchema, indexedDB: IDBDatabase): SHDObjectStore {
-        val storeName = toStoreName(storeType)
+    private fun createNewObjectStore(storeConfig: SHDStoreConfig<STORE>, indexedDB: IDBDatabase): SHDObjectStore {
+        val storeSchema = storeConfig.storeSchema
+        val storeName = toStoreName(storeConfig.storeType)
         val storeParameters = createStoreParameters(storeSchema.primaryKeyProperty)
         val objectStore = indexedDB.createObjectStore(storeName, storeParameters)
 
@@ -149,14 +172,15 @@ class SHDDatabaseBuilder<STORE : Enum<STORE>>() {
     }
 
     /**
-     *
+     * Konvertiert den übergebenen Enum-Wert in den eigentlichen Namen des zugehörigen `ObjectStores`. Ein solcher Name entspricht dabei dem
+     * kleingeschriebenem Namen des Enum-Werts.
      */
     private fun toStoreName(storeType: STORE): String {
         return storeType.name.toLowerCase()
     }
 
     /**
-     *
+     * Erstellt eine (anonyme) Implementierung von [IDBObjectStoreParameters], die nur den übergebenen `keyPath` enthält.
      */
     private fun createStoreParameters(keyPath: String): IDBObjectStoreParameters {
         return object : IDBObjectStoreParameters {
@@ -169,7 +193,7 @@ class SHDDatabaseBuilder<STORE : Enum<STORE>>() {
     }
 
     /**
-     *
+     * Erstellt eine (anonyme) Implementierung von [IDBIndexParameters], die nur das übergebene Flag enthält.
      */
     private fun createIndexParameters(multiEntry: Boolean): IDBIndexParameters {
         return object : IDBIndexParameters {

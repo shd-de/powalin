@@ -5,8 +5,8 @@ package de.shd.basis.kotlin.ui.persistence.indexeddb
  * Möglichkeiten und Beschränkungen (wie z.B. der verfügbare Speicherplatz), werden individuell vom Webbrowser festgelegt.
  *
  * Technisch basiert diese Datenbank-API auf der [IndexedDB-API](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API), kapselt aber ihre
- * Komplexität. Daher handelt es sich bei dieser Datenbank nicht um eine relationale Datenbank, sondern um eine
- * [(NoSQL-)Objektdatenbank](https://de.wikipedia.org/wiki/Objektdatenbank).
+ * Komplexität. Und bei der zugrunde liegenden Datenbank handelt es sich um eine [(NoSQL-)Objektdatenbank](https://de.wikipedia.org/wiki/Objektdatenbank)
+ * und nicht um eine relationale Datenbank.
  *
  * Dementsprechend basiert die Struktur dieser Datenbank nicht auf Schemas und Tabellen, sondern auf einzelnen, sog. `ObjectStores`, in denen sich die
  * persistierten Datenobjekte befinden.
