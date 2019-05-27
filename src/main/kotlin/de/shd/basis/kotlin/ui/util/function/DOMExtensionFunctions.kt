@@ -338,6 +338,7 @@ fun HTMLElement.withMarginLeft(margin: Double, unit: CSSUnit): HTMLElement {
  * Eigenschaft `display` überschreibt, ohne sich einen alten Wert zu merken.
  *
  * @see CSSDisplay.NONE
+ * @author Florian Steitz (fst)
  */
 @Suppress("unused")
 fun HTMLElement.withVisible(visible: Boolean): HTMLElement {
@@ -347,6 +348,8 @@ fun HTMLElement.withVisible(visible: Boolean): HTMLElement {
 
 /**
  * Legt den Wert der Eigenschaft `display` dieses Elements fest.
+ *
+ * @author Florian Steitz (fst)
  */
 @Suppress("unused")
 fun HTMLElement.withDisplay(display: CSSDisplay): HTMLElement {
@@ -356,6 +359,8 @@ fun HTMLElement.withDisplay(display: CSSDisplay): HTMLElement {
 
 /**
  * Legt den Wert der Eigenschaft `display` dieses Elements fest.
+ *
+ * @author Florian Steitz (fst)
  */
 private fun HTMLElement.withDisplay(display: String): HTMLElement {
     this.style.display = display
@@ -364,6 +369,8 @@ private fun HTMLElement.withDisplay(display: String): HTMLElement {
 
 /**
  * Konkateniert den übergebenen Wert sowie die übergebene Einheit und gibt den resultierenden String zurück.
+ *
+ * @author Florian Steitz (fst)
  */
 private fun joinValueWithUnit(value: Double, unit: CSSUnit): String {
     return "$value${unit.value}"
