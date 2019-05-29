@@ -1,10 +1,10 @@
 package de.shd.basis.kotlin.ui.http
 
-import de.shd.basis.kotlin.ui.http.HTTPRequest.Companion.build
+import de.shd.basis.kotlin.ui.http.HTTPRequest.Companion.buildFor
 import de.shd.basis.kotlin.ui.time.TimeUnit
 
 /**
- * Repräsentiert einen konfigurierbaren HTTP-Request. Instanzen von dieser Klasse können ausschließlich via der Buillder-API [build] erzeugt werden.
+ * Repräsentiert einen konfigurierbaren HTTP-Request. Instanzen von dieser Klasse können ausschließlich via der Buillder-API [buildFor] erzeugt werden.
  *
  * Wenn die Standard-Konfigurationen dieser Klasse nicht manuell geändert werden, wird ein HTTP-Request wie folgt konfiguriert:
  * - **HTTP-Methode:** GET
@@ -51,7 +51,7 @@ class HTTPRequest private constructor(internal val url: String) {
          * Erzeugt eine Instanz von [HTTPRequest] für die übergebene URL. Es muss ein [HTTPRequest] pro Ziel-URL erzeugt werden. Denn die URL dieses
          * Requests kann hinterher nicht mehr geändert werden.
          */
-        fun build(url: String): HTTPRequest {
+        fun buildFor(url: String): HTTPRequest {
             return HTTPRequest(url)
         }
     }
