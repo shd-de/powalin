@@ -7,7 +7,7 @@ import org.w3c.indexeddb.IDBCursorWithValue
  * @author Florian Steitz (fst)
  */
 @Suppress("unused", "MemberVisibilityCanBePrivate")
-class SHDQueryResultIterator internal constructor(private val cursor: IDBCursorWithValue?) {
+class SHDObjectIterator internal constructor(private val cursor: IDBCursorWithValue?) {
 
     /**
      *

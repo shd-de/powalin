@@ -15,6 +15,16 @@ import org.w3c.indexeddb.READONLY
 import org.w3c.indexeddb.READWRITE
 
 /**
+ * Diese Klasse repräsentiert einen `ObjectStore`, der sich in einer lokalen Datenbank befindet, welche sich widerum im Webbrowser befindet (siehe
+ * [SHDDatabase]). In einem `ObjectStore` liegen die eigentlichen, persistierten Daten in Form von Objekten. Die Datenbank selbst ist mehr oder
+ * weniger  nur ein Container beliebig vieler `ObjectStores`. Daher können persistierte Daten nur über die API eines `ObjectStores` gespeichert,
+ * ausgelesen, aktualisiert und gelöscht werden.
+ *
+ * Diese Klasse fungiert dabei als Wrapper der nativen API eines `ObjectStores` (siehe [IDBObjectStore]). Sie vereinfacht und vereinheitlicht häufige
+ * bzw. einfache CRUD-Operationen. Auch kapselt diese Klasse, wo möglich, das Transaktions-Handling von Operationen. Allerdings ermöglicht sie auch
+ * das Erzeugen eigener Transaktionen.
+ *
+ * Instanzen von dieser Klasse sollen ausschließlich indirekt über den [SHDDatabaseBuilder] erzeugt werden.
  *
  * @author Florian Steitz (fst)
  */
@@ -22,44 +32,49 @@ import org.w3c.indexeddb.READWRITE
 class SHDObjectStore internal constructor(private val name: String, private val indexedDB: IDBDatabase) {
 
     /**
+     * Erzeugt asynchron einen [SHDObjectIterator], der es ermöglicht, über alle Objekte, die in diesem `ObjectStore` enthalten sind, zu iterieren.
+     * Dabei kann über diesen Iterator gesteuert werden, ob und wann neue Objekte nachgeladen werden sollen.
      *
+     * Sobald über die Objekte iteriert werden kann, wird die Methode [RepeatablePromise.then] des zurückgegebenen [Promises][RepeatablePromise] mit
+     * dem erzeugten [SHDObjectIterator] als Argument aufgerufen. Falls ein Fehler auftritt, wird stattdessen die Methode [RepeatablePromise.catch]
+     * mit einer [SHDRuntimeException] als Argument aufgerufen.
      */
-    fun query(): RepeatablePromise<SHDQueryResultIterator> {
+    fun iterator(): RepeatablePromise<SHDObjectIterator> {
         return openCursor(undefined, null)
     }
 
     /**
      *
      */
-    fun query(query: String): RepeatablePromise<SHDQueryResultIterator> {
+    fun iterator(query: String): RepeatablePromise<SHDObjectIterator> {
         return openCursor(query, null)
     }
 
     /**
      *
      */
-    fun query(query: IDBKeyRange): RepeatablePromise<SHDQueryResultIterator> {
+    fun iterator(query: IDBKeyRange): RepeatablePromise<SHDObjectIterator> {
         return openCursor(query, null)
     }
 
     /**
      *
      */
-    fun query(index: SHDStoreIndex): RepeatablePromise<SHDQueryResultIterator> {
+    fun iterator(index: SHDStoreIndex): RepeatablePromise<SHDObjectIterator> {
         return openCursor(undefined, index)
     }
 
     /**
      *
      */
-    fun query(index: SHDStoreIndex, query: String): RepeatablePromise<SHDQueryResultIterator> {
+    fun iterator(index: SHDStoreIndex, query: String): RepeatablePromise<SHDObjectIterator> {
         return openCursor(query, index)
     }
 
     /**
      *
      */
-    fun query(index: SHDStoreIndex, query: IDBKeyRange): RepeatablePromise<SHDQueryResultIterator> {
+    fun iterator(index: SHDStoreIndex, query: IDBKeyRange): RepeatablePromise<SHDObjectIterator> {
         return openCursor(query, index)
     }
 
@@ -95,14 +110,14 @@ class SHDObjectStore internal constructor(private val name: String, private val 
     /**
      *
      */
-    private fun openCursor(query: Any?, index: SHDStoreIndex?): RepeatablePromise<SHDQueryResultIterator> {
-        val promise = DefaultRepeatablePromise<SHDQueryResultIterator>()
+    private fun openCursor(query: Any?, index: SHDStoreIndex?): RepeatablePromise<SHDObjectIterator> {
+        val promise = DefaultRepeatablePromise<SHDObjectIterator>()
 
         doInTransaction(IDBTransactionMode.READONLY) { store ->
             val cursor = openCursor(query, index, store)
 
             cursor.onerror = { promise.invokeCatch(SHDRuntimeException("Es konnten keine Daten aus dem ObjectStore '$name' ausgelesen werden")) }
-            cursor.onsuccess = { promise.invokeThen(createQueryResultIterator(it)) }
+            cursor.onsuccess = { promise.invokeThen(createIterator(it)) }
         }
 
         return promise
@@ -118,8 +133,8 @@ class SHDObjectStore internal constructor(private val name: String, private val 
     /**
      *
      */
-    private fun createQueryResultIterator(event: Event): SHDQueryResultIterator {
-        return SHDQueryResultIterator(extractRequest(event).result as IDBCursorWithValue?)
+    private fun createIterator(event: Event): SHDObjectIterator {
+        return SHDObjectIterator(extractRequest(event).result as IDBCursorWithValue?)
     }
 
     /**
