@@ -17,5 +17,5 @@ abstract class AbstractMVCView : MVCView {
     protected val nodeFactory = document.create
 
     // Eine View soll immer ein "div" als Wurzel-Knoten haben. Eine ableitende View soll dies auch nicht überschreiben können.
-    final override val rootNode = nodeFactory.div { }
+    final override val rootNode = nodeFactory.div()
 }
