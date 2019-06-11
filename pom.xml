@@ -38,11 +38,22 @@
         <!-- Kotlin -->
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-serialization</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib-js</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlinx</groupId>
             <artifactId>kotlinx-html-js</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlinx</groupId>
+            <artifactId>kotlinx-serialization-runtime-js</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Test -->
@@ -84,6 +95,9 @@
                     <sourceMapPrefix>./</sourceMapPrefix>
                     <outputFile>${project.build.outputDirectory}/shd-basis-ui.js</outputFile>
                     <metaInfo>true</metaInfo>
+                    <compilerPlugins>
+                        <plugin>kotlinx-serialization</plugin>
+                    </compilerPlugins>
                 </configuration>
                 <executions>
                     <execution>
@@ -101,6 +115,13 @@
                         </goals>
                     </execution>
                 </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.jetbrains.kotlin</groupId>
+                        <artifactId>kotlin-maven-serialization</artifactId>
+                        <version>${kotlin.version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -125,6 +146,13 @@
                                     <groupId>org.jetbrains.kotlinx</groupId>
                                     <artifactId>kotlinx-html-js</artifactId>
                                     <version>${kotlin.html.version}</version>
+                                    <outputDirectory>${project.build.directory}/classes/app/basis/js/lib</outputDirectory>
+                                    <includes>*.js, *.js.map, **/*.kjsm</includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.jetbrains.kotlinx</groupId>
+                                    <artifactId>kotlinx-serialization-runtime-js</artifactId>
+                                    <version>${kotlin.serialization.version}</version>
                                     <outputDirectory>${project.build.directory}/classes/app/basis/js/lib</outputDirectory>
                                     <includes>*.js, *.js.map, **/*.kjsm</includes>
                                 </artifactItem>
