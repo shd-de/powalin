@@ -14,6 +14,8 @@
 
     <properties>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
+        <lib.includes>*.js, *.js.map, **/*.kjsm</lib.includes>
+        <lib.output.dir>${project.build.directory}/classes/app/basis/js/lib</lib.output.dir>
     </properties>
 
     <dependencyManagement>
@@ -138,28 +140,24 @@
                                 <artifactItem>
                                     <groupId>org.jetbrains.kotlin</groupId>
                                     <artifactId>kotlin-stdlib-js</artifactId>
-                                    <version>${kotlin.version}</version>
-                                    <outputDirectory>${project.build.directory}/classes/app/basis/js/lib</outputDirectory>
-                                    <includes>*.js, *.js.map, **/*.kjsm</includes>
+                                    <outputDirectory>${lib.output.dir}</outputDirectory>
+                                    <includes>${lib.includes}</includes>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.jetbrains.kotlinx</groupId>
                                     <artifactId>kotlinx-html-js</artifactId>
-                                    <version>${kotlin.html.version}</version>
-                                    <outputDirectory>${project.build.directory}/classes/app/basis/js/lib</outputDirectory>
-                                    <includes>*.js, *.js.map, **/*.kjsm</includes>
+                                    <outputDirectory>${lib.output.dir}</outputDirectory>
+                                    <includes>${lib.includes}</includes>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.jetbrains.kotlinx</groupId>
                                     <artifactId>kotlinx-serialization-runtime-js</artifactId>
-                                    <version>${kotlin.serialization.version}</version>
-                                    <outputDirectory>${project.build.directory}/classes/app/basis/js/lib</outputDirectory>
-                                    <includes>*.js, *.js.map, **/*.kjsm</includes>
+                                    <outputDirectory>${lib.output.dir}</outputDirectory>
+                                    <includes>${lib.includes}</includes>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>de.shd.basis</groupId>
                                     <artifactId>shd-basis-vaadin-ui-theme</artifactId>
-                                    <version>${project.version}</version>
                                     <outputDirectory>${project.build.directory}/classes/app/basis/theme</outputDirectory>
                                     <includes>
                                         **/*.scss,
