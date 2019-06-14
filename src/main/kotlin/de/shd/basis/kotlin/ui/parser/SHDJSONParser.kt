@@ -22,9 +22,12 @@ class SHDJSONParser(configuration: JsonConfiguration) : SHDParser {
     private val json = Json(configuration)
 
     /**
-     * Initialisiert diesen Parser mit der [Standard-Konfiguration][JsonConfiguration.Stable].
+     * Initialisiert diesen Parser mit den Standard-Konfigurationen, die der primäre Konstruktor von [JsonConfiguration] festlegt. Die einzige
+     * Abweichung ist, dass der strikte Modus deaktiviert wird, wodurch Klassen nicht für jedes JSON-Property notwendigerweise ein entsprechendes
+     * Property zur Verfügung stellen müssen.
      */
-    constructor() : this(JsonConfiguration.Stable)
+    @Suppress("EXPERIMENTAL_API_USAGE") // Der Konstruktor wird von dieser Klasse gekapselt, daher sind API-Änderungen nicht kritisch.
+    constructor() : this(JsonConfiguration(strictMode = false))
 
     /**
      * Parst die übergebene, textuelle JSON-Datenstruktur und konvertiert sie auf Basis der übergebenen [DeserializationStrategy] in ein Datenobjekt
