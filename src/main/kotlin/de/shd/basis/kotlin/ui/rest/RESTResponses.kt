@@ -11,8 +11,8 @@ import kotlinx.serialization.Serializable
 @Suppress("unused")
 abstract class AbstractRESTResponse(
         open val status: String,
-        open val errorNumber: String? = null,
-        open val errorMessage: String? = null,
+        open val errorNumber: String?,
+        open val errorMessage: String?,
         open val warningList: Collection<RESTResponseMessage>,
         open val infoList: Collection<RESTResponseMessage>
 )
