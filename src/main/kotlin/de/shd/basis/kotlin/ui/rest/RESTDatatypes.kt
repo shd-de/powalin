@@ -41,3 +41,44 @@ data class RESTLink(
         val type: String?,
         val deprecation: String?
 )
+
+/**
+ * Eine einfache Implementierung von [Collection] für eine (ggf. eingeschränkte) Liste von Datentransferobjekten, die von REST-Endpunkten innerhalb
+ * von Response-Objekten zurückgegeben werden kann.
+ *
+ * Eingeschränkt bedeutet, dass diese Liste, abhängig vom Request, ggf. nur eine Untermenge der Elemente enthält, die ein Endpunkt bzw. Service
+ * insgesamt verwaltet. Bspw. können Requests so strukturiert werden, dass ein Endpunkt maximal 50 Elemente pro Request zurückgibt. Wodurch ein
+ * (performanterer) Paging-Mechanismus implementiert werden kann.
+ *
+ * Ob diese Liste vollständig ist oder nicht, kann anhand der Felder `totalNumberOfElements`, `from` und `to` geprüft werden. Das Feld
+ * `totalNumberOfElements` gibt stets an, wie viele Elemente ein Endpunkt bzw. Service insgesamt vom jeweiligen fachlichen Datentyp verwaltet.
+ *
+ * Diese Liste fungiert dabei als clientseitiges Pendant zu `HypermediaResourceList`, um entsprechende Responses deserialisieren zu können. Daher
+ * erlaubt diese Liste auch nur lesende Operationen.
+ *
+ * Die Klasse `HypermediaResourceList` ist Teil des Microservice-Stacks und ihre API orientiert sich an `RESTReadListResponse`.
+ *
+ * @author Florian Steitz (fst)
+ */
+@Serializable
+@Suppress("unused")
+class RESTList<ITEM>(val totalNumberOfElements: Int, val from: Int, val to: Int, private val elements: Collection<ITEM>) : Collection<ITEM> {
+    override val size: Int
+        get() = elements.size
+
+    override fun contains(element: ITEM): Boolean {
+        return elements.contains(element)
+    }
+
+    override fun containsAll(elements: Collection<ITEM>): Boolean {
+        return this.elements.containsAll(elements)
+    }
+
+    override fun isEmpty(): Boolean {
+        return elements.isEmpty()
+    }
+
+    override fun iterator(): Iterator<ITEM> {
+        return elements.iterator()
+    }
+}
