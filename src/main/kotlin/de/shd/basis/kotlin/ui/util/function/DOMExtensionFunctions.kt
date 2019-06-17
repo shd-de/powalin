@@ -3,6 +3,7 @@ package de.shd.basis.kotlin.ui.util.function
 import de.shd.basis.kotlin.ui.css.CSSDisplay
 import de.shd.basis.kotlin.ui.css.CSSUnit
 import de.shd.basis.kotlin.ui.mvc.view.MVCView
+import de.shd.basis.kotlin.ui.util.constant.EMPTY_STRING
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.Node
 import org.w3c.dom.css.CSSStyleDeclaration
@@ -342,7 +343,7 @@ fun HTMLElement.withMarginLeft(margin: Double, unit: CSSUnit): HTMLElement {
  */
 @Suppress("unused")
 fun HTMLElement.withVisible(visible: Boolean): HTMLElement {
-    withDisplay(if (visible) "" else CSSDisplay.NONE.value)
+    withDisplay(if (visible) EMPTY_STRING else CSSDisplay.NONE.value)
     return this
 }
 
