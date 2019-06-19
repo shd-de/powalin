@@ -1,6 +1,6 @@
 package de.shd.basis.kotlin.ui.http
 
-import de.shd.basis.kotlin.ui.parser.SHDParser
+import de.shd.basis.kotlin.ui.serialization.parser.SHDParser
 import de.shd.basis.kotlin.ui.util.exception.SHDRuntimeException
 import kotlinx.serialization.DeserializationStrategy
 import org.w3c.xhr.XMLHttpRequest

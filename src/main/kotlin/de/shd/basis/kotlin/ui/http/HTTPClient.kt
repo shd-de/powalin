@@ -1,8 +1,11 @@
 package de.shd.basis.kotlin.ui.http
 
+import de.shd.basis.kotlin.ui.media.MediaType
 import de.shd.basis.kotlin.ui.parser.SHDJSONParser
-import de.shd.basis.kotlin.ui.parser.SHDParser
+import de.shd.basis.kotlin.ui.serialization.generator.SHDGenerator
+import de.shd.basis.kotlin.ui.serialization.parser.SHDParser
 import de.shd.basis.kotlin.ui.util.exception.SHDHTTPRequestException
+import de.shd.basis.kotlin.ui.util.exception.SHDRuntimeException
 import de.shd.basis.kotlin.ui.util.exception.SHDTimeoutException
 import org.w3c.xhr.XMLHttpRequest
 import kotlin.js.Promise
@@ -17,10 +20,24 @@ import kotlin.js.Promise
 class HTTPClient {
 
     /**
-     * Enthält die Mappings von MediaTypes zu Implementierungen von [SHDParser], die entsprechende Datenstrukturen parsen und konvertieren können.
+     * Der Standard-Konvertier für den Media Type [APPLICATION_JSON][MediaType.APPLICATION_JSON].
+     */
+    private val defaultJSONConverter = SHDJSONParser()
+
+    /**
+     * Enthält die Mappings von [Media Types][MediaType] zu Implementierungen von [SHDParser], die entsprechende Datenstrukturen parsen und
+     * konvertieren können.
      */
     private val parserMap: Map<String, SHDParser> = mutableMapOf(
-            "application/json" to SHDJSONParser()
+            MediaType.APPLICATION_JSON.type to defaultJSONConverter
+    )
+
+    /**
+     * Enthält die Mappings von [Media Types][MediaType] zu Implementierungen von [SHDGenerator], die Objekte in entsprechende Datenstrukturen
+     * konvertieren können.
+     */
+    private val generatorMap: Map<String, SHDGenerator> = mutableMapOf(
+            MediaType.APPLICATION_JSON.type to defaultJSONConverter
     )
 
     /**
@@ -36,15 +53,58 @@ class HTTPClient {
      */
     fun send(request: HTTPRequest): Promise<HTTPResponse> {
         return Promise { resolve, reject ->
-            val httpRequest = XMLHttpRequest()
+            val httpRequest = openXMLHttpRequest(request)
 
-            httpRequest.timeout = request.timeout
             httpRequest.addEventListener("load", { resolve(HTTPResponse(httpRequest, findParserForBody(httpRequest))) })
             httpRequest.addEventListener("error", { reject(createHTTPRequestException(httpRequest)) })
             httpRequest.addEventListener("timeout", { reject(SHDTimeoutException("HTTP-Request hat zu lange gedauert")) })
-            httpRequest.open(request.method.name, request.url)
-            httpRequest.send()
+            httpRequest.send(createXMLHTTPRequestBody(request))
         }
+    }
+
+    /**
+     * Erzeugt, öffnet und konfiguriert einen [XMLHttpRequest] für den übergebenen [HTTPRequest]. Wie genau der [XMLHttpRequest] konfiguriert wird,
+     * leitet diese Methode dabei vom übergebenen [HTTPRequest] ab. Dazu gehört u.a. die Entscheidung, was für HTTP-Header mitgesendet werden sollen.
+     */
+    private fun openXMLHttpRequest(request: HTTPRequest): XMLHttpRequest {
+        val mediaType = request.mediaType
+        val httpRequest = XMLHttpRequest()
+
+        httpRequest.open(request.method.name, request.url) // Der XMLHttpRequest muss geöffnet werden, bevor HTTP-Header gesetzt werden können.
+        httpRequest.timeout = request.timeout // Der XMLHttpRequest soll immer eine Maximaldauer haben und dann bei Überschreitung abbrechen.
+
+        // Wenn ein Media Type im HTTPRequest festgelegt wurde, wird davon ausgegangen, dass die ggf. zu versendende und zu empfangene Datenstruktur
+        // das gleiche Datenformat haben.
+        if (mediaType != null) {
+            httpRequest.setRequestHeader("Content-Type", mediaType.type)
+            httpRequest.setRequestHeader("Accept", mediaType.type)
+        }
+
+        return httpRequest
+    }
+
+    /**
+     * Erzeugt einen serialisierten Body für einen [XMLHttpRequest] auf Basis eines möglicherweise im übergebenen [HTTPRequest] vorhandenen
+     * [HTTPBodys][HTTPBody].
+     *
+     * Da im [HTTPBody] ein beliebiges Objekt enthalten sein kann, wird versucht, einen [SHDGenerator] für den im [HTTPRequest] angegebenen [MediaType]
+     * zu ermitteln. Falls kein solcher Media Type festgelegt wurde oder kein passender Generator ermittelt werden konnte, wird eine [SHDRuntimeException]
+     * geworfen.
+     *
+     * Schließlich wird der erzeugte Body zurückgegeben, falls ein [HTTPBody] im [HTTPRequest] vorhanden ist. Andernfalls [undefined].
+     */
+    private fun createXMLHTTPRequestBody(request: HTTPRequest): String? {
+        val requestBody = request.body
+        var serializedBody: String? = undefined
+
+        if (requestBody != null) {
+            val mediaType = request.mediaType ?: throw SHDRuntimeException("Ein Media Type muss fuer den Request-Body angegeben werden")
+            val generator = generatorMap[mediaType.type] ?: throw SHDRuntimeException("Ein Generator muss fuer den Request-Body festgelegt werden")
+
+            serializedBody = requestBody.stringify(generator)
+        }
+
+        return serializedBody
     }
 
     /**

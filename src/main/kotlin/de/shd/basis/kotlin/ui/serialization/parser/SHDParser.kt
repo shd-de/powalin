@@ -1,4 +1,4 @@
-package de.shd.basis.kotlin.ui.parser
+package de.shd.basis.kotlin.ui.serialization.parser
 
 import kotlinx.serialization.DeserializationStrategy
 

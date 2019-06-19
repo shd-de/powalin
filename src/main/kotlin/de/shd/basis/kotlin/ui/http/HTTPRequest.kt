@@ -1,7 +1,10 @@
 package de.shd.basis.kotlin.ui.http
 
 import de.shd.basis.kotlin.ui.http.HTTPRequest.Companion.buildFor
+import de.shd.basis.kotlin.ui.media.MediaType
+import de.shd.basis.kotlin.ui.serialization.generator.SHDGenerator
 import de.shd.basis.kotlin.ui.time.TimeUnit
+import kotlinx.serialization.KSerializer
 
 /**
  * Repräsentiert einen konfigurierbaren HTTP-Request. Instanzen von dieser Klasse können ausschließlich via der Buillder-API [buildFor] erzeugt werden.
@@ -15,8 +18,10 @@ import de.shd.basis.kotlin.ui.time.TimeUnit
 @Suppress("unused", "MemberVisibilityCanBePrivate")
 class HTTPRequest private constructor(internal val url: String) {
 
-    internal var method = HTTPMethod.GET // Standardmäßig nur einen lesenden HTTP-Request versenden.
-    internal var timeout = 0             // Ist der Standardwert von Webbrowsern und bedeutet "kein Timeout". Wird aber in der init-Methode überschrieben.
+    internal var method = HTTPMethod.GET      // Standardmäßig nur einen lesenden HTTP-Request senden.
+    internal var mediaType: MediaType? = null // Standardmäßig legt ein Request nicht fest, was für Daten er erwartet oder versendet.
+    internal var timeout = 0                  // Ist der Standardwert von Webbrowsern und bedeutet "kein Timeout". Wird aber in der init-Methode überschrieben.
+    internal var body: HTTPBody<*>? = null    // Standardmäßig werden keine Daten im Body des HTTP-Requests mitgesendet.
 
     /**
      * Timeout des HTTP-Requests standardmäßig auf 30 Sekunden setzen.
@@ -39,6 +44,21 @@ class HTTPRequest private constructor(internal val url: String) {
      */
     fun withTimeout(duration: Int, unit: TimeUnit): HTTPRequest {
         timeout = unit.toMillis(duration)
+        return this
+    }
+
+    /**
+     * Legt fest, was für Daten in einem textuellen Datenformat im Body dieses HTTP-Requests mitgesendet werden sollen. Damit dies möglich ist, muss
+     * der [MediaType] angegeben werden, der dem Framework und dem Server mitteilt, in was für einem Datenformat die Daten gesendet werden (sollen).
+     *
+     * Da die mitzusendenden Daten in Form eines beliebigen Objekts übergeben werden können, muss darüber hinaus noch ein [Serializer][KSerializer]
+     * übergeben werden, der in der Lage ist, das übergebene Objekt im Zusammenspiel mit einer beliebigen Implementierung von [SHDGenerator] in das
+     * gewünschte, textuelle Datenformat zu konvertieren.
+     */
+    fun <DATA> withBody(bodyMediaType: MediaType, bodySerializer: KSerializer<DATA>, data: DATA): HTTPRequest {
+        this.body = HTTPBody(data, bodySerializer)
+        this.mediaType = bodyMediaType
+
         return this
     }
 
