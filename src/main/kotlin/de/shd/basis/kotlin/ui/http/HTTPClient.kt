@@ -1,7 +1,7 @@
 package de.shd.basis.kotlin.ui.http
 
 import de.shd.basis.kotlin.ui.media.MediaType
-import de.shd.basis.kotlin.ui.parser.SHDJSONParser
+import de.shd.basis.kotlin.ui.serialization.converter.SHDJSONConverter
 import de.shd.basis.kotlin.ui.serialization.generator.SHDGenerator
 import de.shd.basis.kotlin.ui.serialization.parser.SHDParser
 import de.shd.basis.kotlin.ui.util.exception.SHDHTTPRequestException
@@ -22,7 +22,7 @@ class HTTPClient {
     /**
      * Der Standard-Konvertier für den Media Type [APPLICATION_JSON][MediaType.APPLICATION_JSON].
      */
-    private val defaultJSONConverter = SHDJSONParser()
+    private val defaultJSONConverter = SHDJSONConverter()
 
     /**
      * Enthält die Mappings von [Media Types][MediaType] zu Implementierungen von [SHDParser], die entsprechende Datenstrukturen parsen und

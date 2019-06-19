@@ -1,4 +1,4 @@
-package de.shd.basis.kotlin.ui.parser
+package de.shd.basis.kotlin.ui.serialization.converter
 
 import de.shd.basis.kotlin.ui.serialization.generator.SHDGenerator
 import de.shd.basis.kotlin.ui.serialization.parser.SHDParser
@@ -19,7 +19,7 @@ import kotlinx.serialization.json.JsonConfiguration
  *
  * @author Florian Steitz (fst)
  */
-class SHDJSONParser(configuration: JsonConfiguration) : SHDParser, SHDGenerator {
+class SHDJSONConverter(configuration: JsonConfiguration) : SHDParser, SHDGenerator {
 
     private val json = Json(configuration)
 
