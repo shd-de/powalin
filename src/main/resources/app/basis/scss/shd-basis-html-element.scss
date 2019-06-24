@@ -25,3 +25,7 @@ button, input, form {
 button, input {
   padding: $default-spacing;
 }
+
+button {
+  cursor: pointer;
+}
