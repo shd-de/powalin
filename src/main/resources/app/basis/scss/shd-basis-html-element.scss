@@ -3,11 +3,19 @@ html, body {
   height: 100%;
 }
 
-html, body, div, span, h1, h2, h3, h4, h5, button, input, form {
+html, body, div, span, p, h1, h2, h3, h4, h5, button, input, form {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   outline: none;
+}
+
+h1, h2, h3, h4, h5 {
+  text-align: center;
+}
+
+p {
+  margin: $default-spacing;
 }
 
 button, input, form {
