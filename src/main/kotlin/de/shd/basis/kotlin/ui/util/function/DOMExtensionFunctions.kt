@@ -49,7 +49,6 @@ fun Node.addClickListener(listener: () -> Unit) {
  * @see CSSStyleDeclaration.width
  * @author Florian Steitz (fst)
  */
-@Suppress("unused")
 fun HTMLElement.withWidthFull(): HTMLElement {
     return withWidth(100, CSSUnit.PERCENTAGE)
 }

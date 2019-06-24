@@ -1,5 +1,6 @@
 package de.shd.basis.kotlin.ui.mvc.view
 
+import de.shd.basis.kotlin.ui.util.function.withWidthFull
 import kotlinx.html.dom.create
 import kotlinx.html.js.div
 import kotlin.browser.document
@@ -16,6 +17,7 @@ abstract class AbstractMVCView : MVCView {
     // ohne dabei Migrationsaufwand zu verursachen.
     protected val nodeFactory = document.create
 
-    // Eine View soll immer ein "div" als Wurzel-Knoten haben. Eine ableitende View soll dies auch nicht überschreiben können.
-    final override val rootNode = nodeFactory.div()
+    // Eine View soll immer ein "div" als Wurzel-Knoten haben. Und eine ableitende View soll dies auch nicht überschreiben können. Darüber hinaus soll
+    // dieses "div" standardmäßig auch die maximal verfügbare Breite einnehmen, da das Framework vor allem für Mobile-First-Anwendungen gedacht ist.
+    final override val rootNode = nodeFactory.div().withWidthFull()
 }
