@@ -4,6 +4,7 @@ import de.shd.basis.kotlin.ui.css.CSSDisplay
 import de.shd.basis.kotlin.ui.css.CSSUnit
 import de.shd.basis.kotlin.ui.mvc.view.MVCView
 import de.shd.basis.kotlin.ui.util.constant.EMPTY_STRING
+import org.w3c.dom.Document
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.Node
 import org.w3c.dom.css.CSSStyleDeclaration
@@ -357,18 +358,62 @@ fun HTMLElement.withDisplay(display: CSSDisplay): HTMLElement {
     return this
 }
 
+/**
+ * Fügt den übergebenen, sog. "Style-Namen" zu diesem Element hinzu. Bei einem Style-Namen handelt es sich technisch um eine sog. CSS-Klasse. Über
+ * CSS-Klassen kann u.a. die Darstellung dieses Elements geändert bzw. beeinflusst werden.
+ *
+ * **Darstellungsregeln über eine CSS-Klasse namens `my-style` können wie folgt in einer CSS-Datei definiert werden:**
+ * ```
+ * .my-style {
+ *   background: white;
+ *   width: 100%;
+ * }
+ * ```
+ *
+ * **Diese CSS-Klasse bzw. dieser Style-Name kann anschließend wie folgt zu diesem Element hinzugefügt werden:**
+ * ```
+ * myElement.withStyleName("my-style")
+ * ```
+ *
+ * In CSS-Dateien muss ein Punkt vor dem Namen jeder CSS-Klasse sein. Dieser Punkt darf allerdings nicht an diese Methode übergeben werden. D.h. es
+ * wird nur der eigentliche Name der CSS-Klasse übergeben.
+ *
+ * @see HTMLElement.classList
+ * @author Florian Steitz (fst)
+ */
 @Suppress("unused")
 fun HTMLElement.withStyleName(styleName: String): HTMLElement {
     withStyleNames(styleName)
     return this
 }
 
+/**
+ * Fügt die übergebenen, sog. "Style-Namen" zu diesem Element hinzu. Bei Style-Namen handelt es sich technisch um sog. CSS-Klassen. Über CSS-Klassen
+ * kann u.a. die Darstellung dieses Elements geändert bzw. beeinflusst werden.
+ *
+ * @see HTMLElement.classList
+ * @see [HTMLElement.withStyleName]
+ * @author Florian Steitz (fst)
+ */
 @Suppress("unused")
 fun HTMLElement.withStyleNames(vararg styleNames: String): HTMLElement {
     classList.add(*styleNames)
     return this
 }
 
+/**
+ * Setzt die ID dieses Elements. Diese ID muss im gesamten HTML-Dokument eindeutig sein. Eine ID soll nur dann festgelegt werden, wenn dies wirklich
+ * notwendig ist.
+ *
+ * IDs können u.a. dazu verwendet werden, um die Darstellung dieses Elements zu ändern bzw. zu beeinflussen. Im Regelfall sollen dafür aber
+ * Style-Namen bzw. CSS-Klassen verwendet werden.
+ *
+ * Eine ID wird im Regelfall nur dann gesetzt, wenn dieses Element bspw. über [Document.getElementById] oder [Document.querySelector] später eindeutig
+ * ermittelbar sein soll bzw. muss.
+ *
+ * @see HTMLElement.id
+ * @author Florian Steitz (fst)
+ */
 @Suppress("unused")
 fun HTMLElement.withID(id: String): HTMLElement {
     this.id = id
