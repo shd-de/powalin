@@ -357,6 +357,24 @@ fun HTMLElement.withDisplay(display: CSSDisplay): HTMLElement {
     return this
 }
 
+@Suppress("unused")
+fun HTMLElement.withStyleName(styleName: String): HTMLElement {
+    withStyleNames(styleName)
+    return this
+}
+
+@Suppress("unused")
+fun HTMLElement.withStyleNames(vararg styleNames: String): HTMLElement {
+    classList.add(*styleNames)
+    return this
+}
+
+@Suppress("unused")
+fun HTMLElement.withID(id: String): HTMLElement {
+    this.id = id
+    return this
+}
+
 /**
  * Legt den Wert der Eigenschaft `display` dieses Elements fest.
  *
