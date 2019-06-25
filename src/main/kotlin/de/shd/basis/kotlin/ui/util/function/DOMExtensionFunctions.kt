@@ -11,13 +11,14 @@ import org.w3c.dom.css.CSSStyleDeclaration
 import org.w3c.dom.events.EventTarget
 
 /**
- * Fügt die übergebene [MVCView] via [Node.appendChild] an das Ende der Liste der Kindknoten dieses Elements hinzu.
+ * Fügt die übergebene [MVCView] via [Node.appendChild] an das Ende der Liste der Kindknoten dieses Elements hinzu und gibt den Wurzelknoten der
+ * übergebenen View analog zu [Node.appendChild] zurück.
  *
  * @see MVCView.rootNode
  * @author Florian Steitz (fst)
  */
-fun Node.appendChild(view: MVCView) {
-    appendChild(view.rootNode)
+fun Node.appendChild(view: MVCView): Node {
+    return appendChild(view.rootNode)
 }
 
 /**
@@ -417,6 +418,50 @@ fun HTMLElement.withStyleNames(vararg styleNames: String): HTMLElement {
 @Suppress("unused")
 fun HTMLElement.withID(id: String): HTMLElement {
     this.id = id
+    return this
+}
+
+/**
+ * Fügt die übergebene [MVCView] via [appendChild] an das Ende der Liste der Kindknoten dieses Elements hinzu.
+ *
+ * @author Florian Steitz (fst)
+ */
+@Suppress("unused")
+fun HTMLElement.withChild(view: MVCView): HTMLElement {
+    appendChild(view)
+    return this
+}
+
+/**
+ * Fügt den übergebenen [Node] via [Node.appendChild] an das Ende der Liste der Kindknoten dieses Elements hinzu.
+ *
+ * @author Florian Steitz (fst)
+ */
+@Suppress("unused")
+fun HTMLElement.withChild(node: Node): HTMLElement {
+    appendChild(node)
+    return this
+}
+
+/**
+ * Fügt die übergebenen [Views][MVCView] via [appendChild] an das Ende der Liste der Kindknoten dieses Elements in der angegebenen Reihenfolge hinzu.
+ *
+ * @author Florian Steitz (fst)
+ */
+@Suppress("unused")
+fun HTMLElement.withChildren(vararg views: MVCView): HTMLElement {
+    views.forEach { appendChild(it) }
+    return this
+}
+
+/**
+ * Fügt die übergebenen [Nodes][Node] via [Node.appendChild] an das Ende der Liste der Kindknoten dieses Elements in der angegebenen Reihenfolge hinzu.
+ *
+ * @author Florian Steitz (fst)
+ */
+@Suppress("unused")
+fun HTMLElement.withChildren(vararg nodes: Node): HTMLElement {
+    nodes.forEach { appendChild(it) }
     return this
 }
 
