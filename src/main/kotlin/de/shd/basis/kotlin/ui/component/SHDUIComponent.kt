@@ -5,6 +5,7 @@ import de.shd.basis.kotlin.ui.mvc.view.MVCView
 import org.w3c.dom.HTMLDivElement
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.Node
+import org.w3c.dom.events.Event
 
 /**
  * Ein Interface, das von allen UI-Komponenten implementiert werden soll, die kein Ableitung von [Node] sind.
@@ -34,4 +35,12 @@ interface SHDUIComponent {
      * @see de.shd.basis.kotlin.ui.util.function.addClickListener
      */
     fun addClickListener(clickListener: () -> Unit)
+
+    /**
+     * Fügt einen Event-Listener zu dieser UI-Komponente hinzu, der ausgeführt wird, wenn ein Anwender auf den Wurzelknoten dieser UI-Komponente
+     * klickt.
+     *
+     * @see de.shd.basis.kotlin.ui.util.function.addClickListener
+     */
+    fun addClickListener(clickListener: (Event) -> Unit)
 }

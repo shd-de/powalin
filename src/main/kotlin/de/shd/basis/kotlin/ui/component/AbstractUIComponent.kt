@@ -2,6 +2,7 @@ package de.shd.basis.kotlin.ui.component
 
 import de.shd.basis.kotlin.ui.util.function.withClickListener
 import kotlinx.html.dom.create
+import org.w3c.dom.events.Event
 import kotlin.browser.document
 
 /**
@@ -16,6 +17,10 @@ abstract class AbstractUIComponent : SHDUIComponent {
     protected val nodeFactory = document.create
 
     override fun addClickListener(clickListener: () -> Unit) {
+        rootNode.withClickListener(clickListener)
+    }
+
+    override fun addClickListener(clickListener: (Event) -> Unit) {
         rootNode.withClickListener(clickListener)
     }
 }
