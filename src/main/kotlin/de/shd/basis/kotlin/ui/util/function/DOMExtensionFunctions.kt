@@ -8,6 +8,7 @@ import org.w3c.dom.Document
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.Node
 import org.w3c.dom.css.CSSStyleDeclaration
+import org.w3c.dom.events.Event
 import org.w3c.dom.events.EventTarget
 
 /**
@@ -42,6 +43,17 @@ fun Node.removeAllChildren() {
 @Suppress("unused")
 fun Node.addClickListener(listener: () -> Unit) {
     addEventListener("click", { listener() })
+}
+
+/**
+ * Fügt einen Event-Listener zu diesem Element hinzu, der ausgeführt wird, wenn ein Anwender auf dieses Element klickt.
+ *
+ * @see EventTarget.addEventListener
+ * @author Marcel Ziganow (zim)
+ */
+@Suppress("unused")
+fun Node.addClickListener(listener: (Event) -> Unit) {
+    addEventListener("click", listener)
 }
 
 /**
@@ -474,6 +486,18 @@ fun HTMLElement.withChildren(vararg nodes: Node): HTMLElement {
  */
 @Suppress("unused")
 fun HTMLElement.withClickListener(listener: () -> Unit): HTMLElement {
+    addClickListener(listener)
+    return this
+}
+
+/**
+ * Fügt einen Event-Listener zu diesem Element hinzu, der ausgeführt wird, wenn ein Anwender auf dieses Element klickt.
+ *
+ * @see Node.addClickListener
+ * @author Marcel Ziganow (zim)
+ */
+@Suppress("unused")
+fun HTMLElement.withClickListener(listener: (Event) -> Unit): HTMLElement {
     addClickListener(listener)
     return this
 }
