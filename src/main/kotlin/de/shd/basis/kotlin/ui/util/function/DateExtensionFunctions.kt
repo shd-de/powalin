@@ -11,7 +11,7 @@ import kotlin.js.Date
 @Suppress("unused")
 fun Date.toDateTimeLocal(): String {
     val fullYear = getFullYear()
-    val paddedMonth = ensureTwoDigits(getMonth() + 1) // Der Monat muss mit 1 und nicht mit 0 beginnen.
+    val paddedMonth = ensureTwoDigits(getMonth() + 1) // Die Monate müssen ab 1 und nicht ab 0 beginnen.
     val paddedDay = ensureTwoDigits(getDate())
     val paddedHours = ensureTwoDigits(getHours())
     val paddedMinutes = ensureTwoDigits(getMinutes())
