@@ -466,6 +466,18 @@ fun HTMLElement.withChildren(vararg nodes: Node): HTMLElement {
 }
 
 /**
+ * Fügt einen Event-Listener zu diesem Element hinzu, der ausgeführt wird, wenn ein Anwender auf dieses Element klickt.
+ *
+ * @see Node.addClickListener
+ * @author Florian Steitz (fst)
+ */
+@Suppress("unused")
+fun HTMLElement.withClickListener(listener: () -> Unit): HTMLElement {
+    addClickListener(listener)
+    return this
+}
+
+/**
  * Legt den Wert der Eigenschaft `display` dieses Elements fest.
  *
  * @author Florian Steitz (fst)
