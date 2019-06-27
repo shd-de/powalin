@@ -42,7 +42,7 @@ fun Node.removeAllChildren() {
  */
 @Suppress("unused")
 fun Node.addClickListener(listener: () -> Unit) {
-    addEventListener("click", { listener() })
+    addClickListener { _ -> listener() }
 }
 
 /**
