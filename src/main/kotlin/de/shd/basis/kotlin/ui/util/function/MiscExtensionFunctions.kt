@@ -1,22 +1,30 @@
 package de.shd.basis.kotlin.ui.util.function
 
+import org.w3c.dom.HTMLInputElement
 import kotlin.js.Date
 
 /**
- * Erzeugt aus einem Date ein DateTimeLocal für ein [org.w3c.dom.HTMLInputElement] vom Typ datetime-local
+ * Konvertiert dieses [Date] in ein ISO-8601-Format mit Tageszeit, das vom [HTMLInputElement] mit dem Typ `datetime-local` als Wert akzeptiert wird.
  *
- * @author Marcel Ziganow (zim)
+ * @author Marcel Ziganow (zim), Florian Steitz (fst)
  */
+@Suppress("unused")
 fun Date.toDateTimeLocal(): String {
-  val date = this
-  val ten = fun(i: Int): String {
-    return (if (i < 10) "0" else "") + i
-  }
-  val YYYY = date.getFullYear()
-  val MM = ten(date.getMonth() + 1)
-  val DD = ten(date.getDate())
-  val HH = ten(date.getHours())
-  val II = ten(date.getMinutes())
-  val SS = ten(date.getSeconds())
-  return "${YYYY}-${MM}-${DD}T${HH}:${II}:${SS}"
+    val fullYear = getFullYear()
+    val paddedMonth = ensureTwoDigits(getMonth() + 1) // Der Monat muss mit 1 und nicht mit 0 beginnen.
+    val paddedDay = ensureTwoDigits(getDate())
+    val paddedHours = ensureTwoDigits(getHours())
+    val paddedMinutes = ensureTwoDigits(getMinutes())
+    val paddedSeconds = ensureTwoDigits(getSeconds())
+
+    return "$fullYear-$paddedMonth-${paddedDay}T$paddedHours:$paddedMinutes:$paddedSeconds"
+}
+
+/**
+ * Konvertiert die übergebene Nummer in einen String und stellt sicher, dass die zurückgegebene, textuelle Nummer mindestens zwei Stellen hat.
+ *
+ * @author Florian Steitz (fst)
+ */
+private fun ensureTwoDigits(number: Int): String {
+    return number.toString().padStart(2, '0')
 }
