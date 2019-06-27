@@ -1,8 +1,8 @@
 package de.shd.basis.kotlin.ui.util.function
 
+import de.shd.basis.kotlin.ui.component.SHDUIComponent
 import de.shd.basis.kotlin.ui.css.CSSDisplay
 import de.shd.basis.kotlin.ui.css.CSSUnit
-import de.shd.basis.kotlin.ui.mvc.view.MVCView
 import de.shd.basis.kotlin.ui.util.constant.EMPTY_STRING
 import org.w3c.dom.Document
 import org.w3c.dom.HTMLElement
@@ -11,14 +11,14 @@ import org.w3c.dom.css.CSSStyleDeclaration
 import org.w3c.dom.events.EventTarget
 
 /**
- * Fügt die übergebene [MVCView] via [Node.appendChild] an das Ende der Liste der Kindknoten dieses Elements hinzu und gibt den Wurzelknoten der
- * übergebenen View analog zu [Node.appendChild] zurück.
+ * Fügt die übergebene [UI-Komponente][SHDUIComponent] via [Node.appendChild] an das Ende der Liste der Kindknoten dieses Elements hinzu und gibt den
+ * Wurzelknoten der übergebenen UI-Komponente analog zu [Node.appendChild] zurück.
  *
- * @see MVCView.rootNode
+ * @see SHDUIComponent.rootNode
  * @author Florian Steitz (fst)
  */
-fun Node.appendChild(view: MVCView): Node {
-    return appendChild(view.rootNode)
+fun Node.appendChild(component: SHDUIComponent): Node {
+    return appendChild(component.rootNode)
 }
 
 /**
@@ -422,13 +422,13 @@ fun HTMLElement.withID(id: String): HTMLElement {
 }
 
 /**
- * Fügt die übergebene [MVCView] via [appendChild] an das Ende der Liste der Kindknoten dieses Elements hinzu.
+ * Fügt die übergebene [UI-Komponente][component] via [appendChild] an das Ende der Liste der Kindknoten dieses Elements hinzu.
  *
  * @author Florian Steitz (fst)
  */
 @Suppress("unused")
-fun HTMLElement.withChild(view: MVCView): HTMLElement {
-    appendChild(view)
+fun HTMLElement.withChild(component: SHDUIComponent): HTMLElement {
+    appendChild(component)
     return this
 }
 
@@ -444,13 +444,14 @@ fun HTMLElement.withChild(node: Node): HTMLElement {
 }
 
 /**
- * Fügt die übergebenen [Views][MVCView] via [appendChild] an das Ende der Liste der Kindknoten dieses Elements in der angegebenen Reihenfolge hinzu.
+ * Fügt die übergebenen [UI-Komponenten][SHDUIComponent] via [appendChild] an das Ende der Liste der Kindknoten dieses Elements in der übergebenen
+ * Reihenfolge hinzu.
  *
  * @author Florian Steitz (fst)
  */
 @Suppress("unused")
-fun HTMLElement.withChildren(vararg views: MVCView): HTMLElement {
-    views.forEach { appendChild(it) }
+fun HTMLElement.withChildren(vararg components: SHDUIComponent): HTMLElement {
+    components.forEach { appendChild(it) }
     return this
 }
 
