@@ -422,7 +422,7 @@ fun HTMLElement.withID(id: String): HTMLElement {
 }
 
 /**
- * Fügt die übergebene [UI-Komponente][component] via [appendChild] an das Ende der Liste der Kindknoten dieses Elements hinzu.
+ * Fügt die übergebene [UI-Komponente][SHDUIComponent] via [appendChild] an das Ende der Liste der Kindknoten dieses Elements hinzu.
  *
  * @author Florian Steitz (fst)
  */
