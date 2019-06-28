@@ -15,27 +15,32 @@ import org.w3c.dom.HTMLElement
 interface SHDFlexLayout<LAYOUT : SHDFlexLayout<LAYOUT>> : SHDLayout<LAYOUT> {
 
     /**
-     *
+     * Fügt das übergebene [HTML-Element][HTMLElement] via [add] an das Ende der Liste der Kindknoten dieser Layout-Komponente hinzu und legt via
+     * [withExpandRatio] fest, dass das übergebene HTML-Element den verbleibenden Platz einnehmen soll, der Kindknoten dieser Layout-Komponente
+     * insgesamt noch zur Verfügung steht. Darüber hinaus wird die Breite des übergebenen HTML-Elements auf `100%` gesetzt.
      */
     fun addAsExpanded(element: HTMLElement): LAYOUT
 
     /**
-     * Bestimmt, wie viel vom verbleibenden Platz dieser Layout-Komponente das übergebene [HTML-Element][HTMLElement] einnehmen soll. Falls alle
-     * Kindkonten dieser Layout-Komponente die gleiche Expand-Ratio haben, wird der Platz dieser Layout-Komponente gleichmäßig unter ihren Kindknoten
-     * aufgeteilt. Standardmäßig nehmen ihre Kindknoten den Platz ein, der ihrer tatsächlichen Größe entspricht.
+     * Bestimmt, wie viel vom verbleibenden Platz, der Kindelementen bzw. Kindkomponenten dieser Layout-Komponente insgesamt noch zur Verfügung steht,
+     * das übergebene [HTML-Element][HTMLElement] einnehmen soll. Falls alle Kindelemente bzw. Kindkomponenten dieser Layout-Komponente die gleiche
+     * Expand-Ratio haben, wird der Platz dieser Layout-Komponente gleichmäßig unter ihnen aufgeteilt. Standardmäßig nehmen ihre Kindelemente bzw.
+     * Kindkomponenten aber den Platz ein, der ihrer tatsächlichen Größe entspricht.
      *
      * Nähere Details hierzu könnnen [hier](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-grow) nachgelesen werden.
      */
     fun withExpandRatio(element: HTMLElement, ratio: Double): LAYOUT
 
     /**
-     * Bestimmt, ob ein Standard-Abstand (`0.75em`) zwischen den Kindknoten dieser Layout-Komponente angezeigt werden soll. Standardmäßig wird kein
-     * Abstand angezeigt. D.h. sie werden standardmäßig direkt aneinander angezeigt.
+     * Bestimmt, ob Standard-Abstände (jeweils `0.75em`) zwischen den Kindknoten dieser Layout-Komponente angezeigt werden sollen. Standardmäßig
+     * werden keine Abstände angezeigt. D.h. standardmäßig werden Kindknoten dieser Layout-Komponente direkt aneinander angezeigt.
      */
     fun withSpacing(enabled: Boolean): LAYOUT;
 
     /**
-     *
+     * Fügt die übergebene [UI-Komponente][SHDUIComponent] via [add] an das Ende der Liste der Kindknoten dieser Layout-Komponente hinzu und legt via
+     * [withExpandRatio] fest, dass die übergebene UI-Komponente den verbleibenden Platz einnehmen soll, der Kindknoten dieser Layout-Komponente
+     * insgesamt noch zur Verfügung steht. Darüber hinaus wird die Breite der übergebenen UI-Komponente auf `100%` gesetzt.
      */
     @Suppress("UNCHECKED_CAST")
     fun addAsExpanded(component: SHDUIComponent): LAYOUT {
@@ -44,7 +49,12 @@ interface SHDFlexLayout<LAYOUT : SHDFlexLayout<LAYOUT>> : SHDLayout<LAYOUT> {
     }
 
     /**
+     * Bestimmt, wie viel vom verbleibenden Platz, der Kindelementen bzw. Kindkomponenten dieser Layout-Komponente insgesamt noch zur Verfügung steht,
+     * das übergebene [HTML-Element][HTMLElement] einnehmen soll. Falls alle Kindelemente bzw. Kindkomponenten dieser Layout-Komponente die gleiche
+     * Expand-Ratio haben, wird der Platz dieser Layout-Komponente gleichmäßig unter ihnen aufgeteilt. Standardmäßig nehmen ihre Kindelemente bzw.
+     * Kindkomponenten aber den Platz ein, der ihrer tatsächlichen Größe entspricht.
      *
+     * Nähere Details hierzu könnnen [hier](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-grow) nachgelesen werden.
      */
     @Suppress("UNCHECKED_CAST")
     fun withExpandRatio(element: HTMLElement, ratio: Int): LAYOUT {
@@ -53,7 +63,12 @@ interface SHDFlexLayout<LAYOUT : SHDFlexLayout<LAYOUT>> : SHDLayout<LAYOUT> {
     }
 
     /**
+     * Bestimmt, wie viel vom verbleibenden Platz, der Kindelementen bzw. Kindkomponenten dieser Layout-Komponente insgesamt noch zur Verfügung steht,
+     * die übergebene [UI-Komponente][SHDUIComponent] einnehmen soll. Falls alle Kindelemente bzw. Kindkomponenten dieser Layout-Komponente die gleiche
+     * Expand-Ratio haben, wird der Platz dieser Layout-Komponente gleichmäßig unter ihnen aufgeteilt. Standardmäßig nehmen ihre Kindelemente bzw.
+     * Kindkomponenten aber den Platz ein, der ihrer tatsächlichen Größe entspricht.
      *
+     * Nähere Details hierzu könnnen [hier](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-grow) nachgelesen werden.
      */
     @Suppress("UNCHECKED_CAST")
     fun withExpandRatio(component: SHDUIComponent, ratio: Int): LAYOUT {
@@ -62,7 +77,12 @@ interface SHDFlexLayout<LAYOUT : SHDFlexLayout<LAYOUT>> : SHDLayout<LAYOUT> {
     }
 
     /**
+     * Bestimmt, wie viel vom verbleibenden Platz, der Kindelementen bzw. Kindkomponenten dieser Layout-Komponente insgesamt noch zur Verfügung steht,
+     * die übergebene [UI-Komponente][SHDUIComponent] einnehmen soll. Falls alle Kindelemente bzw. Kindkomponenten dieser Layout-Komponente die gleiche
+     * Expand-Ratio haben, wird der Platz dieser Layout-Komponente gleichmäßig unter ihnen aufgeteilt. Standardmäßig nehmen ihre Kindelemente bzw.
+     * Kindkomponenten aber den Platz ein, der ihrer tatsächlichen Größe entspricht.
      *
+     * Nähere Details hierzu könnnen [hier](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-grow) nachgelesen werden.
      */
     @Suppress("UNCHECKED_CAST")
     fun withExpandRatio(component: SHDUIComponent, ratio: Double): LAYOUT {

@@ -2,6 +2,7 @@ package de.shd.basis.kotlin.ui.component.layout.base
 
 import de.shd.basis.kotlin.ui.component.SHDUIComponent
 import de.shd.basis.kotlin.ui.util.function.appendChild
+import de.shd.basis.kotlin.ui.util.function.prependChild
 import org.w3c.dom.HTMLDivElement
 import org.w3c.dom.HTMLElement
 
@@ -25,7 +26,7 @@ interface SHDLayout<LAYOUT : SHDLayout<LAYOUT>> : SHDUIComponent {
     fun add(element: HTMLElement): LAYOUT
 
     /**
-     * Fügt das übergebene [HTML-Element][HTMLElement] via [appendChild] an den Anfang der Liste der Kindknoten dieser Layout-Komponente hinzu.
+     * Fügt das übergebene [HTML-Element][HTMLElement] via [prependChild] an den Anfang der Liste der Kindknoten dieser Layout-Komponente hinzu.
      */
     fun addAsFirst(element: HTMLElement): LAYOUT
 
@@ -43,11 +44,16 @@ interface SHDLayout<LAYOUT : SHDLayout<LAYOUT>> : SHDUIComponent {
     }
 
     /**
-     * Fügt die übergebene [UI-Komponente][SHDUIComponent] via [appendChild] an den Anfang der Liste der Kindknoten dieser Layout-Komponente hinzu.
+     * Fügt die übergebene [UI-Komponente][SHDUIComponent] via [prependChild] an den Anfang der Liste der Kindknoten dieser Layout-Komponente hinzu.
      */
     fun addAsFirst(component: SHDUIComponent): LAYOUT {
         return addAsFirst(component.rootNode)
     }
+
+    /**
+     * Entfernt alle Kindelemente bzw. Kindkomponenten aus dieser Layout-Komponente.
+     */
+    fun clear(): LAYOUT
 
     /**
      * Fügt die übergebenen [UI-Komponenten][SHDUIComponent] via [appendChild] an das Ende der Liste der Kindknoten dieser Layout-Komponente in der

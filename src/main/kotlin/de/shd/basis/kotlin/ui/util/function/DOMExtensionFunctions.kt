@@ -5,6 +5,7 @@ import de.shd.basis.kotlin.ui.css.CSSDisplay
 import de.shd.basis.kotlin.ui.css.CSSUnit
 import de.shd.basis.kotlin.ui.util.constant.EMPTY_STRING
 import org.w3c.dom.Document
+import org.w3c.dom.Element
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.Node
 import org.w3c.dom.css.CSSStyleDeclaration
@@ -54,6 +55,28 @@ fun Node.addClickListener(listener: () -> Unit) {
 @Suppress("unused")
 fun Node.addClickListener(listener: (Event) -> Unit) {
     addEventListener("click", listener)
+}
+
+/**
+ * Fügt das übergebene [Element][Element] via [Element.insertAdjacentElement] an den Anfang der Liste der Kindknoten dieses Elements hinzu und gibt
+ * das hinzugefügte Element zurück. Oder `null`, falls das Element nicht hinzugefügt werden konnte.
+ *
+ * @author Florian Steitz (fst)
+ */
+fun Element.prependChild(element: Element): Element? {
+    return insertAdjacentElement("afterbegin", element)
+}
+
+/**
+ * Fügt die übergebene [UI-Komponente][SHDUIComponent] via [Element.insertAdjacentElement] an den Anfang der Liste der Kindknoten dieses Elements
+ * hinzu und gibt den Wurzelknoten der übergebenen UI-Komponente analog zu [Element.insertAdjacentElement] zurück. Oder `null`, falls die
+ * UI-Komponente nicht hinzugefügt werden konnte.
+ *
+ * @author Florian Steitz (fst)
+ */
+@Suppress("unused")
+fun Element.prependChild(component: SHDUIComponent): Element? {
+    return prependChild(component.rootNode)
 }
 
 /**

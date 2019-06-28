@@ -2,6 +2,8 @@ package de.shd.basis.kotlin.ui.component.layout.base
 
 import de.shd.basis.kotlin.ui.component.AbstractUIComponent
 import de.shd.basis.kotlin.ui.theme.BasisTheme
+import de.shd.basis.kotlin.ui.util.function.prependChild
+import de.shd.basis.kotlin.ui.util.function.removeAllChildren
 import kotlinx.html.div
 import org.w3c.dom.HTMLElement
 
@@ -32,7 +34,13 @@ abstract class AbstractLayout<LAYOUT : AbstractLayout<LAYOUT>> : AbstractUICompo
 
     @Suppress("UNCHECKED_CAST")
     override fun addAsFirst(element: HTMLElement): LAYOUT {
-        // TODO Implementieren
+        rootNode.prependChild(element)
+        return this as LAYOUT
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    override fun clear(): LAYOUT {
+        rootNode.removeAllChildren()
         return this as LAYOUT
     }
 }
