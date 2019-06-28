@@ -81,7 +81,11 @@ abstract class AbstractFlexLayout<LAYOUT : AbstractFlexLayout<LAYOUT>> : Abstrac
 
     @Suppress("UNCHECKED_CAST")
     override fun withExpandRatio(element: HTMLElement, ratio: Double): LAYOUT {
-        element.style.flexGrow = ratio.toString()
+        if (ratio > 1) {
+            throw IllegalArgumentException("Die Ratio darf nicht groesser als 1 sein")
+        }
+
+        element.style.flex = "${ratio * 100}%"
         return this as LAYOUT
     }
 

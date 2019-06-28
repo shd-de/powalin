@@ -22,12 +22,14 @@ interface SHDFlexLayout<LAYOUT : SHDFlexLayout<LAYOUT>> : SHDLayout<LAYOUT> {
     fun addAsExpanded(element: HTMLElement): LAYOUT
 
     /**
-     * Bestimmt, wie viel vom verbleibenden Platz, der Kindelementen bzw. Kindkomponenten dieser Layout-Komponente insgesamt noch zur Verfügung steht,
-     * das übergebene [HTML-Element][HTMLElement] einnehmen soll. Falls alle Kindelemente bzw. Kindkomponenten dieser Layout-Komponente die gleiche
-     * Expand-Ratio haben, wird der Platz dieser Layout-Komponente gleichmäßig unter ihnen aufgeteilt. Standardmäßig nehmen ihre Kindelemente bzw.
-     * Kindkomponenten aber den Platz ein, der ihrer tatsächlichen Größe entspricht.
+     * Bestimmt, wie viel in Prozent vom verbleibenden Platz, der Kindelementen bzw. Kindkomponenten dieser Layout-Komponente insgesamt noch zur
+     * Verfügung steht, das übergebene [HTML-Element][HTMLElement] einnehmen soll. Falls alle Kindelemente bzw. Kindkomponenten dieser Layout-Komponente
+     * die gleiche Expand-Ratio haben, wird der Platz dieser Layout-Komponente gleichmäßig unter ihnen aufgeteilt. Standardmäßig nehmen ihre
+     * Kindelemente bzw. Kindkomponenten aber den Platz ein, der ihrer tatsächlichen Größe entspricht.
      *
-     * Nähere Details hierzu könnnen [hier](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-grow) nachgelesen werden.
+     * Der übergebene Wert muss dabei zwischen 0 und 1 liegen (also 0% - 100%).
+     *
+     * Nähere Details hierzu könnnen [hier](https://developer.mozilla.org/en-US/docs/Web/CSS/flex) nachgelesen werden.
      */
     fun withExpandRatio(element: HTMLElement, ratio: Double): LAYOUT
 
@@ -49,12 +51,14 @@ interface SHDFlexLayout<LAYOUT : SHDFlexLayout<LAYOUT>> : SHDLayout<LAYOUT> {
     }
 
     /**
-     * Bestimmt, wie viel vom verbleibenden Platz, der Kindelementen bzw. Kindkomponenten dieser Layout-Komponente insgesamt noch zur Verfügung steht,
-     * das übergebene [HTML-Element][HTMLElement] einnehmen soll. Falls alle Kindelemente bzw. Kindkomponenten dieser Layout-Komponente die gleiche
-     * Expand-Ratio haben, wird der Platz dieser Layout-Komponente gleichmäßig unter ihnen aufgeteilt. Standardmäßig nehmen ihre Kindelemente bzw.
-     * Kindkomponenten aber den Platz ein, der ihrer tatsächlichen Größe entspricht.
+     * Bestimmt, wie viel in Prozent vom verbleibenden Platz, der Kindelementen bzw. Kindkomponenten dieser Layout-Komponente insgesamt noch zur
+     * Verfügung steht, das übergebene [HTML-Element][HTMLElement] einnehmen soll. Falls alle Kindelemente bzw. Kindkomponenten dieser Layout-Komponente
+     * die gleiche Expand-Ratio haben, wird der Platz dieser Layout-Komponente gleichmäßig unter ihnen aufgeteilt. Standardmäßig nehmen ihre
+     * Kindelemente bzw. Kindkomponenten aber den Platz ein, der ihrer tatsächlichen Größe entspricht.
      *
-     * Nähere Details hierzu könnnen [hier](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-grow) nachgelesen werden.
+     * Der übergebene Wert muss dabei zwischen 0 und 1 liegen (also 0% - 100%).
+     *
+     * Nähere Details hierzu könnnen [hier](https://developer.mozilla.org/en-US/docs/Web/CSS/flex) nachgelesen werden.
      */
     @Suppress("UNCHECKED_CAST")
     fun withExpandRatio(element: HTMLElement, ratio: Int): LAYOUT {
@@ -63,12 +67,14 @@ interface SHDFlexLayout<LAYOUT : SHDFlexLayout<LAYOUT>> : SHDLayout<LAYOUT> {
     }
 
     /**
-     * Bestimmt, wie viel vom verbleibenden Platz, der Kindelementen bzw. Kindkomponenten dieser Layout-Komponente insgesamt noch zur Verfügung steht,
-     * die übergebene [UI-Komponente][SHDUIComponent] einnehmen soll. Falls alle Kindelemente bzw. Kindkomponenten dieser Layout-Komponente die gleiche
-     * Expand-Ratio haben, wird der Platz dieser Layout-Komponente gleichmäßig unter ihnen aufgeteilt. Standardmäßig nehmen ihre Kindelemente bzw.
-     * Kindkomponenten aber den Platz ein, der ihrer tatsächlichen Größe entspricht.
+     * Bestimmt, wie viel in Prozent vom verbleibenden Platz, der Kindelementen bzw. Kindkomponenten dieser Layout-Komponente insgesamt noch zur
+     * Verfügung steht, das übergebene [HTML-Element][HTMLElement] einnehmen soll. Falls alle Kindelemente bzw. Kindkomponenten dieser Layout-Komponente
+     * die gleiche Expand-Ratio haben, wird der Platz dieser Layout-Komponente gleichmäßig unter ihnen aufgeteilt. Standardmäßig nehmen ihre
+     * Kindelemente bzw. Kindkomponenten aber den Platz ein, der ihrer tatsächlichen Größe entspricht.
      *
-     * Nähere Details hierzu könnnen [hier](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-grow) nachgelesen werden.
+     * Der übergebene Wert muss dabei zwischen 0 und 1 liegen (also 0% - 100%).
+     *
+     * Nähere Details hierzu könnnen [hier](https://developer.mozilla.org/en-US/docs/Web/CSS/flex) nachgelesen werden.
      */
     @Suppress("UNCHECKED_CAST")
     fun withExpandRatio(component: SHDUIComponent, ratio: Int): LAYOUT {
@@ -77,12 +83,14 @@ interface SHDFlexLayout<LAYOUT : SHDFlexLayout<LAYOUT>> : SHDLayout<LAYOUT> {
     }
 
     /**
-     * Bestimmt, wie viel vom verbleibenden Platz, der Kindelementen bzw. Kindkomponenten dieser Layout-Komponente insgesamt noch zur Verfügung steht,
-     * die übergebene [UI-Komponente][SHDUIComponent] einnehmen soll. Falls alle Kindelemente bzw. Kindkomponenten dieser Layout-Komponente die gleiche
-     * Expand-Ratio haben, wird der Platz dieser Layout-Komponente gleichmäßig unter ihnen aufgeteilt. Standardmäßig nehmen ihre Kindelemente bzw.
-     * Kindkomponenten aber den Platz ein, der ihrer tatsächlichen Größe entspricht.
+     * Bestimmt, wie viel in Prozent vom verbleibenden Platz, der Kindelementen bzw. Kindkomponenten dieser Layout-Komponente insgesamt noch zur
+     * Verfügung steht, das übergebene [HTML-Element][HTMLElement] einnehmen soll. Falls alle Kindelemente bzw. Kindkomponenten dieser Layout-Komponente
+     * die gleiche Expand-Ratio haben, wird der Platz dieser Layout-Komponente gleichmäßig unter ihnen aufgeteilt. Standardmäßig nehmen ihre
+     * Kindelemente bzw. Kindkomponenten aber den Platz ein, der ihrer tatsächlichen Größe entspricht.
      *
-     * Nähere Details hierzu könnnen [hier](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-grow) nachgelesen werden.
+     * Der übergebene Wert muss dabei zwischen 0 und 1 liegen (also 0% - 100%).
+     *
+     * Nähere Details hierzu könnnen [hier](https://developer.mozilla.org/en-US/docs/Web/CSS/flex) nachgelesen werden.
      */
     @Suppress("UNCHECKED_CAST")
     fun withExpandRatio(component: SHDUIComponent, ratio: Double): LAYOUT {
