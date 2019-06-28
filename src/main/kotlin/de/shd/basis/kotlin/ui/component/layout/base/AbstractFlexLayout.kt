@@ -48,6 +48,28 @@ abstract class AbstractFlexLayout<LAYOUT : AbstractFlexLayout<LAYOUT>> : Abstrac
         return super<AbstractLayout>.addAsFirst(element)
     }
 
+    /**
+     * Entfernt das übergebene [HTML-Element][HTMLElement] via [AbstractLayout.remove] aus der Liste der Kindknoten dieser Layout-Komponente. Falls
+     * diese Layout-Komponente mindestens einen weiteren Kindknoten enthält, wird zusätzlich noch ein sog. "Spacing-Div", das sich neben dem zu
+     * entfernenden HTML-Element befindet, aus der Liste der Kindknoten dieser Layout-Komponente entfernt.
+     */
+    override fun remove(element: HTMLElement): LAYOUT {
+        val previousSibling = element.previousSibling
+
+        // Falls es kein vorheriges Element gibt, dann wird das folgende Spacing-Div entfernt. Sofern eins vorhanden ist.
+        if (previousSibling == null) {
+            val nextSibling = element.nextSibling
+
+            if (nextSibling != null) {
+                rootNode.removeChild(nextSibling)
+            }
+        } else {
+            rootNode.removeChild(previousSibling)
+        }
+
+        return super<AbstractLayout>.remove(element)
+    }
+
     @Suppress("UNCHECKED_CAST")
     override fun addAsExpanded(element: HTMLElement): LAYOUT {
         withExpandRatio(element, 1)

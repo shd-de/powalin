@@ -39,6 +39,12 @@ abstract class AbstractLayout<LAYOUT : AbstractLayout<LAYOUT>> : AbstractUICompo
     }
 
     @Suppress("UNCHECKED_CAST")
+    override fun remove(element: HTMLElement): LAYOUT {
+        rootNode.removeChild(element)
+        return this as LAYOUT
+    }
+
+    @Suppress("UNCHECKED_CAST")
     override fun clear(): LAYOUT {
         rootNode.removeAllChildren()
         return this as LAYOUT
