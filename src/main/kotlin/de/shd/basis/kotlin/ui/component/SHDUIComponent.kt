@@ -29,6 +29,11 @@ interface SHDUIComponent {
     val rootNode: HTMLElement
 
     /**
+     * Zeigt auf das Property [HTMLElement.style] des Wurzelknotens dieser UI-Komponente.
+     */
+    val style get() = rootNode.style
+
+    /**
      * Fügt einen Event-Listener zu dieser UI-Komponente hinzu, der ausgeführt wird, wenn ein Anwender auf den Wurzelknoten dieser UI-Komponente
      * klickt.
      *
