@@ -15,7 +15,7 @@ import org.w3c.dom.HTMLElement
  *
  * @author Florian Steitz (fst)
  */
-abstract class AbstractLayout<LAYOUT : AbstractLayout<LAYOUT>> : AbstractUIComponent(), SHDLayout<LAYOUT> {
+abstract class AbstractLayout<LAYOUT : AbstractLayout<LAYOUT>> : AbstractUIComponent<LAYOUT>(), SHDLayout<LAYOUT> {
 
     // Eine Layout-Komponente soll immer ein "div" als Wurzelknoten haben. Und eine ableitende Komponente soll dies auch nicht überschreiben können.
     final override val rootNode: HTMLElement = nodeFactory.div(BasisTheme.CLASS_LAYOUT)
