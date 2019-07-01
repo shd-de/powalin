@@ -1,5 +1,6 @@
 package de.shd.basis.kotlin.ui.component.layout.base
 
+import de.shd.basis.kotlin.ui.component.SHDFluentUIComponent
 import de.shd.basis.kotlin.ui.component.SHDUIComponent
 import de.shd.basis.kotlin.ui.util.function.appendChild
 import de.shd.basis.kotlin.ui.util.function.prependChild
@@ -19,7 +20,7 @@ import org.w3c.dom.Node
  *
  * @author Florian Steitz (fst)
  */
-interface SHDLayout<LAYOUT : SHDLayout<LAYOUT>> : SHDUIComponent {
+interface SHDLayout<LAYOUT : SHDLayout<LAYOUT>> : SHDFluentUIComponent<LAYOUT> {
 
     /**
      * Fügt das übergebene [HTML-Element][HTMLElement] via [Node.appendChild] an das Ende der Liste der Kindknoten dieser Layout-Komponente hinzu.

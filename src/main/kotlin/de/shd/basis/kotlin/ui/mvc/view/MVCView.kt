@@ -1,5 +1,6 @@
 package de.shd.basis.kotlin.ui.mvc.view
 
+import de.shd.basis.kotlin.ui.component.SHDFluentUIComponent
 import de.shd.basis.kotlin.ui.component.SHDUIComponent
 import org.w3c.dom.Node
 
@@ -14,7 +15,7 @@ import org.w3c.dom.Node
  *
  * @author Florian Steitz (fst)
  */
-interface MVCView : SHDUIComponent {
+interface MVCView : SHDFluentUIComponent<MVCView> {
 
     /**
      * Initialisiert diese View, indem bspw. Standard-[Nodes][Node] zum [rootNode] dieser View hinzugefügt werden und das grundlegende Styling dieser
