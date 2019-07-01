@@ -1,4 +1,8 @@
 @mixin shd-basis-flex-layout {
+  .shd-layout {
+    min-width: 0;
+  }
+
   .shd-flex-layout {
     display: flex;
   }
