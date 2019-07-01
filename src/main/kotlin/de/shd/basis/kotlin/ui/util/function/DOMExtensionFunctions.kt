@@ -41,7 +41,6 @@ fun Node.removeAllChildren() {
  * @see EventTarget.addEventListener
  * @author Florian Steitz (fst)
  */
-@Suppress("unused")
 fun Node.addClickListener(listener: () -> Unit) {
     addClickListener { _ -> listener() }
 }
@@ -52,7 +51,6 @@ fun Node.addClickListener(listener: () -> Unit) {
  * @see EventTarget.addEventListener
  * @author Marcel Ziganow (zim)
  */
-@Suppress("unused")
 fun Node.addClickListener(listener: (Event) -> Unit) {
     addEventListener("click", listener)
 }
@@ -74,7 +72,6 @@ fun Element.prependChild(element: Element): Element? {
  *
  * @author Florian Steitz (fst)
  */
-@Suppress("unused")
 fun Element.prependChild(component: SHDUIComponent): Element? {
     return prependChild(component.rootNode)
 }
@@ -120,7 +117,6 @@ fun HTMLElement.withWidth(width: Double, unit: CSSUnit): HTMLElement {
  * @see CSSStyleDeclaration.height
  * @author Florian Steitz (fst)
  */
-@Suppress("unused")
 fun HTMLElement.withFullHeight(): HTMLElement {
     return withHeight(100, CSSUnit.PERCENTAGE)
 }
@@ -154,7 +150,6 @@ fun HTMLElement.withHeight(height: Double, unit: CSSUnit): HTMLElement {
  * @see CSSStyleDeclaration.padding
  * @author Florian Steitz (fst)
  */
-@Suppress("unused")
 fun HTMLElement.withPadding(padding: Int, unit: CSSUnit): HTMLElement {
     return withPadding(padding.toDouble(), unit)
 }
@@ -176,7 +171,6 @@ fun HTMLElement.withPadding(padding: Double, unit: CSSUnit): HTMLElement {
  * @see CSSStyleDeclaration.paddingTop
  * @author Florian Steitz (fst)
  */
-@Suppress("unused")
 fun HTMLElement.withPaddingTop(padding: Int, unit: CSSUnit): HTMLElement {
     return withPaddingTop(padding.toDouble(), unit)
 }
@@ -198,7 +192,6 @@ fun HTMLElement.withPaddingTop(padding: Double, unit: CSSUnit): HTMLElement {
  * @see CSSStyleDeclaration.paddingRight
  * @author Florian Steitz (fst)
  */
-@Suppress("unused")
 fun HTMLElement.withPaddingRight(padding: Int, unit: CSSUnit): HTMLElement {
     return withPaddingRight(padding.toDouble(), unit)
 }
@@ -220,7 +213,6 @@ fun HTMLElement.withPaddingRight(padding: Double, unit: CSSUnit): HTMLElement {
  * @see CSSStyleDeclaration.paddingBottom
  * @author Florian Steitz (fst)
  */
-@Suppress("unused")
 fun HTMLElement.withPaddingBottom(padding: Int, unit: CSSUnit): HTMLElement {
     return withPaddingBottom(padding.toDouble(), unit)
 }
@@ -242,7 +234,6 @@ fun HTMLElement.withPaddingBottom(padding: Double, unit: CSSUnit): HTMLElement {
  * @see CSSStyleDeclaration.paddingLeft
  * @author Florian Steitz (fst)
  */
-@Suppress("unused")
 fun HTMLElement.withPaddingLeft(padding: Int, unit: CSSUnit): HTMLElement {
     return withPaddingLeft(padding.toDouble(), unit)
 }
@@ -264,7 +255,6 @@ fun HTMLElement.withPaddingLeft(padding: Double, unit: CSSUnit): HTMLElement {
  * @see CSSStyleDeclaration.margin
  * @author Florian Steitz (fst)
  */
-@Suppress("unused")
 fun HTMLElement.withMargin(margin: Int, unit: CSSUnit): HTMLElement {
     return withMargin(margin.toDouble(), unit)
 }
@@ -286,7 +276,6 @@ fun HTMLElement.withMargin(margin: Double, unit: CSSUnit): HTMLElement {
  * @see CSSStyleDeclaration.marginTop
  * @author Florian Steitz (fst)
  */
-@Suppress("unused")
 fun HTMLElement.withMarginTop(margin: Int, unit: CSSUnit): HTMLElement {
     return withMarginTop(margin.toDouble(), unit)
 }
@@ -308,7 +297,6 @@ fun HTMLElement.withMarginTop(margin: Double, unit: CSSUnit): HTMLElement {
  * @see CSSStyleDeclaration.marginRight
  * @author Florian Steitz (fst)
  */
-@Suppress("unused")
 fun HTMLElement.withMarginRight(margin: Int, unit: CSSUnit): HTMLElement {
     return withMarginRight(margin.toDouble(), unit)
 }
@@ -330,7 +318,6 @@ fun HTMLElement.withMarginRight(margin: Double, unit: CSSUnit): HTMLElement {
  * @see CSSStyleDeclaration.marginBottom
  * @author Florian Steitz (fst)
  */
-@Suppress("unused")
 fun HTMLElement.withMarginBottom(margin: Int, unit: CSSUnit): HTMLElement {
     return withMarginBottom(margin.toDouble(), unit)
 }
@@ -352,7 +339,6 @@ fun HTMLElement.withMarginBottom(margin: Double, unit: CSSUnit): HTMLElement {
  * @see CSSStyleDeclaration.marginLeft
  * @author Florian Steitz (fst)
  */
-@Suppress("unused")
 fun HTMLElement.withMarginLeft(margin: Int, unit: CSSUnit): HTMLElement {
     return withMarginLeft(margin.toDouble(), unit)
 }
@@ -377,7 +363,6 @@ fun HTMLElement.withMarginLeft(margin: Double, unit: CSSUnit): HTMLElement {
  * @see CSSDisplay.NONE
  * @author Florian Steitz (fst)
  */
-@Suppress("unused")
 fun HTMLElement.withVisible(visible: Boolean): HTMLElement {
     withDisplay(if (visible) EMPTY_STRING else CSSDisplay.NONE.value)
     return this
@@ -388,7 +373,6 @@ fun HTMLElement.withVisible(visible: Boolean): HTMLElement {
  *
  * @author Florian Steitz (fst)
  */
-@Suppress("unused")
 fun HTMLElement.withDisplay(display: CSSDisplay): HTMLElement {
     withDisplay(display.value)
     return this
@@ -417,7 +401,6 @@ fun HTMLElement.withDisplay(display: CSSDisplay): HTMLElement {
  * @see HTMLElement.classList
  * @author Florian Steitz (fst)
  */
-@Suppress("unused")
 fun HTMLElement.withStyleName(styleName: String): HTMLElement {
     withStyleNames(styleName)
     return this
@@ -431,7 +414,6 @@ fun HTMLElement.withStyleName(styleName: String): HTMLElement {
  * @see [HTMLElement.withStyleName]
  * @author Florian Steitz (fst)
  */
-@Suppress("unused")
 fun HTMLElement.withStyleNames(vararg styleNames: String): HTMLElement {
     classList.add(*styleNames)
     return this
@@ -450,7 +432,6 @@ fun HTMLElement.withStyleNames(vararg styleNames: String): HTMLElement {
  * @see HTMLElement.id
  * @author Florian Steitz (fst)
  */
-@Suppress("unused")
 fun HTMLElement.withID(id: String): HTMLElement {
     this.id = id
     return this
@@ -495,7 +476,6 @@ fun HTMLElement.withChildren(vararg components: SHDUIComponent): HTMLElement {
  *
  * @author Florian Steitz (fst)
  */
-@Suppress("unused")
 fun HTMLElement.withChildren(vararg nodes: Node): HTMLElement {
     nodes.forEach { appendChild(it) }
     return this
@@ -507,7 +487,6 @@ fun HTMLElement.withChildren(vararg nodes: Node): HTMLElement {
  * @see Node.addClickListener
  * @author Florian Steitz (fst)
  */
-@Suppress("unused")
 fun HTMLElement.withClickListener(listener: () -> Unit): HTMLElement {
     addClickListener(listener)
     return this
@@ -519,9 +498,19 @@ fun HTMLElement.withClickListener(listener: () -> Unit): HTMLElement {
  * @see Node.addClickListener
  * @author Marcel Ziganow (zim)
  */
-@Suppress("unused")
 fun HTMLElement.withClickListener(listener: (Event) -> Unit): HTMLElement {
     addClickListener(listener)
+    return this
+}
+
+/**
+ * Ermöglicht eine "fließende" Konfiguration der [CSS-Regeln][CSSStyleDeclaration] dieses Elements über die übergebene Funktion, indem dessen Property
+ * [style][HTMLElement.style] als Receiver an diese Funktion übergeben wird.
+ *
+ * @author Florian Steitz (fst)
+ */
+fun HTMLElement.withStyle(configure: CSSStyleDeclaration.() -> Unit): HTMLElement {
+    configure(style)
     return this
 }
 

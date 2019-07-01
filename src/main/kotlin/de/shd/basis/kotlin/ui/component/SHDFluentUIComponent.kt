@@ -17,11 +17,13 @@ import de.shd.basis.kotlin.ui.util.function.withPaddingBottom
 import de.shd.basis.kotlin.ui.util.function.withPaddingLeft
 import de.shd.basis.kotlin.ui.util.function.withPaddingRight
 import de.shd.basis.kotlin.ui.util.function.withPaddingTop
+import de.shd.basis.kotlin.ui.util.function.withStyle
 import de.shd.basis.kotlin.ui.util.function.withStyleName
 import de.shd.basis.kotlin.ui.util.function.withStyleNames
 import de.shd.basis.kotlin.ui.util.function.withVisible
 import de.shd.basis.kotlin.ui.util.function.withWidth
 import org.w3c.dom.HTMLElement
+import org.w3c.dom.css.CSSStyleDeclaration
 
 /**
  * Ein Mixin-Interface für Implementierungen von [SHDUIComponent], das die Extension-Functions mit dem Präfix `with` des [Wurzelknotens][HTMLElement]
@@ -309,6 +311,15 @@ interface SHDFluentUIComponent<COMPONENT : SHDFluentUIComponent<COMPONENT>> : SH
     @Suppress("UNCHECKED_CAST")
     fun withID(id: String): COMPONENT {
         rootNode.withID(id)
+        return this as COMPONENT
+    }
+
+    /**
+     * Ruft intern die Methode [HTMLElement.withStyle] des Wurzelknotens von dieser UI-Komponente mit dem übergebenen Argument auf.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun withStyle(configure: CSSStyleDeclaration.() -> Unit): COMPONENT {
+        rootNode.withStyle(configure)
         return this as COMPONENT
     }
 }
