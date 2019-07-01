@@ -476,6 +476,7 @@ fun HTMLElement.withChildren(vararg components: SHDUIComponent): HTMLElement {
  *
  * @author Florian Steitz (fst)
  */
+@Suppress("unused")
 fun HTMLElement.withChildren(vararg nodes: Node): HTMLElement {
     nodes.forEach { appendChild(it) }
     return this
