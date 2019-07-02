@@ -516,6 +516,36 @@ fun HTMLElement.withStyle(configure: CSSStyleDeclaration.() -> Unit): HTMLElemen
 }
 
 /**
+ * Gibt den [CSSDisplay]-Wert zurück, der diesem Element zugewiesen wurde. Ein solcher Enum-Wert gilt als zugewiesen, wenn der Eigenschaft `display`
+ * dieses Elements ein Wert zugewiesen wurde. Dies kann sowohl programmatisch als auch via CSS geschehen sein.
+ *
+ * Falls kein [CSSDisplay]-Wert ermittelt werden konnte, wird `null` zurückgegeben. Dieser Fall kann bspw. eintreten, wenn die Eigenschaft `display`
+ * nicht gesetzt ist oder wenn diese Eigenschaft einen Wert enthält, für den im Enum [CSSDisplay] kein Äquivalent existiert.
+ *
+ * @see [CSSDisplay.findByStyleValue]
+ * @author Florian Steitz (fst)
+ */
+fun HTMLElement.getDisplay(): CSSDisplay? {
+    if (style.display.isBlank()) {
+        return null
+    }
+
+    return CSSDisplay.findByStyleValue(style.display)
+}
+
+/**
+ * Gibt `true` zurück, wenn dieses Element sichtbar ist. Andernfalls `false`.
+ *
+ * Ein Element gilt als sichtbar, wenn dessen Methode [getDisplay] nicht [CSSDisplay.NONE] zurückgibt.
+ *
+ * @author Florian Steitz (fst)
+ */
+fun HTMLElement.isVisible(): Boolean {
+    val isDisplayNone = getDisplay()?.equals(CSSDisplay.NONE) ?: false
+    return !isDisplayNone
+}
+
+/**
  * Legt den Wert der Eigenschaft `display` dieses Elements fest.
  *
  * @author Florian Steitz (fst)

@@ -6,6 +6,7 @@ package de.shd.basis.kotlin.ui.css
  *
  * @author Florian Steitz (fst)
  */
+@Suppress("unused")
 enum class CSSDisplay(internal val value: String) {
 
     BLOCK("block"),
@@ -48,5 +49,19 @@ enum class CSSDisplay(internal val value: String) {
     INLINE_GRID("inline-grid"),
     INHERIT("inherit"),
     INITIAL("initial"),
-    UNSET("unset")
+    UNSET("unset");
+
+    /**
+     * Statische Hilfs-API.
+     */
+    companion object {
+
+        /**
+         * Versucht, den [CSSDisplay]-Wert zu ermitteln, der den übergebenen Wert des CSS-Propertys `display` repräsentiert. Falls kein passender Wert
+         * ermittelt werden konnte, wird `null` zurückgegeben.
+         */
+        fun findByStyleValue(styleValue: String): CSSDisplay? {
+            return enumValues<CSSDisplay>().find { it.value.equals(styleValue, true) }
+        }
+    }
 }

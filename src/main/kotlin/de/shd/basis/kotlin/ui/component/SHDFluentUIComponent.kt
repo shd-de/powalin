@@ -2,6 +2,8 @@ package de.shd.basis.kotlin.ui.component
 
 import de.shd.basis.kotlin.ui.css.CSSDisplay
 import de.shd.basis.kotlin.ui.css.CSSUnit
+import de.shd.basis.kotlin.ui.util.function.getDisplay
+import de.shd.basis.kotlin.ui.util.function.isVisible
 import de.shd.basis.kotlin.ui.util.function.withDisplay
 import de.shd.basis.kotlin.ui.util.function.withFullHeight
 import de.shd.basis.kotlin.ui.util.function.withFullWidth
@@ -321,5 +323,19 @@ interface SHDFluentUIComponent<COMPONENT : SHDFluentUIComponent<COMPONENT>> : SH
     fun withStyle(configure: CSSStyleDeclaration.() -> Unit): COMPONENT {
         rootNode.withStyle(configure)
         return this as COMPONENT
+    }
+
+    /**
+     * Ruft intern die Methode [HTMLElement.getDisplay] des Wurzelknotens von dieser UI-Komponente auf und gibt deren Rückgabewert zurück.
+     */
+    fun getDisplay(): CSSDisplay? {
+        return rootNode.getDisplay()
+    }
+
+    /**
+     * Ruft intern die Methode [HTMLElement.isVisible] des Wurzelknotens von dieser UI-Komponente auf und gibt deren Rückgabewert zurück.
+     */
+    fun isVisible(): Boolean {
+        return rootNode.isVisible()
     }
 }
