@@ -4,6 +4,7 @@ import de.shd.basis.kotlin.ui.component.SHDUIComponent
 import de.shd.basis.kotlin.ui.css.CSSDisplay
 import de.shd.basis.kotlin.ui.css.CSSUnit
 import de.shd.basis.kotlin.ui.util.constant.EMPTY_STRING
+import kotlinx.html.HTMLTag
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 import org.w3c.dom.HTMLElement
@@ -543,6 +544,17 @@ fun HTMLElement.getDisplay(): CSSDisplay? {
 fun HTMLElement.isVisible(): Boolean {
     val isDisplayNone = getDisplay()?.equals(CSSDisplay.NONE) ?: false
     return !isDisplayNone
+}
+
+/**
+ * Generiert via [generateIDFor] eine eindeutige ID für dieses HTML-Element, das anschließend u.a. an das Property [HTMLElement.id] dieses
+ * HTML-Elements übergeben werden kann.
+ *
+ * @return Die generierte ID.
+ */
+@Suppress("unused")
+fun HTMLTag.generateID(): String {
+    return generateIDFor(tagName)
 }
 
 /**

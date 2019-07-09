@@ -21,3 +21,10 @@ const val SLASH = "/"
  * @author Florian Steitz (fst)
  */
 const val SEMICOLON = ";"
+
+/**
+ * Ein Bindestrich (`-`).
+ *
+ * @author Florian Steitz (fst)
+ */
+const val DASH = "-"
