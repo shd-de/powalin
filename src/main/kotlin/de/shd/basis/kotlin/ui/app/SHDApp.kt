@@ -14,6 +14,7 @@ import de.shd.basis.kotlin.ui.util.function.appendScripts
 import de.shd.basis.kotlin.ui.util.function.appendStylesheet
 import de.shd.basis.kotlin.ui.util.function.appendStylesheets
 import de.shd.basis.kotlin.ui.util.function.removeAllChildren
+import de.shd.basis.kotlin.ui.worker.ServiceWorkerRegistry
 import org.w3c.dom.Element
 import org.w3c.dom.HTMLElement
 import kotlin.browser.document
@@ -121,6 +122,26 @@ class SHDApp(private val appTitle: String) {
      */
     fun configureAppMenu(configurator: AppMenuController.() -> Unit): SHDApp {
         AppStateManager.configureAppMenuState(configurator)
+        return this
+    }
+
+    /**
+     * Registriert den [ServiceWorker](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API), auf den die übergebene URL zeigt, mit dem
+     * Standard-Scope via [ServiceWorkerRegistry.register]. Der Standard-Scope entspricht dem Pfad, in dem der `ServiceWorker` liegt, inklusive allen
+     * Unterpfaden.
+     */
+    fun registerServiceWorker(scriptURL: String): SHDApp {
+        ServiceWorkerRegistry.register(scriptURL)
+        return this
+    }
+
+    /**
+     * Registriert den [ServiceWorker](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API), auf den die übergebene URL zeigt, mit dem
+     * übergebenen Scope via [ServiceWorkerRegistry.register]. Der übergebene Scope muss einem Pfad entsprechen, in dem der `ServiceWorker` liegt,
+     * oder einem Unterpfad davon.
+     */
+    fun registerServiceWorker(scriptURL: String, scope: String): SHDApp {
+        ServiceWorkerRegistry.register(scriptURL, scope)
         return this
     }
 
