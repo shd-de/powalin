@@ -186,9 +186,7 @@ class SHDDatabaseBuilder<STORE : Enum<STORE>>() {
         return object : IDBObjectStoreParameters {
             override var keyPath: dynamic
                 get() = keyPath
-                set(value) {
-                    super.keyPath = value
-                }
+                set(_) {}
         }
     }
 
@@ -199,9 +197,7 @@ class SHDDatabaseBuilder<STORE : Enum<STORE>>() {
         return object : IDBIndexParameters {
             override var multiEntry: Boolean?
                 get() = multiEntry
-                set(value) {
-                    super.multiEntry = value
-                }
+                set(_) {}
         }
     }
 }

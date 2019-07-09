@@ -37,7 +37,7 @@ interface SHDFlexLayout<LAYOUT : SHDFlexLayout<LAYOUT>> : SHDLayout<LAYOUT> {
      * Bestimmt, ob Standard-Abstände (jeweils `0.75em`) zwischen den Kindknoten dieser Layout-Komponente angezeigt werden sollen. Standardmäßig
      * werden keine Abstände angezeigt. D.h. standardmäßig werden Kindknoten dieser Layout-Komponente direkt aneinander angezeigt.
      */
-    fun withSpacing(enabled: Boolean): LAYOUT;
+    fun withSpacing(enabled: Boolean): LAYOUT
 
     /**
      * Fügt die übergebene [UI-Komponente][SHDUIComponent] via [add] an das Ende der Liste der Kindknoten dieser Layout-Komponente hinzu und legt via
