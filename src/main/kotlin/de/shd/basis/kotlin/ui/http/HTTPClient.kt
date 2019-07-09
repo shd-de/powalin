@@ -4,6 +4,7 @@ import de.shd.basis.kotlin.ui.media.MediaType
 import de.shd.basis.kotlin.ui.serialization.converter.SHDJSONConverter
 import de.shd.basis.kotlin.ui.serialization.generator.SHDGenerator
 import de.shd.basis.kotlin.ui.serialization.parser.SHDParser
+import de.shd.basis.kotlin.ui.util.constant.SEMICOLON
 import de.shd.basis.kotlin.ui.util.exception.SHDHTTPRequestException
 import de.shd.basis.kotlin.ui.util.exception.SHDRuntimeException
 import de.shd.basis.kotlin.ui.util.exception.SHDTimeoutException
@@ -127,7 +128,7 @@ class HTTPClient {
         var foundParser: SHDParser? = null
 
         if (contentType != null && !contentType.isBlank()) {
-            val mediaType = contentType.split(';').firstOrNull() // Encoding ignorieren (z.B. von "application/json;charset=UTF-8")
+            val mediaType = contentType.split(SEMICOLON).firstOrNull() // Encoding ignorieren (z.B. von "application/json;charset=UTF-8")
 
             if (mediaType != null) {
                 foundParser = parserMap[mediaType]
