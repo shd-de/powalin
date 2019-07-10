@@ -53,7 +53,7 @@ function SHDCacheWorker(cacheVersion)
       // Skripte von Kotlin
       "/basis/js/lib/kotlin.js",
       "/basis/js/lib/kotlinx-html-js.js",
-      "/basis/js/lib/kotlinx-serialization-runtime-js.js",
+      "/basis/js/lib/kotlinx-serialization-kotlinx-serialization-runtime.js",
 
       // Skripte des Basis-Frameworks
       "/basis/js/shd-basis-cache-worker.js",
