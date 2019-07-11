@@ -7,21 +7,26 @@ import de.shd.basis.kotlin.ui.util.exception.SHDRuntimeException
  *
  * @author Florian Steitz (fst)
  */
-@Suppress("unused")
-class DefaultRepeatablePromise<VALUE> : RepeatablePromise<VALUE> {
+@Suppress("unused", "MemberVisibilityCanBePrivate")
+class DefaultRepeatablePromise<VALUE>(private val executor: (invokeThen: (VALUE) -> Unit, invokeCatch: (Throwable) -> Unit) -> Unit) : RepeatablePromise<VALUE> {
 
     private var then: ((VALUE) -> Unit)? = null
     private var catch: ((Throwable) -> Unit)? = null
+    private var startedExecution = false
 
     override fun then(then: (VALUE) -> Unit): DefaultRepeatablePromise<VALUE> {
         requireNull(this.then)
         this.then = then
+        ensureExecutionHasStarted()
+
         return this
     }
 
     override fun catch(catch: (Throwable) -> Unit): DefaultRepeatablePromise<VALUE> {
         requireNull(this.catch)
         this.catch = catch
+        ensureExecutionHasStarted();
+
         return this
     }
 
@@ -39,6 +44,17 @@ class DefaultRepeatablePromise<VALUE> : RepeatablePromise<VALUE> {
      */
     fun invokeCatch(throwable: Throwable) {
         catch?.invoke(throwable)
+    }
+
+    /**
+     * Stellt sicher, dass der [executor] spätestens durch Aufruf dieser Methode ausgeführt wird. Falls er bereits ausgeführt wird oder wurde, tut
+     * diese Methode nichts.
+     */
+    private fun ensureExecutionHasStarted() {
+        if (!startedExecution) {
+            executor.invoke(this::invokeThen, this::invokeCatch)
+            startedExecution = true
+        }
     }
 
     /**

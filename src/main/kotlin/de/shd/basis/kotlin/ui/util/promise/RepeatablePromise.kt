@@ -13,7 +13,7 @@ import kotlin.js.Promise
  *
  * @author Florian Steitz (fst)
  */
-interface RepeatablePromise<VALUE> {
+interface RepeatablePromise<VALUE> : ResolvablePromise<VALUE> {
 
     /**
      * Registriert einen Listener, der immer dann mit einem Ergebnis der asynchronen Operation aufgerufen wird, wenn ein (neues) Ergebnis verfügbar
@@ -22,7 +22,7 @@ interface RepeatablePromise<VALUE> {
      * Es kann nur einmalig ein Listener registriert werden. Falls diese Methode ein weiteres Mal aufgerufen wird, wird eine [SHDRuntimeException]
      * geworfen.
      */
-    fun then(then: (VALUE) -> Unit): RepeatablePromise<VALUE>
+    override fun then(then: (VALUE) -> Unit): RepeatablePromise<VALUE>
 
     /**
      * Registriert einen Listener, der mit einem `Throwable` aufgerufen wird, sobald die asynchrone Operation fehlschlägt.

@@ -111,16 +111,14 @@ class SHDObjectStore internal constructor(private val name: String, private val 
      *
      */
     private fun openCursor(query: Any?, index: SHDStoreIndex?): RepeatablePromise<SHDObjectIterator> {
-        val promise = DefaultRepeatablePromise<SHDObjectIterator>()
+        return DefaultRepeatablePromise { invokeThen, invokeCatch ->
+            doInTransaction(IDBTransactionMode.READONLY) { store ->
+                val cursor = openCursor(query, index, store)
 
-        doInTransaction(IDBTransactionMode.READONLY) { store ->
-            val cursor = openCursor(query, index, store)
-
-            cursor.onerror = { promise.invokeCatch(SHDRuntimeException("Es konnten keine Daten aus dem ObjectStore '$name' ausgelesen werden")) }
-            cursor.onsuccess = { promise.invokeThen(createIterator(it)) }
+                cursor.onerror = { invokeCatch(SHDRuntimeException("Es konnten keine Daten aus dem ObjectStore '$name' ausgelesen werden")) }
+                cursor.onsuccess = { invokeThen(createIterator(it)) }
+            }
         }
-
-        return promise
     }
 
     /**
