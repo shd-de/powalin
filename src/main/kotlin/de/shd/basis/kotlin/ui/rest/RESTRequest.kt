@@ -28,7 +28,9 @@ abstract class AbstractRESTRequest : RESTRequest
 data class RESTSaveElementRequest<DATATYPE>(val elementToSave: DATATYPE) : AbstractRESTRequest()
 
 /**
+ * Standard-Request zum Auslesen eines Elements anhand dessen ID. Er ist das Gegenstück zum gleichnamigen, serverseitigen Request.
  *
+ * @author Tobias Isekeit (ist)
  */
 @Serializable
 @Suppress("unused")

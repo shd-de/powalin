@@ -2,7 +2,6 @@ package de.shd.basis.kotlin.ui.rest
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.Transient
 
 /**
  * Die Standard-Response, die von REST-Endpunkten zurückgegeben wird.
@@ -20,24 +19,36 @@ open class RESTResponse<CONTENT>(
         open val content: CONTENT
 )
 
+/**
+ * Die Standard-Response, die von REST-Endpunkten zurückgegeben wird, wenn genau ein Element ausgelesen werden soll. Sie ist das Gegenstück zur
+ * gleichnamigen, serverseitigen Response.
+ *
+ * @author Tobias Isekeit (ist), Florian Steitz (fst)
+ */
 @Serializable
 @Suppress("unused")
 open class RESTReadElementResponse<CONTENT>(
-        val status: String,
-        val errorNumber: String?,
-        val errorMessage: String?,
-        val warningList: Collection<RESTResponseMessage>,
-        val infoList: Collection<RESTResponseMessage>,
+        open val status: String,
+        open val errorNumber: String?,
+        open val errorMessage: String?,
+        open val warningList: Collection<RESTResponseMessage>,
+        open val infoList: Collection<RESTResponseMessage>,
         @SerialName("value") val content: CONTENT
-) // : RESTResponse<CONTENT>(status, errorNumber, errorMessage, warningList, infoList, content)
+) // : RESTResponse<CONTENT>(status, errorNumber, errorMessage, warningList, infoList, content) TODO Verursacht NPE in kotlinx.serialization
 
+/**
+ * Die Standard-Response, die von REST-Endpunkten zurückgegeben wird, wenn genau ein Element erstellt bzw. aktualisiert werden soll. Sie ist das
+ * Gegenstück zur gleichnamigen, serverseitigen Response.
+ *
+ * @author Tobias Isekeit (ist), Florian Steitz (fst)
+ */
 @Serializable
 @Suppress("unused")
 open class RESTSavedElementResponse<CONTENT>(
-        val status: String,
-        val errorNumber: String?,
-        val errorMessage: String?,
-        val warningList: Collection<RESTResponseMessage>,
-        val infoList: Collection<RESTResponseMessage>,
+        open val status: String,
+        open val errorNumber: String?,
+        open val errorMessage: String?,
+        open val warningList: Collection<RESTResponseMessage>,
+        open val infoList: Collection<RESTResponseMessage>,
         @SerialName("value") val content: CONTENT
-) // : RESTResponse<CONTENT>(status, errorNumber, errorMessage, warningList, infoList, content)
+) // : RESTResponse<CONTENT>(status, errorNumber, errorMessage, warningList, infoList, content) TODO Verursacht NPE in kotlinx.serialization
