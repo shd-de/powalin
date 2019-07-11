@@ -26,3 +26,10 @@ abstract class AbstractRESTRequest : RESTRequest
 @Serializable
 @Suppress("unused")
 data class RESTSaveElementRequest<DATATYPE>(val elementToSave: DATATYPE) : AbstractRESTRequest()
+
+/**
+ *
+ */
+@Serializable
+@Suppress("unused")
+data class RESTReadElementByIdRequest<DATATYPE>(val id: DATATYPE) : AbstractRESTRequest()

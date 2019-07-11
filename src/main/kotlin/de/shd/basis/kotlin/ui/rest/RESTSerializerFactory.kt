@@ -18,6 +18,20 @@ object RESTSerializerFactory {
     }
 
     /**
+     * Erzeugt eine Implementierung von [KSerializer] für eine [RESTReadElementResponse], die nur ein einziges fachliches Datentransferobjekt enthält.
+     */
+    fun <ELEMENT> createForReadElementResponse(elementSerializer: KSerializer<ELEMENT>): KSerializer<RESTReadElementResponse<ELEMENT>> {
+        return RESTReadElementResponse.serializer(elementSerializer)
+    }
+
+    /**
+     * Erzeugt eine Implementierung von [KSerializer] für eine [RESTSavedElementResponse], die nur ein einziges fachliches Datentransferobjekt enthält.
+     */
+    fun <ELEMENT> createForSavedElementResponse(elementSerializer: KSerializer<ELEMENT>): KSerializer<RESTSavedElementResponse<ELEMENT>> {
+        return RESTSavedElementResponse.serializer(elementSerializer)
+    }
+
+    /**
      * Erzeugt eine Implementierung von [KSerializer] für eine [RESTResponse], die beliebig viele fachliche Datentransferobjekte enthalten kann.
      * Solche Objekte werden dafür zu einer [RESTList] hinzugefügt, die widerum in der [RESTResponse] enthalten ist.
      */
