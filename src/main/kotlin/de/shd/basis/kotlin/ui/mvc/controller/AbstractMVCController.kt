@@ -1,8 +1,10 @@
 package de.shd.basis.kotlin.ui.mvc.controller
 
+import de.shd.basis.kotlin.ui.checker.ConnectivityChecker
 import de.shd.basis.kotlin.ui.mvc.view.MVCView
 import de.shd.basis.kotlin.ui.state.AppStateManager
 import de.shd.basis.kotlin.ui.state.AppStateManager.openAsNewState
+import de.shd.basis.kotlin.ui.util.promise.ResolvablePromise
 import kotlin.reflect.KClass
 
 /**
@@ -83,6 +85,20 @@ abstract class AbstractMVCController<VIEW : MVCView> : MVCController<VIEW> {
      */
     protected fun <CONTROLLER : MVCController<*>> getState(controllerClass: KClass<CONTROLLER>): CONTROLLER? {
         return AppStateManager.getState(controllerClass)
+    }
+
+    /**
+     * TODO
+     */
+    fun whenOnline(): ResolvablePromise<Nothing?> {
+        return ConnectivityChecker.whenOnline()
+    }
+
+    /**
+     * TODO
+     */
+    fun whenOffline(): ResolvablePromise<Nothing?> {
+        return ConnectivityChecker.whenOffline()
     }
 
     /**
