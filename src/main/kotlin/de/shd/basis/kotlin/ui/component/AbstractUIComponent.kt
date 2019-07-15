@@ -1,5 +1,7 @@
 package de.shd.basis.kotlin.ui.component
 
+import de.shd.basis.kotlin.ui.i18n.I18n
+import de.shd.basis.kotlin.ui.i18n.I18nKey
 import de.shd.basis.kotlin.ui.util.function.withClickListener
 import kotlinx.html.dom.create
 import org.w3c.dom.HTMLElement
@@ -27,5 +29,31 @@ abstract class AbstractUIComponent<COMPONENT : SHDFluentUIComponent<COMPONENT>> 
 
     override fun addClickListener(clickListener: (Event) -> Unit) {
         rootNode.withClickListener(clickListener)
+    }
+
+    /**
+     * Versucht, anhand des übergebenen I18n-Schlüssels eine passende Übersetzung für die aktuelle Sprache der Anwendung über [I18n.getText] zu
+     * ermitteln. Falls keine passende Übersetzung ermittelt werden konnte, wird der übergebene I18n-Schlüssel wieder zurückgegeben.
+     *
+     * Wenn optionale, variable Argumente an diese Methode übergeben werden und eine passende Übersetzung mit Platzhaltern ermittelt werden konnte,
+     * werden diese Platzhalter durch die übergebenen Argumente ersetzt.
+     *
+     * @see [I18n.currentLanguage]
+     */
+    protected fun getText(key: I18nKey, vararg args: String?): String {
+        return I18n.getText(key, *args)
+    }
+
+    /**
+     * Versucht, anhand des übergebenen I18n-Schlüssels eine passende Übersetzung für die aktuelle Sprache der Anwendung über [I18n.getText] zu
+     * ermitteln. Falls keine passende Übersetzung ermittelt werden konnte, wird der übergebene I18n-Schlüssel wieder zurückgegeben.
+     *
+     * Wenn optionale, variable Argumente an diese Methode übergeben werden und eine passende Übersetzung mit Platzhaltern ermittelt werden konnte,
+     * werden diese Platzhalter durch die übergebenen Argumente ersetzt.
+     *
+     * @see [I18n.currentLanguage]
+     */
+    protected fun getText(key: String, vararg args: String?): String {
+        return I18n.getText(key, *args)
     }
 }
