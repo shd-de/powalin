@@ -38,12 +38,12 @@ button, input, form {
 }
 
 button {
-  background: #f3f3f3 none;
+  background: $btn-bg-color none;
   height: $control-height;
-  color: #191919;
+  color: $default-font-color-btn;
   font-size: 16px;
   font-weight: 400;
-  border: 1px solid #c5c5c5;
+  border: 1px solid $field-border-color;
   border-radius: 4px;
   margin-top: $default-spacing;
   cursor: pointer;
@@ -51,6 +51,6 @@ button {
 
 button:disabled {
   background: transparent;
-  border: 1px solid #cfcecf;
+  border: $button-border-disabled;
   color: $disabled-color;
 }
