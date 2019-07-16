@@ -88,14 +88,24 @@ abstract class AbstractMVCController<VIEW : MVCView> : MVCController<VIEW> {
     }
 
     /**
-     * TODO
+     * Registriert ein neues [ResolvablePromise] beim [ConnectivityChecker] und gibt es zurück. Anschließend kann über die Methode [ResolvablePromise.then]
+     * ein Controller-spezifischer Listener registriert werden, der immer dann aufgerufen wird, wenn eine Netzwerkverbindung als (wieder)hergestellt
+     * gilt. Allerdings nur einmalig pro Änderung der Netzwerkverbindung. Darüber hinaus wird der so registrierte Listener umgehend aufgerufen, falls
+     * aktuell bereits eine Netzwerkverbindung besteht.
+     *
+     * @see ConnectivityChecker.whenOnline
      */
     fun whenOnline(): ResolvablePromise<Nothing?> {
         return ConnectivityChecker.whenOnline()
     }
 
     /**
-     * TODO
+     * Registriert ein neues [ResolvablePromise] beim [ConnectivityChecker] und gibt es zurück. Anschließend kann über die Methode [ResolvablePromise.then]
+     * ein Controller-spezifischer Listener registriert werden, der immer dann aufgerufen wird, wenn keine Netzwerkverbindung (mehr) besteht.
+     * Allerdings nur einmalig pro Änderung der Netzwerkverbindung. Darüber hinaus wird der so registrierte Listener umgehend aufgerufen, falls
+     * derzeit keine Netzwerkverbindung besteht.
+     *
+     * @see ConnectivityChecker.whenOffline
      */
     fun whenOffline(): ResolvablePromise<Nothing?> {
         return ConnectivityChecker.whenOffline()

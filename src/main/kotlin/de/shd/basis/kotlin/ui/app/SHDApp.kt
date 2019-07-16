@@ -2,7 +2,9 @@
 
 package de.shd.basis.kotlin.ui.app
 
+import de.shd.basis.kotlin.ui.checker.ConnectivityChecker
 import de.shd.basis.kotlin.ui.component.menu.app.AppMenuController
+import de.shd.basis.kotlin.ui.http.HTTPMethod
 import de.shd.basis.kotlin.ui.i18n.I18n
 import de.shd.basis.kotlin.ui.i18n.I18nMessageProvider
 import de.shd.basis.kotlin.ui.mvc.controller.MVCController
@@ -19,6 +21,7 @@ import org.w3c.dom.Element
 import org.w3c.dom.HTMLElement
 import kotlin.browser.document
 import kotlin.browser.window
+import kotlin.js.Promise
 import kotlin.reflect.KClass
 
 /**
@@ -142,6 +145,32 @@ class SHDApp(private val appTitle: String) {
      */
     fun registerServiceWorker(scriptURL: String, scope: String): SHDApp {
         ServiceWorkerRegistry.register(scriptURL, scope)
+        return this
+    }
+
+    /**
+     * Aktiviert eine zusätzliche, regelmäßige Prüfung der Netzwerkverbindung via [ConnectivityChecker.enablePeriodicConnectionCheck], die
+     * [HEAD-Requests][HTTPMethod.HEAD] im angegebenen Intervall an die spezifizierte URL sendet und am Erfolg jeder einzelnen Anfrage festmacht, ob
+     * eine Netzwerkverbindung besteht oder nicht. Eine solche Anfrage wird auch umgehend einmalig im Rahmen der Ausführung dieser Methode
+     * durchgeführt (sprich ohne Einbezug des angegebenen Intervalls).
+     *
+     * @see ConnectivityChecker
+     */
+    fun enablePeriodicConnectionCheck(targetURL: String, intervalDelay: Int): SHDApp {
+        ConnectivityChecker.enablePeriodicConnectionCheck(targetURL, intervalDelay)
+        return this
+    }
+
+    /**
+     * Aktiviert eine zusätzliche, regelmäßige Prüfung der Netzwerkverbindung via [ConnectivityChecker.enablePeriodicConnectionCheck], die
+     * [HEAD-Requests][HTTPMethod.HEAD] im angegebenen Intervall an die URL sendet, die von der übergebenen Funktion in einem [Promise] zurückgegeben
+     * wird. Daraufhin wird am Erfolg jeder einzelnen Anfrage festgemacht, ob eine Netzwerkverbindung besteht oder nicht. Eine solche Anfrage wird
+     * auch umgehend einmalig im Rahmen der Ausführung dieser Methode durchgeführt (sprich ohne Einbezug des angegebenen Intervalls).
+     *
+     * @see ConnectivityChecker
+     */
+    fun enablePeriodicConnectionCheck(targetURLProvider: () -> Promise<String>, intervalDelay: Int): SHDApp {
+        ConnectivityChecker.enablePeriodicConnectionCheck(targetURLProvider, intervalDelay)
         return this
     }
 
