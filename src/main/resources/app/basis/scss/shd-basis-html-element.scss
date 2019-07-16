@@ -25,12 +25,37 @@ html, body, div, span, p, h1, h2, h3, h4, h5, button, input, form {
   outline: none;
 }
 
+body {
+  line-height: 1;
+}
+
 h1, h2, h3, h4, h5 {
   text-align: center;
 }
 
 p {
   margin: $default-spacing;
+}
+
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after, q:before, q:after {
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
 button, input, form {
