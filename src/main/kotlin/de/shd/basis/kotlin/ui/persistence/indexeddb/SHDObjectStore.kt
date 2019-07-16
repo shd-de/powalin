@@ -4,7 +4,15 @@ import de.shd.basis.kotlin.ui.util.exception.SHDRuntimeException
 import de.shd.basis.kotlin.ui.util.promise.DefaultRepeatablePromise
 import de.shd.basis.kotlin.ui.util.promise.RepeatablePromise
 import org.w3c.dom.events.Event
-import org.w3c.indexeddb.*
+import org.w3c.indexeddb.IDBCursorWithValue
+import org.w3c.indexeddb.IDBDatabase
+import org.w3c.indexeddb.IDBKeyRange
+import org.w3c.indexeddb.IDBObjectStore
+import org.w3c.indexeddb.IDBRequest
+import org.w3c.indexeddb.IDBTransaction
+import org.w3c.indexeddb.IDBTransactionMode
+import org.w3c.indexeddb.READONLY
+import org.w3c.indexeddb.READWRITE
 
 /**
  * Diese Klasse repräsentiert einen `ObjectStore`, der sich in einer lokalen Datenbank befindet, welche sich widerum im Webbrowser befindet (siehe
@@ -105,10 +113,10 @@ class SHDObjectStore internal constructor(private val name: String, private val 
     fun clear(): RepeatablePromise<Nothing?> {
         return DefaultRepeatablePromise { invokeThen, invokeCatch ->
             doInTransaction(IDBTransactionMode.READWRITE) { store ->
-                val clear = store.clear()
+                val clearRequest = store.clear()
 
-                clear.onerror = { invokeCatch(SHDRuntimeException("Die Daten aus dem ObjectStore '$name' konnten nicht geleert werden")) }
-                clear.onsuccess = { invokeThen(null) }
+                clearRequest.onerror = { invokeCatch(SHDRuntimeException("Der ObjectStore '$name' konnte nicht geleert werden")) }
+                clearRequest.onsuccess = { invokeThen(null) }
             }
         }
     }
@@ -119,10 +127,10 @@ class SHDObjectStore internal constructor(private val name: String, private val 
     private fun openCursor(query: Any?, index: SHDStoreIndex?): RepeatablePromise<SHDObjectIterator> {
         return DefaultRepeatablePromise { invokeThen, invokeCatch ->
             doInTransaction(IDBTransactionMode.READONLY) { store ->
-                val cursor = openCursor(query, index, store)
+                val cursorRequest = openCursor(query, index, store)
 
-                cursor.onerror = { invokeCatch(SHDRuntimeException("Es konnten keine Daten aus dem ObjectStore '$name' ausgelesen werden")) }
-                cursor.onsuccess = { invokeThen(createIterator(it)) }
+                cursorRequest.onerror = { invokeCatch(SHDRuntimeException("Es konnten keine Daten aus dem ObjectStore '$name' ausgelesen werden")) }
+                cursorRequest.onsuccess = { invokeThen(createIterator(it)) }
             }
         }
     }
