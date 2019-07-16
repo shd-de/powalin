@@ -16,6 +16,7 @@ import kotlinx.html.js.div
 abstract class AbstractMVCView : AbstractUIComponent<MVCView>(), MVCView {
 
     // Eine View soll immer ein "div" als Wurzelknoten haben. Und eine ableitende View soll dies auch nicht überschreiben können. Darüber hinaus soll
-    // dieses "div" standardmäßig auch die maximal verfügbare Breite einnehmen, da das Framework vor allem für Mobile-First-Anwendungen gedacht ist.
+    // dieses "div" standardmäßig auch die maximal verfügbare Höhe und Breite einnehmen, da das Framework vor allem für Mobile-First-Anwendungen
+    // gedacht ist.
     final override val rootNode = nodeFactory.div().withFullWidth().withFullHeight()
 }
