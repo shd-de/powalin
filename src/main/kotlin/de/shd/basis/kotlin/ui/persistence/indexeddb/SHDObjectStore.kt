@@ -4,15 +4,7 @@ import de.shd.basis.kotlin.ui.util.exception.SHDRuntimeException
 import de.shd.basis.kotlin.ui.util.promise.DefaultRepeatablePromise
 import de.shd.basis.kotlin.ui.util.promise.RepeatablePromise
 import org.w3c.dom.events.Event
-import org.w3c.indexeddb.IDBCursorWithValue
-import org.w3c.indexeddb.IDBDatabase
-import org.w3c.indexeddb.IDBKeyRange
-import org.w3c.indexeddb.IDBObjectStore
-import org.w3c.indexeddb.IDBRequest
-import org.w3c.indexeddb.IDBTransaction
-import org.w3c.indexeddb.IDBTransactionMode
-import org.w3c.indexeddb.READONLY
-import org.w3c.indexeddb.READWRITE
+import org.w3c.indexeddb.*
 
 /**
  * Diese Klasse repräsentiert einen `ObjectStore`, der sich in einer lokalen Datenbank befindet, welche sich widerum im Webbrowser befindet (siehe
@@ -105,6 +97,20 @@ class SHDObjectStore internal constructor(private val name: String, private val 
     fun doInTransaction(transactionMode: IDBTransactionMode, accessStore: (IDBTransaction, IDBObjectStore) -> Unit) {
         val transaction = indexedDB.transaction(name, transactionMode)
         accessStore(transaction, transaction.objectStore(name))
+    }
+
+    /**
+     *
+     */
+    fun clear(): RepeatablePromise<Nothing?> {
+        return DefaultRepeatablePromise { invokeThen, invokeCatch ->
+            doInTransaction(IDBTransactionMode.READWRITE) { store ->
+                val clear = store.clear()
+
+                clear.onerror = { invokeCatch(SHDRuntimeException("Die Daten aus dem ObjectStore '$name' konnten nicht geleert werden")) }
+                clear.onsuccess = { invokeThen(null) }
+            }
+        }
     }
 
     /**
