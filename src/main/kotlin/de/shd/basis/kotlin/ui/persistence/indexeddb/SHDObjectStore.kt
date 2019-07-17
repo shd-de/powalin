@@ -81,8 +81,15 @@ class SHDObjectStore internal constructor(private val name: String, private val 
     /**
      *
      */
-    fun put(value: Any) {
-        doInTransaction(IDBTransactionMode.READWRITE) { store -> store.put(value) }
+    fun put(value: Any): RepeatablePromise<Nothing?> {
+        return DefaultRepeatablePromise { invokeThen, invokeCatch ->
+            doInTransaction(IDBTransactionMode.READWRITE) { store ->
+                val putRequest = store.put(value)
+
+                putRequest.onerror = { invokeCatch(SHDRuntimeException("Fehler beim 'put' im ObjectStore '$name'!")) }
+                putRequest.onsuccess = { invokeThen(null) }
+            }
+        }
     }
 
     /**
