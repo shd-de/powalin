@@ -156,8 +156,8 @@ class SHDApp(private val appTitle: String) {
      *
      * @see ConnectivityChecker
      */
-    fun enablePeriodicConnectionCheck(targetURL: String, intervalDelay: Int): SHDApp {
-        ConnectivityChecker.enablePeriodicConnectionCheck(targetURL, intervalDelay)
+    fun enablePeriodicConnectionCheck(targetURL: String, intervalDelay: Int, connectionTimeout: Int = ConnectivityChecker.DEFAULT_CONNECTION_TIMEOUT): SHDApp {
+        ConnectivityChecker.enablePeriodicConnectionCheck(targetURL, intervalDelay, connectionTimeout)
         return this
     }
 
@@ -169,8 +169,8 @@ class SHDApp(private val appTitle: String) {
      *
      * @see ConnectivityChecker
      */
-    fun enablePeriodicConnectionCheck(targetURLProvider: () -> Promise<String>, intervalDelay: Int): SHDApp {
-        ConnectivityChecker.enablePeriodicConnectionCheck(targetURLProvider, intervalDelay)
+    fun enablePeriodicConnectionCheck(targetURLProvider: () -> Promise<String>, intervalDelay: Int, connectionTimeout: Int = ConnectivityChecker.DEFAULT_CONNECTION_TIMEOUT): SHDApp {
+        ConnectivityChecker.enablePeriodicConnectionCheck(targetURLProvider, intervalDelay, connectionTimeout)
         return this
     }
 

@@ -4,6 +4,7 @@ import de.shd.basis.kotlin.ui.checker.ConnectivityChecker.enablePeriodicConnecti
 import de.shd.basis.kotlin.ui.http.HTTPClient
 import de.shd.basis.kotlin.ui.http.HTTPMethod
 import de.shd.basis.kotlin.ui.http.HTTPRequest
+import de.shd.basis.kotlin.ui.time.TimeUnit
 import de.shd.basis.kotlin.ui.util.promise.DefaultRepeatablePromise
 import de.shd.basis.kotlin.ui.util.promise.ResolvablePromise
 import org.w3c.dom.Navigator
@@ -36,6 +37,8 @@ import kotlin.js.Promise
  * @author Florian Steitz (fst)
  */
 object ConnectivityChecker {
+
+    internal const val DEFAULT_CONNECTION_TIMEOUT = 5
 
     private val onOnlineListeners = mutableListOf<DefaultRepeatablePromise<Nothing?>>()
     private val onOfflineListeners = mutableListOf<DefaultRepeatablePromise<Nothing?>>()
@@ -82,14 +85,16 @@ object ConnectivityChecker {
     }
 
     /**
-     * Aktiviert eine zusätzliche, regelmäßige Prüfung der Netzwerkverbindung, die [HEAD-Requests][HTTPMethod.HEAD] im angegebenen Intervall an die
-     * spezifizierte URL sendet und am Erfolg jeder einzelnen Anfrage festmacht, ob eine Netzwerkverbindung besteht oder nicht. Eine solche Anfrage
-     * wird auch umgehend einmalig im Rahmen der Ausführung dieser Methode durchgeführt (sprich ohne Einbezug des angegebenen Intervalls).
+     * Aktiviert eine zusätzliche, regelmäßige Prüfung der Netzwerkverbindung, die [HEAD-Requests][HTTPMethod.HEAD] im angegebenen Intervall in
+     * Millisekunden an die spezifizierte URL sendet und am Erfolg jeder einzelnen Anfrage festmacht, ob eine Netzwerkverbindung besteht oder nicht.
+     * Eine solche Anfrage wird auch umgehend einmalig im Rahmen der Ausführung dieser Methode durchgeführt (sprich ohne Einbezug des angegebenen
+     * Intervalls).
      *
      * Im Regelfall soll an diese Methode eine URL des Backends der Anwendung übergeben werden, die für Pings gedacht ist und dementsprechend
-     * möglichst geringe und sparsame Laufzeiten hat. Generell ist aber darauf zu achten, dass das Intervall so gewählt wird, dass die Pings nicht das
-     * Backend (zu sehr) unter Last setzen.
-     *
+     * möglichst geringe und sparsame Laufzeiten hat. Zum einen, um das Backend zu schonen und zum anderen, weil bei jeder Anfrage standardmäßig ein
+     * vergleichsweise geringer Connection-Timeout (5 Sekunden) konfiguriert ist, um möglichst schnell feststellen zu können, ob eine
+     * Netzwerkverbindung besteht. Dieser Standardwert kann allerdings über den optionalen Parameter `connectionTimeout` übersteuert werden.
+     * Unabhängig davon ist aber darauf zu achten, dass das Intervall so gewählt wird, dass die Pings nicht das Backend (zu sehr) unter Last setzen.
      *
      * **Achtung:**
      *
@@ -100,20 +105,22 @@ object ConnectivityChecker {
      * Dies wurde so implementiert, weil das Backend einer Anwendung auch hängen bleiben kann und dadurch auch keine Kommunikation mit dem Backend
      * mehr möglich sein kann.
      */
-    fun enablePeriodicConnectionCheck(targetURL: String, intervalDelay: Int): ConnectivityChecker {
+    fun enablePeriodicConnectionCheck(targetURL: String, intervalDelay: Int, connectionTimeout: Int = DEFAULT_CONNECTION_TIMEOUT): ConnectivityChecker {
         val targetURLProvider: () -> Promise<String> = { Promise { resolve, _ -> resolve(targetURL) } }
-        return enablePeriodicConnectionCheck(targetURLProvider, intervalDelay)
+        return enablePeriodicConnectionCheck(targetURLProvider, intervalDelay, connectionTimeout)
     }
 
     /**
-     * Aktiviert eine zusätzliche, regelmäßige Prüfung der Netzwerkverbindung, die [HEAD-Requests][HTTPMethod.HEAD] im angegebenen Intervall an die
-     * URL sendet, die von der übergebenen Funktion in einem [Promise] zurückgegeben wird. Daraufhin wird am Erfolg jeder einzelnen Anfrage
-     * festgemacht, ob eine Netzwerkverbindung besteht oder nicht. Eine solche Anfrage wird auch umgehend einmalig im Rahmen der Ausführung dieser
-     * Methode durchgeführt (sprich ohne Einbezug des angegebenen Intervalls).
+     * Aktiviert eine zusätzliche, regelmäßige Prüfung der Netzwerkverbindung, die [HEAD-Requests][HTTPMethod.HEAD] im angegebenen Intervall in
+     * Millisekunden an die URL sendet, die von der übergebenen Funktion in einem [Promise] zurückgegeben wird. Daraufhin wird am Erfolg jeder
+     * einzelnen Anfrage festgemacht, ob eine Netzwerkverbindung besteht oder nicht. Eine solche Anfrage wird auch umgehend einmalig im Rahmen der
+     * Ausführung dieser Methode durchgeführt (sprich ohne Einbezug des angegebenen Intervalls).
      *
      * Im Regelfall soll von der übergebenen Funktion eine URL des Backends der Anwendung zurückgegeben werden, die für Pings gedacht ist und
-     * dementsprechend möglichst geringe und sparsame Laufzeiten hat. Generell ist aber darauf zu achten, dass das Intervall so gewählt wird, dass die
-     * Pings nicht das Backend (zu sehr) unter Last setzen.
+     * dementsprechend möglichst geringe und sparsame Laufzeiten hat. Zum einen, um das Backend zu schonen und zum anderen, weil bei jeder Anfrage
+     * standardmäßig ein vergleichsweise geringer Connection-Timeout (5 Sekunden) konfiguriert ist, um möglichst schnell feststellen zu können, ob
+     * eine Netzwerkverbindung besteht. Dieser Standardwert kann allerdings über den optionalen Parameter `connectionTimeout` übersteuert werden.
+     * Unabhängig davon ist aber darauf zu achten, dass das Intervall so gewählt wird, dass die Pings nicht das Backend (zu sehr) unter Last setzen.
      *
      * Auch gilt zu beachten, dass diese Methode einen Listener über die Methode [Promise.catch] des von der übergebenen Funktion zurückgegebenen
      * [Promises][Promise] registriert, der im Falle eines Aufrufs die Netzwerkverbindung als nicht hergestellt erachtet.
@@ -127,7 +134,7 @@ object ConnectivityChecker {
      * Dies wurde so implementiert, weil das Backend einer Anwendung auch hängen bleiben kann und dadurch auch keine Kommunikation mit dem Backend
      * mehr möglich sein kann.
      */
-    fun enablePeriodicConnectionCheck(targetURLProvider: () -> Promise<String>, intervalDelay: Int): ConnectivityChecker {
+    fun enablePeriodicConnectionCheck(targetURLProvider: () -> Promise<String>, intervalDelay: Int, connectionTimeout: Int = DEFAULT_CONNECTION_TIMEOUT): ConnectivityChecker {
         val intervalID = connectionCheckIntervalID
 
         // Falls bereits eine ID eines Timers bekannt ist, heißt das, es ist bereits ein Intervall aktiv. Daher muss das alte Intervall zuvor
@@ -138,10 +145,10 @@ object ConnectivityChecker {
         }
 
         // Anschließend wird direkt versucht, einen HEAD-Request an die Ziel-URL zu senden, um zu prüfen, ob aktuell eine Netzwerkverbindung besteht.
-        pingURL(targetURLProvider)
+        pingURL(targetURLProvider, connectionTimeout)
 
         // Abschließend wird das Intervall gestartet, dass die obige Prüfung im angegebenen Intervall endlos durchführt.
-        connectionCheckIntervalID = window.setInterval({ pingURL(targetURLProvider) }, intervalDelay)
+        connectionCheckIntervalID = window.setInterval({ pingURL(targetURLProvider, connectionTimeout) }, intervalDelay)
 
         return this
     }
@@ -159,21 +166,21 @@ object ConnectivityChecker {
     /**
      * TODO Doc
      */
-    private fun pingURL(targetURLProvider: () -> Promise<String>) {
+    private fun pingURL(targetURLProvider: () -> Promise<String>, connectionTimeout: Int) {
         val wasConnectionAvailable = isConnectionAvailable // TODO Doc
         val successHandler: (Any) -> Unit = { handleConnectedState(wasConnectionAvailable) }
         val errorHandler: (Throwable) -> Unit = { error -> handleConnectionError(error, wasConnectionAvailable) }
 
         targetURLProvider.invoke()
-                .then { pingURL(it, successHandler, errorHandler) }
+                .then { pingURL(it, connectionTimeout, successHandler, errorHandler) }
                 .catch(errorHandler)
     }
 
     /**
      * TODO Doc
      */
-    private fun pingURL(url: String, successHandler: (Any) -> Unit, errorHandler: (Throwable) -> Unit) {
-        httpClient.send(HTTPRequest.buildFor(url).withMethod(HTTPMethod.HEAD))
+    private fun pingURL(url: String, connectionTimeout: Int, successHandler: (Any) -> Unit, errorHandler: (Throwable) -> Unit) {
+        httpClient.send(HTTPRequest.buildFor(url).withMethod(HTTPMethod.HEAD).withTimeout(connectionTimeout, TimeUnit.SECONDS))
                 .then(successHandler)
                 .catch(errorHandler)
     }
