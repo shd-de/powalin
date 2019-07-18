@@ -93,8 +93,9 @@ object ConnectivityChecker {
      * Im Regelfall soll an diese Methode eine URL des Backends der Anwendung übergeben werden, die für Pings gedacht ist und dementsprechend
      * möglichst geringe und sparsame Laufzeiten hat. Zum einen, um das Backend zu schonen und zum anderen, weil bei jeder Anfrage standardmäßig ein
      * vergleichsweise geringer Connection-Timeout (5 Sekunden) konfiguriert ist, um möglichst schnell feststellen zu können, ob eine
-     * Netzwerkverbindung besteht. Dieser Standardwert kann allerdings über den optionalen Parameter `connectionTimeout` übersteuert werden.
-     * Unabhängig davon ist aber darauf zu achten, dass das Intervall so gewählt wird, dass die Pings nicht das Backend (zu sehr) unter Last setzen.
+     * Netzwerkverbindung besteht. Dieser Standardwert kann allerdings über den optionalen Parameter `connectionTimeout` in Sekunden übersteuert
+     * werden. Unabhängig davon ist aber darauf zu achten, dass das Intervall so gewählt wird, dass die Pings nicht das Backend (zu sehr) unter Last
+     * setzen.
      *
      * **Achtung:**
      *
@@ -119,8 +120,9 @@ object ConnectivityChecker {
      * Im Regelfall soll von der übergebenen Funktion eine URL des Backends der Anwendung zurückgegeben werden, die für Pings gedacht ist und
      * dementsprechend möglichst geringe und sparsame Laufzeiten hat. Zum einen, um das Backend zu schonen und zum anderen, weil bei jeder Anfrage
      * standardmäßig ein vergleichsweise geringer Connection-Timeout (5 Sekunden) konfiguriert ist, um möglichst schnell feststellen zu können, ob
-     * eine Netzwerkverbindung besteht. Dieser Standardwert kann allerdings über den optionalen Parameter `connectionTimeout` übersteuert werden.
-     * Unabhängig davon ist aber darauf zu achten, dass das Intervall so gewählt wird, dass die Pings nicht das Backend (zu sehr) unter Last setzen.
+     * eine Netzwerkverbindung besteht. Dieser Standardwert kann allerdings über den optionalen Parameter `connectionTimeout` in Sekunden übersteuert
+     * werden. Unabhängig davon ist aber darauf zu achten, dass das Intervall so gewählt wird, dass die Pings nicht das Backend (zu sehr) unter Last
+     * setzen.
      *
      * Auch gilt zu beachten, dass diese Methode einen Listener über die Methode [Promise.catch] des von der übergebenen Funktion zurückgegebenen
      * [Promises][Promise] registriert, der im Falle eines Aufrufs die Netzwerkverbindung als nicht hergestellt erachtet.
