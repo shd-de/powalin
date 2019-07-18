@@ -1,6 +1,7 @@
 package de.shd.basis.kotlin.ui.mvc.controller
 
 import de.shd.basis.kotlin.ui.component.menu.app.AppMenuCtrl
+import de.shd.basis.kotlin.ui.component.window.DefaultWindowCtrl
 import de.shd.basis.kotlin.ui.mvc.controller.MVCControllerFactory.create
 import de.shd.basis.kotlin.ui.util.function.createInstance
 import kotlin.reflect.KClass
@@ -31,5 +32,12 @@ object MVCControllerFactory {
      */
     internal fun createAppMenuCtrl(): AppMenuCtrl {
         return create(AppMenuCtrl::class)
+    }
+
+    /**
+     * Erzeugt eine neue Instanz von [DefaultWindowCtrl] via [create].
+     */
+    internal fun createDefaultWindowCtrl(): DefaultWindowCtrl {
+        return create(DefaultWindowCtrl::class)
     }
 }

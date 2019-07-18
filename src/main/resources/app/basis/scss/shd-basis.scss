@@ -1,6 +1,7 @@
 @import "../../basis/theme/VAADIN/themes/shd-basis/shd-basis-variables.scss";
 @import "shd-basis-html-element";
 @import "shd-basis-flex-layout";
+@import "shd-basis-window";
 
 .shd-app {
   background-color: $shd-white;
@@ -12,3 +13,5 @@
 
   @include shd-basis-flex-layout;
 }
+
+@include shd-basis-window;

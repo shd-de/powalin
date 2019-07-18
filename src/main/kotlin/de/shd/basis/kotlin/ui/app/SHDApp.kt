@@ -16,6 +16,7 @@ import de.shd.basis.kotlin.ui.util.function.appendScripts
 import de.shd.basis.kotlin.ui.util.function.appendStylesheet
 import de.shd.basis.kotlin.ui.util.function.appendStylesheets
 import de.shd.basis.kotlin.ui.util.function.removeAllChildren
+import de.shd.basis.kotlin.ui.window.WindowManager
 import de.shd.basis.kotlin.ui.worker.ServiceWorkerRegistry
 import org.w3c.dom.Element
 import org.w3c.dom.HTMLElement
@@ -201,6 +202,9 @@ class SHDApp(private val appTitle: String) {
         // Das Framework-interne Wurzelelement der Anwendung ermitteln und den DOM-Subtree der (initialen) Standard-Ansicht als Kindelement hinzufügen.
         frameworkRootElement = document.querySelector(".shd-app")
         frameworkRootElement?.appendChild(AppStateManager.defaultStateController.view)
+
+        // TODO
+        document.body?.appendChild(WindowManager.windowCtrl.view)
 
         // Die (deklarative) Sprache des Dokuments aktualisieren, damit sie auch zur tatsächlich verwendeten bzw. angezeigten Sprache passt.
         (document.documentElement as HTMLElement).lang = I18n.currentLanguage

@@ -17,4 +17,5 @@ object BasisTheme {
     // Layout-Komponenten
     const val CLASS_LAYOUT = "shd-layout"
     const val CLASS_FLEX_LAYOUT = "shd-flex-layout"
+    const val CLASS_WINDOW = "shd-window"
 }
