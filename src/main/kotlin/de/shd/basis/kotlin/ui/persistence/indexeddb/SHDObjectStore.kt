@@ -13,6 +13,7 @@ import org.w3c.indexeddb.IDBTransaction
 import org.w3c.indexeddb.IDBTransactionMode
 import org.w3c.indexeddb.READONLY
 import org.w3c.indexeddb.READWRITE
+import kotlin.js.Promise
 
 /**
  * Diese Klasse repräsentiert einen `ObjectStore`, der sich in einer lokalen Datenbank befindet, welche sich widerum im Webbrowser befindet (siehe
@@ -81,13 +82,13 @@ class SHDObjectStore internal constructor(private val name: String, private val 
     /**
      *
      */
-    fun put(value: Any): RepeatablePromise<Nothing?> {
-        return DefaultRepeatablePromise { invokeThen, invokeCatch ->
+    fun put(value: Any): Promise<Nothing?> {
+        return Promise { resolve, reject ->
             doInTransaction(IDBTransactionMode.READWRITE) { store ->
                 val putRequest = store.put(value)
 
-                putRequest.onerror = { invokeCatch(SHDRuntimeException("Fehler beim 'put' im ObjectStore '$name'!")) }
-                putRequest.onsuccess = { invokeThen(null) }
+                putRequest.onerror = { reject(SHDRuntimeException("Objekt '$value' konnte nicht im ObjectStore '$name' persistiert werden")) }
+                putRequest.onsuccess = { resolve(null) }
             }
         }
     }
@@ -117,13 +118,13 @@ class SHDObjectStore internal constructor(private val name: String, private val 
     /**
      *
      */
-    fun clear(): RepeatablePromise<Nothing?> {
-        return DefaultRepeatablePromise { invokeThen, invokeCatch ->
+    fun clear(): Promise<Nothing?> {
+        return Promise { resolve, reject ->
             doInTransaction(IDBTransactionMode.READWRITE) { store ->
                 val clearRequest = store.clear()
 
-                clearRequest.onerror = { invokeCatch(SHDRuntimeException("Der ObjectStore '$name' konnte nicht geleert werden")) }
-                clearRequest.onsuccess = { invokeThen(null) }
+                clearRequest.onerror = { reject(SHDRuntimeException("Der ObjectStore '$name' konnte nicht geleert werden")) }
+                clearRequest.onsuccess = { resolve(null) }
             }
         }
     }
