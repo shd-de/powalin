@@ -11,7 +11,7 @@ object WindowManager {
 
     internal var windowCtrl = MVCControllerFactory.createDefaultWindowCtrl()
 
-    fun showWindow(window: SHDWindow) {
+    internal fun showWindow(window: SHDWindow) {
         windowCtrl.showWindow(window)
     }
 

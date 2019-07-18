@@ -1,8 +1,10 @@
 package de.shd.basis.kotlin.ui.component
 
+import de.shd.basis.kotlin.ui.component.window.SHDWindow
 import de.shd.basis.kotlin.ui.i18n.I18n
 import de.shd.basis.kotlin.ui.i18n.I18nKey
 import de.shd.basis.kotlin.ui.util.function.withClickListener
+import de.shd.basis.kotlin.ui.window.WindowManager
 import kotlinx.html.dom.create
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.events.Event
@@ -55,5 +57,9 @@ abstract class AbstractUIComponent<COMPONENT : SHDFluentUIComponent<COMPONENT>> 
      */
     protected fun getText(key: String, vararg args: String?): String {
         return I18n.getText(key, *args)
+    }
+
+    protected fun showWindow(window: SHDWindow) {
+        WindowManager.showWindow(window)
     }
 }
