@@ -83,21 +83,21 @@ class SHDObjectStore internal constructor(private val name: String, private val 
      *
      */
     fun put(value: Any): Promise<Nothing?> {
-        return Promise { resolve, reject ->
-            doInTransaction(IDBTransactionMode.READWRITE) { store ->
-                val putRequest = store.put(value)
-
-                putRequest.onerror = { reject(SHDRuntimeException("Objekt '$value' konnte nicht im ObjectStore '$name' persistiert werden")) }
-                putRequest.onsuccess = { resolve(null) }
-            }
-        }
+        return Promise { resolve, reject -> doInTransaction(IDBTransactionMode.READWRITE) { store -> put(value, store, resolve, reject) } }
     }
 
     /**
      *
      */
-    fun putAll(values: Collection<Any>) {
-        doInTransaction(IDBTransactionMode.READWRITE) { store -> values.forEach { store.put(it) } }
+    fun putAll(values: Collection<Any>): Promise<Nothing?> {
+        return Promise { resolve, reject ->
+            doInTransaction(IDBTransactionMode.READWRITE) { store ->
+                val promises = values.map { Promise<Boolean?> { resolvePut, rejectPut -> put(it, store, resolvePut, rejectPut) } }
+                Promise.all(promises.toTypedArray())
+                        .then { resolve(null) }
+                        .catch(reject)
+            }
+        }
     }
 
     /**
@@ -162,5 +162,15 @@ class SHDObjectStore internal constructor(private val name: String, private val 
      */
     private fun extractRequest(event: Event): IDBRequest {
         return event.target as IDBRequest
+    }
+
+    /**
+     *
+     */
+    private fun <RESULT> put(value: Any, store: IDBObjectStore, resolve: (RESULT?) -> Unit, reject: (Throwable) -> Unit) {
+        val putRequest = store.put(value)
+
+        putRequest.onerror = { reject(SHDRuntimeException("Objekt '$value' konnte nicht im ObjectStore '$name' persistiert werden")) }
+        putRequest.onsuccess = { resolve(null) }
     }
 }
