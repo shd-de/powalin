@@ -103,6 +103,20 @@ class SHDObjectStore internal constructor(private val name: String, private val 
     /**
      *
      */
+    fun clear(): Promise<Nothing?> {
+        return Promise { resolve, reject ->
+            doInTransaction(IDBTransactionMode.READWRITE) { store ->
+                val clearRequest = store.clear()
+
+                clearRequest.onerror = { reject(SHDRuntimeException("Der ObjectStore '$name' konnte nicht geleert werden")) }
+                clearRequest.onsuccess = { resolve(null) }
+            }
+        }
+    }
+
+    /**
+     *
+     */
     fun doInTransaction(transactionMode: IDBTransactionMode, accessStore: (IDBObjectStore) -> Unit) {
         doInTransaction(transactionMode) { _, objectStore -> accessStore(objectStore) }
     }
@@ -113,20 +127,6 @@ class SHDObjectStore internal constructor(private val name: String, private val 
     fun doInTransaction(transactionMode: IDBTransactionMode, accessStore: (IDBTransaction, IDBObjectStore) -> Unit) {
         val transaction = indexedDB.transaction(name, transactionMode)
         accessStore(transaction, transaction.objectStore(name))
-    }
-
-    /**
-     *
-     */
-    fun clear(): Promise<Nothing?> {
-        return Promise { resolve, reject ->
-            doInTransaction(IDBTransactionMode.READWRITE) { store ->
-                val clearRequest = store.clear()
-
-                clearRequest.onerror = { reject(SHDRuntimeException("Der ObjectStore '$name' konnte nicht geleert werden")) }
-                clearRequest.onsuccess = { resolve(null) }
-            }
-        }
     }
 
     /**
