@@ -35,3 +35,12 @@ data class RESTSaveElementRequest<DATATYPE>(val elementToSave: DATATYPE) : Abstr
 @Serializable
 @Suppress("unused")
 data class RESTReadElementByIdRequest<DATATYPE>(val id: DATATYPE) : AbstractRESTRequest()
+
+/**
+ * Standard-Request zum Anmelden eines Benutzers
+ *
+ * @author Marcel Ziganow
+ */
+@Serializable
+@Suppress("unused")
+data class RESTLoginRequest<DATATYPE>(val username: String, val password: String) : AbstractRESTRequest()
