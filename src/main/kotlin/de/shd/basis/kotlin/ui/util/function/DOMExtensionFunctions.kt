@@ -575,3 +575,58 @@ private fun HTMLElement.withDisplay(display: String): HTMLElement {
 private fun joinValueWithUnit(value: Double, unit: CSSUnit): String {
     return "$value${unit.value}"
 }
+
+/**
+ * Setzt den Außenabstand auf 0
+ *
+ * @see CSSStyleDeclaration.margin
+ * @author Marcel Ziganow (zim)
+ */
+fun HTMLElement.withZeroMargin(): HTMLElement {
+    this.style.margin = "0";
+    return this
+}
+
+/**
+ * Setzt den oberen Außenabstand auf 0
+ *
+ * @see CSSStyleDeclaration.marginTop
+ * @author Marcel Ziganow (zim)
+ */
+fun HTMLElement.withZeroMarginTop(): HTMLElement {
+    this.style.marginTop = "0";
+    return this
+}
+
+/**
+ * Setzt den rechten Außenabstand auf 0
+ *
+ * @see CSSStyleDeclaration.marginRight
+ * @author Marcel Ziganow (zim)
+ */
+fun HTMLElement.withZeroMarginRight(): HTMLElement {
+    this.style.marginRight = "0";
+    return this
+}
+
+/**
+ * Setzt den unteren Außenabstand auf 0
+ *
+ * @see CSSStyleDeclaration.marginBottom
+ * @author Marcel Ziganow (zim)
+ */
+fun HTMLElement.withZeroMarginBottom(): HTMLElement {
+    this.style.marginBottom = "0";
+    return this
+}
+
+/**
+ * Setzt den linken Außenabstand auf 0
+ *
+ * @see CSSStyleDeclaration.marginLeft
+ * @author Marcel Ziganow (zim)
+ */
+fun HTMLElement.withZeroMarginLeft(): HTMLElement {
+    this.style.marginLeft = "0";
+    return this
+}
