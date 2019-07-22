@@ -558,6 +558,32 @@ fun HTMLTag.generateID(): String {
 }
 
 /**
+ * Setzt die Höhe und Breite des Elements auf 'unset'
+ * @author Marcel Ziganow (zim)
+ */
+fun HTMLElement.withSizeUndefined(): HTMLElement {
+  return this.withWidthUndefined().withHeightUndefined()
+}
+
+/**
+ * Setzt die Breite des Elements auf 'unset'
+ * @author Marcel Ziganow (zim)
+ */
+fun HTMLElement.withWidthUndefined(): HTMLElement {
+  this.style.width = "unset"
+  return this
+}
+
+/**
+ * Setzt die Höhe des Elements auf 'unset'
+ * @author Marcel Ziganow (zim)
+ */
+fun HTMLElement.withHeightUndefined(): HTMLElement {
+  this.style.height = "unset"
+  return this
+}
+
+/**
  * Legt den Wert der Eigenschaft `display` dieses Elements fest.
  *
  * @author Florian Steitz (fst)
