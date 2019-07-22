@@ -3,12 +3,16 @@
 @import "shd-basis-flex-layout";
 @import "shd-basis-window";
 
+html {
+  font: 400 16px/1.55 "Open Sans", sans-serif;
+}
+
 .shd-app {
   background-color: $shd-white;
   width: 100%;
   height: 100%;
   color: $default-font-color;
-  font: 400 16px/1.55 "Open Sans", sans-serif;
+  font-size: inherit;
   padding: $default-spacing;
 
   @include shd-basis-flex-layout;
