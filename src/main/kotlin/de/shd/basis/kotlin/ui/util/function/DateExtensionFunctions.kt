@@ -26,7 +26,7 @@ fun Date.toDayMonthYear(): String {
 }
 
 /**
- * Konvertiert dieses [Date] in das DateFormat "dd.MM.yyyy HH:ss"
+ * Konvertiert dieses [Date] in das DateFormat "dd.MM.yyyy HH:mm"
  */
 @Suppress("unused")
 fun Date.toDayMonthYearHourMinutes(): String {
@@ -37,6 +37,8 @@ fun Date.toDayMonthYearHourMinutes(): String {
 
 /**
  * Mapped ein [Date] und seine Information auf Strings um und stellt dabei sicher, das die Werte immer zwei Ziffern haben
+ *
+ * @author Tobias Isekeit (ist)
  */
 private class DateStringMapper(dateToMap: Date) {
     val date: Date = dateToMap
