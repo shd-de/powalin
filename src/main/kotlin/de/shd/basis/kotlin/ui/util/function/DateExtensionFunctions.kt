@@ -10,14 +10,42 @@ import kotlin.js.Date
  */
 @Suppress("unused")
 fun Date.toDateTimeLocal(): String {
-    val fullYear = getFullYear()
-    val paddedMonth = ensureTwoDigits(getMonth() + 1) // Die Monate müssen ab 1 und nicht ab 0 beginnen.
-    val paddedDay = ensureTwoDigits(getDate())
-    val paddedHours = ensureTwoDigits(getHours())
-    val paddedMinutes = ensureTwoDigits(getMinutes())
-    val paddedSeconds = ensureTwoDigits(getSeconds())
+    val mapper = DateStringMapper(this)
 
-    return "$fullYear-$paddedMonth-${paddedDay}T$paddedHours:$paddedMinutes:$paddedSeconds"
+    return "${mapper.year}-${mapper.month}-${mapper.day}T${mapper.hours}:${mapper.minutes}:${mapper.seconds}"
+}
+
+/**
+ * Konvertiert dieses [Date] in das DateFormat "dd.MM.yyyy"
+ */
+@Suppress("unused")
+fun Date.toDayMonthYear(): String {
+    val mapper = DateStringMapper(this)
+
+    return "${mapper.day}.${mapper.month}-${mapper.year}"
+}
+
+/**
+ * Konvertiert dieses [Date] in das DateFormat "dd.MM.yyyy HH:ss"
+ */
+@Suppress("unused")
+fun Date.toDayMonthYearHourMinutes(): String {
+    val mapper = DateStringMapper(this)
+
+    return "${mapper.day}.${mapper.month}-${mapper.year} ${mapper.hours}:${mapper.minutes}"
+}
+
+/**
+ * Mapped ein [Date] und seine Information auf Strings um und stellt dabei sicher, das die Werte immer zwei Ziffern haben
+ */
+private class DateStringMapper(dateToMap: Date) {
+    val date: Date = dateToMap
+    val year: String = date.getFullYear().toString()
+    val month: String = ensureTwoDigits(date.getMonth() + 1) // Die Monate müssen ab 1 und nicht ab 0 beginnen.
+    val day: String = ensureTwoDigits(date.getDay())
+    val hours: String = ensureTwoDigits(date.getHours())
+    val minutes: String = ensureTwoDigits(date.getMinutes())
+    val seconds: String = ensureTwoDigits(date.getSeconds())
 }
 
 /**
