@@ -12,6 +12,7 @@ import org.w3c.dom.Node
 import org.w3c.dom.css.CSSStyleDeclaration
 import org.w3c.dom.events.Event
 import org.w3c.dom.events.EventTarget
+import kotlin.dom.removeClass
 
 /**
  * Fügt die übergebene [UI-Komponente][SHDUIComponent] via [Node.appendChild] an das Ende der Liste der Kindknoten dieses Elements hinzu und gibt den
@@ -417,6 +418,28 @@ fun HTMLElement.withStyleName(styleName: String): HTMLElement {
  */
 fun HTMLElement.withStyleNames(vararg styleNames: String): HTMLElement {
     classList.add(*styleNames)
+    return this
+}
+
+/**
+ * Entfernt die CSS Klasse.
+ *
+ * Für ausführliche Dokumentation siehe [withStyleName].
+ * @author Marcel Ziganow (zim)
+ */
+fun HTMLElement.removeStyleName(styleName: String): HTMLElement {
+    this.removeClass(styleName)
+    return this
+}
+
+/**
+ * Entfernt CSS Klassen.
+ *
+ * Für ausführliche Dokumentation siehe [withStyleNames].
+ * @author Marcel Ziganow (zim)
+ */
+fun HTMLElement.removeStyleNames(vararg styleNames: String): HTMLElement {
+    this.removeClass(*styleNames)
     return this
 }
 
