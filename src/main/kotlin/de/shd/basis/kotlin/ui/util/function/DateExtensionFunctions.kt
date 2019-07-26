@@ -22,7 +22,7 @@ fun Date.toDateTimeLocal(): String {
 fun Date.toDayMonthYear(): String {
     val mapper = DateStringMapper(this)
 
-    return "${mapper.day}.${mapper.month}-${mapper.year}"
+    return "${mapper.day}.${mapper.month}.${mapper.year}"
 }
 
 /**
@@ -32,7 +32,7 @@ fun Date.toDayMonthYear(): String {
 fun Date.toDayMonthYearHourMinutes(): String {
     val mapper = DateStringMapper(this)
 
-    return "${mapper.day}.${mapper.month}-${mapper.year} ${mapper.hours}:${mapper.minutes}"
+    return "${mapper.day}.${mapper.month}.${mapper.year} ${mapper.hours}:${mapper.minutes}"
 }
 
 /**
