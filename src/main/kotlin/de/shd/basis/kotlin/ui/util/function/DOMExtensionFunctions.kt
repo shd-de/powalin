@@ -433,12 +433,13 @@ fun HTMLElement.removeStyleName(styleName: String): HTMLElement {
 }
 
 /**
- * Entfernt alle CSS Klassen.
+ * Entfernt alle CSS Klassen und leert das Style Attribut
  *
  * @author Marcel Ziganow (zim)
  */
 fun HTMLElement.clearStyle(): HTMLElement {
     className = ""
+    style.clear
     return this
 }
 
