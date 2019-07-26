@@ -438,8 +438,8 @@ fun HTMLElement.removeStyleName(styleName: String): HTMLElement {
  * @author Marcel Ziganow (zim)
  */
 fun HTMLElement.clearStyle(): HTMLElement {
-    className = ""
-    style.clear
+    className = EMPTY_STRING
+    style.cssText = EMPTY_STRING
     return this
 }
 
