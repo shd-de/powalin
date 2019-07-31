@@ -16,6 +16,18 @@ fun Date.toDateTimeLocal(): String {
 }
 
 /**
+ * Konvertiert dieses [Date] in ein ISO-8601-Format ohne Tageszeit. Dies lässt sich in Java als LocalDate deserialisieren
+ *
+ * @author Marcel Ziganow (zim)
+ */
+@Suppress("unused")
+fun Date.toLocalDate(): String {
+    val mapper = DateStringMapper(this)
+
+    return "${mapper.year}-${mapper.month}-${mapper.day}"
+}
+
+/**
  * Konvertiert dieses [Date] in das DateFormat "dd.MM.yyyy"
  */
 @Suppress("unused")
@@ -44,7 +56,7 @@ private class DateStringMapper(dateToMap: Date) {
     val date: Date = dateToMap
     val year: String = date.getFullYear().toString()
     val month: String = ensureTwoDigits(date.getMonth() + 1) // Die Monate müssen ab 1 und nicht ab 0 beginnen.
-    val day: String = ensureTwoDigits(date.getDay())
+    val day: String = ensureTwoDigits(date.getDate())
     val hours: String = ensureTwoDigits(date.getHours())
     val minutes: String = ensureTwoDigits(date.getMinutes())
     val seconds: String = ensureTwoDigits(date.getSeconds())
