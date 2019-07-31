@@ -27,6 +27,16 @@ abstract class AbstractRESTRequest : RESTRequest
 @Suppress("unused")
 data class RESTSaveElementRequest<DATATYPE>(val elementToSave: DATATYPE) : AbstractRESTRequest()
 
+
+/**
+ * Standard-Request zum Erstellen und Aktualisieren einer Liste von Elementen. Es ist das Gegenstück zum gleichnamigen, serverseitigen Request.
+ *
+ * @author Marcel Ziganow (zim)
+ */
+@Serializable
+@Suppress("unused")
+data class RESTSaveListRequest<DATATYPE>(val listToSave: MutableList<DATATYPE>) : AbstractRESTRequest()
+
 /**
  * Standard-Request zum Auslesen eines Elements anhand dessen ID. Er ist das Gegenstück zum gleichnamigen, serverseitigen Request.
  *
