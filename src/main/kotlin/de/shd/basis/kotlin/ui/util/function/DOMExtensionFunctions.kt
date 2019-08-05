@@ -3,6 +3,7 @@ package de.shd.basis.kotlin.ui.util.function
 import de.shd.basis.kotlin.ui.component.SHDUIComponent
 import de.shd.basis.kotlin.ui.css.CSSDisplay
 import de.shd.basis.kotlin.ui.css.CSSUnit
+import de.shd.basis.kotlin.ui.css.CSSKeyword
 import de.shd.basis.kotlin.ui.util.constant.EMPTY_STRING
 import kotlinx.html.HTMLTag
 import org.w3c.dom.Document
@@ -294,6 +295,17 @@ fun HTMLElement.withMarginTop(margin: Double, unit: CSSUnit): HTMLElement {
 }
 
 /**
+ * Legt den oberen Außenabstand dieses Elements auf "auto".
+ *
+ * @see CSSStyleDeclaration.marginBottom
+ * @author Marcel Ziganow (zim)
+ */
+fun HTMLElement.withMarginTopAuto(): HTMLElement {
+    this.style.marginTop = "${CSSKeyword.AUTO}"
+    return this
+}
+
+/**
  * Legt den rechten Außenabstand dieses Elements fest.
  *
  * @see CSSStyleDeclaration.marginRight
@@ -332,6 +344,17 @@ fun HTMLElement.withMarginBottom(margin: Int, unit: CSSUnit): HTMLElement {
  */
 fun HTMLElement.withMarginBottom(margin: Double, unit: CSSUnit): HTMLElement {
     this.style.marginBottom = joinValueWithUnit(margin, unit)
+    return this
+}
+
+/**
+ * Legt den unteren Außenabstand dieses Elements auf "auto".
+ *
+ * @see CSSStyleDeclaration.marginBottom
+ * @author Marcel Ziganow (zim)
+ */
+fun HTMLElement.withMarginBottomAuto(): HTMLElement {
+    this.style.marginBottom = "${CSSKeyword.AUTO}"
     return this
 }
 

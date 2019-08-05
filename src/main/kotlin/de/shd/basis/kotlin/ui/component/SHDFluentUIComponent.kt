@@ -11,9 +11,11 @@ import de.shd.basis.kotlin.ui.util.function.withHeight
 import de.shd.basis.kotlin.ui.util.function.withID
 import de.shd.basis.kotlin.ui.util.function.withMargin
 import de.shd.basis.kotlin.ui.util.function.withMarginBottom
+import de.shd.basis.kotlin.ui.util.function.withMarginBottomAuto
 import de.shd.basis.kotlin.ui.util.function.withMarginLeft
 import de.shd.basis.kotlin.ui.util.function.withMarginRight
 import de.shd.basis.kotlin.ui.util.function.withMarginTop
+import de.shd.basis.kotlin.ui.util.function.withMarginTopAuto
 import de.shd.basis.kotlin.ui.util.function.withPadding
 import de.shd.basis.kotlin.ui.util.function.withPaddingBottom
 import de.shd.basis.kotlin.ui.util.function.withPaddingLeft
@@ -218,6 +220,15 @@ interface SHDFluentUIComponent<COMPONENT : SHDFluentUIComponent<COMPONENT>> : SH
     }
 
     /**
+     * Ruft intern die Methode [HTMLElement.withMarginTopAuto] des Wurzelknotens von dieser UI-Komponente mit den übergebenen Argumenten auf.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun withMarginTopAuto(): COMPONENT {
+        rootNode.withMarginTopAuto()
+        return this as COMPONENT
+    }
+
+    /**
      * Ruft intern die Methode [HTMLElement.withMarginRight] des Wurzelknotens von dieser UI-Komponente mit den übergebenen Argumenten auf.
      */
     @Suppress("UNCHECKED_CAST")
@@ -250,6 +261,15 @@ interface SHDFluentUIComponent<COMPONENT : SHDFluentUIComponent<COMPONENT>> : SH
     @Suppress("UNCHECKED_CAST")
     fun withMarginBottom(margin: Double, unit: CSSUnit): COMPONENT {
         rootNode.withMarginBottom(margin, unit)
+        return this as COMPONENT
+    }
+
+    /**
+     * Ruft intern die Methode [HTMLElement.withMarginBottomAuto] des Wurzelknotens von dieser UI-Komponente mit den übergebenen Argumenten auf.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun withMarginBottomAuto(): COMPONENT {
+        rootNode.withMarginBottomAuto()
         return this as COMPONENT
     }
 
