@@ -148,6 +148,70 @@ fun HTMLElement.withHeight(height: Double, unit: CSSUnit): HTMLElement {
 }
 
 /**
+ * Legt die line-height dieses Elements fest.
+ *
+ * @see CSSStyleDeclaration.lineHeight
+ * @author Marcel Ziganow (zim)
+ */
+fun HTMLElement.withLineHeight(lineHeight: Int, unit: CSSUnit): HTMLElement {
+    return withLineHeight(lineHeight.toDouble(), unit)
+}
+
+/**
+ * Legt die line-height dieses Elements fest.
+ *
+ * @see CSSStyleDeclaration.lineHeight
+ * @author Marcel Ziganow (zim)
+ */
+fun HTMLElement.withLineHeight(lineHeight: Double, unit: CSSUnit): HTMLElement {
+    this.style.lineHeight = joinValueWithUnit(lineHeight, unit)
+    return this
+}
+
+/**
+ * Legt die font-size dieses Elements fest.
+ *
+ * @see CSSStyleDeclaration.fontSize
+ * @author Marcel Ziganow (zim)
+ */
+fun HTMLElement.withFontSize(fontSize: Double, unit: CSSUnit): HTMLElement {
+    this.style.fontSize = joinValueWithUnit(fontSize, unit)
+    return this
+}
+
+/**
+ * Legt die font-size dieses Elements fest.
+ *
+ * @see CSSStyleDeclaration.fontSize
+ * @author Marcel Ziganow (zim)
+ */
+fun HTMLElement.withFontSize(fontSize: Int, unit: CSSUnit): HTMLElement {
+    return withFontSize(fontSize.toDouble(), unit)
+}
+
+/**
+ * Legt die font-weight dieses Elements fest.
+ *
+ * @see CSSStyleDeclaration.fontWeight
+ * @author Marcel Ziganow (zim)
+ */
+fun HTMLElement.withFontWeight(fontWeight: Int): HTMLElement {
+    this.style.fontWeight = "${fontWeight}"
+    return this
+}
+
+/**
+ * Legt die font-size dieses Elements fest.
+ *
+ * @see CSSStyleDeclaration.lineHeight
+ * @author Marcel Ziganow (zim)
+ */
+fun HTMLElement.withTextAlign(textAlign: String): HTMLElement {
+    this.style.textAlign = textAlign
+    return this
+}
+
+/**
  * Legt die Innenabstände aller vier Seiten dieses Elements fest. Der Innenabstand ist der Bereich zwischen dem Inhalt und dem Rahmen.
  *
  * @see CSSStyleDeclaration.padding

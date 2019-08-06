@@ -5,10 +5,13 @@ import de.shd.basis.kotlin.ui.css.CSSUnit
 import de.shd.basis.kotlin.ui.util.function.getDisplay
 import de.shd.basis.kotlin.ui.util.function.isVisible
 import de.shd.basis.kotlin.ui.util.function.withDisplay
+import de.shd.basis.kotlin.ui.util.function.withFontSize
+import de.shd.basis.kotlin.ui.util.function.withFontWeight
 import de.shd.basis.kotlin.ui.util.function.withFullHeight
 import de.shd.basis.kotlin.ui.util.function.withFullWidth
 import de.shd.basis.kotlin.ui.util.function.withHeight
 import de.shd.basis.kotlin.ui.util.function.withID
+import de.shd.basis.kotlin.ui.util.function.withLineHeight
 import de.shd.basis.kotlin.ui.util.function.withMargin
 import de.shd.basis.kotlin.ui.util.function.withMarginBottom
 import de.shd.basis.kotlin.ui.util.function.withMarginBottomAuto
@@ -24,6 +27,7 @@ import de.shd.basis.kotlin.ui.util.function.withPaddingTop
 import de.shd.basis.kotlin.ui.util.function.withStyle
 import de.shd.basis.kotlin.ui.util.function.withStyleName
 import de.shd.basis.kotlin.ui.util.function.withStyleNames
+import de.shd.basis.kotlin.ui.util.function.withTextAlign
 import de.shd.basis.kotlin.ui.util.function.withVisible
 import de.shd.basis.kotlin.ui.util.function.withWidth
 import org.w3c.dom.HTMLElement
@@ -90,6 +94,60 @@ interface SHDFluentUIComponent<COMPONENT : SHDFluentUIComponent<COMPONENT>> : SH
     @Suppress("UNCHECKED_CAST")
     fun withHeight(height: Double, unit: CSSUnit): COMPONENT {
         rootNode.withHeight(height, unit)
+        return this as COMPONENT
+    }
+
+    /**
+     * Ruft intern die Methode [HTMLElement.withLineHeight] des Wurzelknotens von dieser UI-Komponente mit den übergebenen Argumenten auf.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun withLineHeight(lineHeight: Int, unit: CSSUnit): COMPONENT {
+        rootNode.withLineHeight(lineHeight, unit)
+        return this as COMPONENT
+    }
+
+    /**
+     * Ruft intern die Methode [HTMLElement.withLineHeight] des Wurzelknotens von dieser UI-Komponente mit den übergebenen Argumenten auf.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun withLineHeight(lineHeight: Double, unit: CSSUnit): COMPONENT {
+        rootNode.withLineHeight(lineHeight, unit)
+        return this as COMPONENT
+    }
+
+    /**
+     * Ruft intern die Methode [HTMLElement.withFontSize] des Wurzelknotens von dieser UI-Komponente mit den übergebenen Argumenten auf.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun withFontSize(fontSize: Int, unit: CSSUnit): COMPONENT {
+        rootNode.withFontSize(fontSize, unit)
+        return this as COMPONENT
+    }
+
+    /**
+     * Ruft intern die Methode [HTMLElement.withFontSize] des Wurzelknotens von dieser UI-Komponente mit den übergebenen Argumenten auf.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun withFontSize(fontSize: Double, unit: CSSUnit): COMPONENT {
+        rootNode.withFontSize(fontSize, unit)
+        return this as COMPONENT
+    }
+
+    /**
+     * Ruft intern die Methode [HTMLElement.withFontWeight] des Wurzelknotens von dieser UI-Komponente mit den übergebenen Argumenten auf.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun withFontWeight(fontWeight: Int): COMPONENT {
+        rootNode.withFontWeight(fontWeight)
+        return this as COMPONENT
+    }
+
+    /**
+     * Ruft intern die Methode [HTMLElement.withTextAlign] des Wurzelknotens von dieser UI-Komponente mit den übergebenen Argumenten auf.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun withTextAlign(textAlign: String): COMPONENT {
+        rootNode.withTextAlign(textAlign)
         return this as COMPONENT
     }
 

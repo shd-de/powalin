@@ -1,7 +1,7 @@
 package de.shd.basis.kotlin.ui.css
 
 /**
- * Enthält die wichtigsten Einheiten, die als Wert von bestimmten Eigenschaften von HTML-Elementen gesetzt werden können.
+ * Enthält die wichtigsten Keywords, die als Wert von bestimmten Eigenschaften von HTML-Elementen gesetzt werden können.
  *
  * @author Marcel Ziganow (zim)
  */
@@ -33,5 +33,5 @@ enum class CSSKeyword(internal val value: String) {
    *
    * Siehe [MDN web docs: Inherit](https://developer.mozilla.org/en-US/docs/Web/CSS/initial)
    */
-  INITIAL("initial");
+  INITIAL("initial")
 }
