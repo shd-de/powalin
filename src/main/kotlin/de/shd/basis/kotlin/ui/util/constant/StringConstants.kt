@@ -28,3 +28,10 @@ const val SEMICOLON = ";"
  * @author Florian Steitz (fst)
  */
 const val DASH = "-"
+
+/**
+ * Drei Auslassungspunkte (`...`).
+ *
+ * @author Marcel Ziganow (zim)
+ */
+const val ELLIPSIS = "..."
