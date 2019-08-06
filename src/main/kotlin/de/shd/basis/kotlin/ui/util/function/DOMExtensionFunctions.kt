@@ -201,6 +201,17 @@ fun HTMLElement.withFontWeight(fontWeight: Int): HTMLElement {
 }
 
 /**
+ * Legt die Textfarbe dieses Elements fest.
+ *
+ * @see CSSStyleDeclaration.color
+ * @author Marcel Ziganow (zim)
+ */
+fun HTMLElement.withColor(color: String): HTMLElement {
+    this.style.color = color
+    return this
+}
+
+/**
  * Legt die font-size dieses Elements fest.
  *
  * @see CSSStyleDeclaration.lineHeight

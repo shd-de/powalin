@@ -4,6 +4,7 @@ import de.shd.basis.kotlin.ui.css.CSSDisplay
 import de.shd.basis.kotlin.ui.css.CSSUnit
 import de.shd.basis.kotlin.ui.util.function.getDisplay
 import de.shd.basis.kotlin.ui.util.function.isVisible
+import de.shd.basis.kotlin.ui.util.function.withColor
 import de.shd.basis.kotlin.ui.util.function.withDisplay
 import de.shd.basis.kotlin.ui.util.function.withFontSize
 import de.shd.basis.kotlin.ui.util.function.withFontWeight
@@ -139,6 +140,15 @@ interface SHDFluentUIComponent<COMPONENT : SHDFluentUIComponent<COMPONENT>> : SH
     @Suppress("UNCHECKED_CAST")
     fun withFontWeight(fontWeight: Int): COMPONENT {
         rootNode.withFontWeight(fontWeight)
+        return this as COMPONENT
+    }
+
+    /**
+     * Ruft intern die Methode [HTMLElement.withColor] des Wurzelknotens von dieser UI-Komponente mit den übergebenen Argumenten auf.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun withColor(color: String): COMPONENT {
+        rootNode.withColor(color)
         return this as COMPONENT
     }
 
