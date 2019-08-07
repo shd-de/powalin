@@ -720,25 +720,6 @@ fun HTMLElement.withHeightUndefined(): HTMLElement {
 }
 
 /**
- * Legt den Wert der Eigenschaft `display` dieses Elements fest.
- *
- * @author Florian Steitz (fst)
- */
-private fun HTMLElement.withDisplay(display: String): HTMLElement {
-    this.style.display = display
-    return this
-}
-
-/**
- * Konkateniert den übergebenen Wert sowie die übergebene Einheit und gibt den resultierenden String zurück.
- *
- * @author Florian Steitz (fst)
- */
-private fun joinValueWithUnit(value: Double, unit: CSSUnit): String {
-    return "$value${unit.value}"
-}
-
-/**
  * Setzt den Außenabstand auf 0
  *
  * @see CSSStyleDeclaration.margin
@@ -796,4 +777,23 @@ fun HTMLElement.withZeroMarginBottom(): HTMLElement {
 fun HTMLElement.withZeroMarginLeft(): HTMLElement {
     this.style.marginLeft = "0";
     return this
+}
+
+/**
+ * Legt den Wert der Eigenschaft `display` dieses Elements fest.
+ *
+ * @author Florian Steitz (fst)
+ */
+private fun HTMLElement.withDisplay(display: String): HTMLElement {
+    this.style.display = display
+    return this
+}
+
+/**
+ * Konkateniert den übergebenen Wert sowie die übergebene Einheit und gibt den resultierenden String zurück.
+ *
+ * @author Florian Steitz (fst)
+ */
+private fun joinValueWithUnit(value: Double, unit: CSSUnit): String {
+    return "$value${unit.value}"
 }
