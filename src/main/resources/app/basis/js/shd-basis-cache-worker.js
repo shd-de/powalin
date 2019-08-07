@@ -76,14 +76,14 @@ function SHDCacheWorker(cacheVersion, additionalFilesToCache)
    ];
 
    // Enthält weitere, anwendungsspezifische relative Links auf Ressourcen, die standardmäßig in der Phase "install" geladen und im internen Cache hinterlegt werden sollen.
-   const ADDITIONAL_FILED_TO_CAHCE = [].concat(additionalFilesToCache.filter(t => typeof t !== "undefined" && t !== null));
+   const ADDITIONAL_FILES_TO_CACHE = [].concat(additionalFilesToCache.filter(t => typeof t !== "undefined" && t !== null));
 
    /**
     * Lädt und cacht alle Ressourcen, die standardmäßig in der Phase "<code>install</code>" geladen und im internen Cache hinterlegt werden sollen.
     *
     * @returns {Promise<void>} Das von {@link Cache.addAll} zurückgegebene {@link Promise}.
     */
-   const precacheDefaultFiles = () => caches.open(CACHE_NAME).then(cache => cache.addAll(DEFAULT_FILES_TO_CACHE.concat(ADDITIONAL_FILED_TO_CAHCE)));
+   const precacheDefaultFiles = () => caches.open(CACHE_NAME).then(cache => cache.addAll(DEFAULT_FILES_TO_CACHE.concat(ADDITIONAL_FILES_TO_CACHE)));
 
    /**
     * Iteriert über alle Caches, die zu diesem Origin (Hostname und Port) gehören und verwirft jeden Cache, der nicht in {@link CURRENT_CACHES}

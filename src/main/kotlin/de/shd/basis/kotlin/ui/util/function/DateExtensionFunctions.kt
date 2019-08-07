@@ -10,9 +10,8 @@ import kotlin.js.Date
  */
 @Suppress("unused")
 fun Date.toDateTimeLocal(): String {
-    val mapper = DateStringMapper(this)
-
-    return "${mapper.year}-${mapper.month}-${mapper.day}T${mapper.hours}:${mapper.minutes}:${mapper.seconds}"
+    val dateFields = DateFields(this)
+    return "${dateFields.year}-${dateFields.month}-${dateFields.day}T${dateFields.hours}:${dateFields.minutes}:${dateFields.seconds}"
 }
 
 /**
@@ -22,38 +21,39 @@ fun Date.toDateTimeLocal(): String {
  */
 @Suppress("unused")
 fun Date.toLocalDate(): String {
-    val mapper = DateStringMapper(this)
-
-    return "${mapper.year}-${mapper.month}-${mapper.day}"
+    val dateFields = DateFields(this)
+    return "${dateFields.year}-${dateFields.month}-${dateFields.day}"
 }
 
 /**
  * Konvertiert dieses [Date] in das DateFormat "dd.MM.yyyy"
+ *
+ * @author Tobias Isekeit (ist)
  */
 @Suppress("unused")
 fun Date.toDayMonthYear(): String {
-    val mapper = DateStringMapper(this)
-
-    return "${mapper.day}.${mapper.month}.${mapper.year}"
+    val dateFields = DateFields(this)
+    return "${dateFields.day}.${dateFields.month}.${dateFields.year}"
 }
 
 /**
  * Konvertiert dieses [Date] in das DateFormat "dd.MM.yyyy HH:mm"
+ *
+ * @author Tobias Isekeit (ist)
  */
 @Suppress("unused")
 fun Date.toDayMonthYearHourMinutes(): String {
-    val mapper = DateStringMapper(this)
-
-    return "${mapper.day}.${mapper.month}.${mapper.year} ${mapper.hours}:${mapper.minutes}"
+    val dateFields = DateFields(this)
+    return "${dateFields.day}.${dateFields.month}.${dateFields.year} ${dateFields.hours}:${dateFields.minutes}"
 }
 
 /**
  * Mapped ein [Date] und seine Information auf Strings um und stellt dabei sicher, das die Werte immer zwei Ziffern haben
  *
  * @author Tobias Isekeit (ist)
+ * @author Florian Steitz (fst)
  */
-private class DateStringMapper(dateToMap: Date) {
-    val date: Date = dateToMap
+private class DateFields(date: Date) {
     val year: String = date.getFullYear().toString()
     val month: String = ensureTwoDigits(date.getMonth() + 1) // Die Monate müssen ab 1 und nicht ab 0 beginnen.
     val day: String = ensureTwoDigits(date.getDate())

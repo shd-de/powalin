@@ -2,8 +2,8 @@ package de.shd.basis.kotlin.ui.util.function
 
 import de.shd.basis.kotlin.ui.component.SHDUIComponent
 import de.shd.basis.kotlin.ui.css.CSSDisplay
-import de.shd.basis.kotlin.ui.css.CSSUnit
 import de.shd.basis.kotlin.ui.css.CSSKeyword
+import de.shd.basis.kotlin.ui.css.CSSUnit
 import de.shd.basis.kotlin.ui.util.constant.EMPTY_STRING
 import kotlinx.html.HTMLTag
 import org.w3c.dom.Document
@@ -196,7 +196,7 @@ fun HTMLElement.withFontSize(fontSize: Int, unit: CSSUnit): HTMLElement {
  * @author Marcel Ziganow (zim)
  */
 fun HTMLElement.withFontWeight(fontWeight: Int): HTMLElement {
-    this.style.fontWeight = "${fontWeight}"
+    this.style.fontWeight = fontWeight.toString()
     return this
 }
 
@@ -376,7 +376,7 @@ fun HTMLElement.withMarginTop(margin: Double, unit: CSSUnit): HTMLElement {
  * @author Marcel Ziganow (zim)
  */
 fun HTMLElement.withMarginTopAuto(): HTMLElement {
-    this.style.marginTop = "${CSSKeyword.AUTO}"
+    this.style.marginTop = CSSKeyword.AUTO.value
     return this
 }
 
@@ -429,7 +429,7 @@ fun HTMLElement.withMarginBottom(margin: Double, unit: CSSUnit): HTMLElement {
  * @author Marcel Ziganow (zim)
  */
 fun HTMLElement.withMarginBottomAuto(): HTMLElement {
-    this.style.marginBottom = "${CSSKeyword.AUTO}"
+    this.style.marginBottom = CSSKeyword.AUTO.value
     return this
 }
 
@@ -525,6 +525,7 @@ fun HTMLElement.withStyleNames(vararg styleNames: String): HTMLElement {
  * Für ausführliche Dokumentation siehe [withStyleName].
  * @author Marcel Ziganow (zim)
  */
+@Suppress("unused")
 fun HTMLElement.removeStyleName(styleName: String): HTMLElement {
     this.removeClass(styleName)
     return this
@@ -535,6 +536,7 @@ fun HTMLElement.removeStyleName(styleName: String): HTMLElement {
  *
  * @author Marcel Ziganow (zim)
  */
+@Suppress("unused")
 fun HTMLElement.clearStyle(): HTMLElement {
     className = EMPTY_STRING
     style.cssText = EMPTY_STRING
@@ -547,6 +549,7 @@ fun HTMLElement.clearStyle(): HTMLElement {
  * Für ausführliche Dokumentation siehe [withStyleNames].
  * @author Marcel Ziganow (zim)
  */
+@Suppress("unused")
 fun HTMLElement.removeStyleNames(vararg styleNames: String): HTMLElement {
     this.removeClass(*styleNames)
     return this
@@ -693,8 +696,9 @@ fun HTMLTag.generateID(): String {
  * Setzt die Höhe und Breite des Elements auf 'unset'
  * @author Marcel Ziganow (zim)
  */
+@Suppress("unused")
 fun HTMLElement.withSizeUndefined(): HTMLElement {
-  return this.withWidthUndefined().withHeightUndefined()
+    return this.withWidthUndefined().withHeightUndefined()
 }
 
 /**
@@ -702,8 +706,8 @@ fun HTMLElement.withSizeUndefined(): HTMLElement {
  * @author Marcel Ziganow (zim)
  */
 fun HTMLElement.withWidthUndefined(): HTMLElement {
-  this.style.width = "unset"
-  return this
+    this.style.width = CSSKeyword.UNSET.value
+    return this
 }
 
 /**
@@ -711,8 +715,8 @@ fun HTMLElement.withWidthUndefined(): HTMLElement {
  * @author Marcel Ziganow (zim)
  */
 fun HTMLElement.withHeightUndefined(): HTMLElement {
-  this.style.height = "unset"
-  return this
+    this.style.height = CSSKeyword.UNSET.value
+    return this
 }
 
 /**
@@ -740,6 +744,7 @@ private fun joinValueWithUnit(value: Double, unit: CSSUnit): String {
  * @see CSSStyleDeclaration.margin
  * @author Marcel Ziganow (zim)
  */
+@Suppress("unused")
 fun HTMLElement.withZeroMargin(): HTMLElement {
     this.style.margin = "0";
     return this
@@ -751,6 +756,7 @@ fun HTMLElement.withZeroMargin(): HTMLElement {
  * @see CSSStyleDeclaration.marginTop
  * @author Marcel Ziganow (zim)
  */
+@Suppress("unused")
 fun HTMLElement.withZeroMarginTop(): HTMLElement {
     this.style.marginTop = "0";
     return this
@@ -762,6 +768,7 @@ fun HTMLElement.withZeroMarginTop(): HTMLElement {
  * @see CSSStyleDeclaration.marginRight
  * @author Marcel Ziganow (zim)
  */
+@Suppress("unused")
 fun HTMLElement.withZeroMarginRight(): HTMLElement {
     this.style.marginRight = "0";
     return this
@@ -773,6 +780,7 @@ fun HTMLElement.withZeroMarginRight(): HTMLElement {
  * @see CSSStyleDeclaration.marginBottom
  * @author Marcel Ziganow (zim)
  */
+@Suppress("unused")
 fun HTMLElement.withZeroMarginBottom(): HTMLElement {
     this.style.marginBottom = "0";
     return this
@@ -784,6 +792,7 @@ fun HTMLElement.withZeroMarginBottom(): HTMLElement {
  * @see CSSStyleDeclaration.marginLeft
  * @author Marcel Ziganow (zim)
  */
+@Suppress("unused")
 fun HTMLElement.withZeroMarginLeft(): HTMLElement {
     this.style.marginLeft = "0";
     return this
