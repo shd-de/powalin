@@ -33,9 +33,11 @@
  *
  * @param cacheVersion {String} Die Version des zu registrierenden ServiceWorkers, die gleichzeitig auch die Version des internen Caches ist. Sie
  * sollte automatisch generiert werden (bspw. durch ein Build-Tool).
+ * @param additionalFilesToCache {Array<String>} Weitere Dateien die gecached werden sollen und der Basis nicht bekannt sind. Diese Dateien können
+ * projektspezifisch sein.
  * @constructor
  */
-function SHDCacheWorker(cacheVersion)
+function SHDCacheWorker(cacheVersion, additionalFilesToCache)
 {
    // Informationen des internen Caches.
    const CACHE_NAME = `app-cache-v${cacheVersion}`; // Fungiert als eindeutiger Key des internen Caches.
@@ -67,15 +69,21 @@ function SHDCacheWorker(cacheVersion)
       "/styles.css",
 
       // Anwendungsspezifische Icons
-      "/favicon.ico"
+      "/favicon.ico",
+
+     // Manifest
+     "/manifest.json"
    ];
+
+   // Enthält weitere, anwendungsspezifische relative Links auf Ressourcen, die standardmäßig in der Phase "install" geladen und im internen Cache hinterlegt werden sollen.
+   const ADDITIONAL_FILED_TO_CAHCE = [].concat(additionalFilesToCache.filter(t => typeof t !== "undefined" && t !== null));
 
    /**
     * Lädt und cacht alle Ressourcen, die standardmäßig in der Phase "<code>install</code>" geladen und im internen Cache hinterlegt werden sollen.
     *
     * @returns {Promise<void>} Das von {@link Cache.addAll} zurückgegebene {@link Promise}.
     */
-   const precacheDefaultFiles = () => caches.open(CACHE_NAME).then(cache => cache.addAll(DEFAULT_FILES_TO_CACHE));
+   const precacheDefaultFiles = () => caches.open(CACHE_NAME).then(cache => cache.addAll(DEFAULT_FILES_TO_CACHE.concat(ADDITIONAL_FILED_TO_CAHCE)));
 
    /**
     * Iteriert über alle Caches, die zu diesem Origin (Hostname und Port) gehören und verwirft jeden Cache, der nicht in {@link CURRENT_CACHES}
