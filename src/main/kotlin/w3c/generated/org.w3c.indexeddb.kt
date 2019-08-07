@@ -37,6 +37,14 @@ public external abstract class IDBOpenDBRequest : IDBRequest {
 }
 
 /**
+ * Exposes the JavaScript [IDBVersionChangeEvent](https://developer.mozilla.org/en/docs/Web/API/IDBVersionChangeEvent) to Kotlin
+ */
+public external open class IDBVersionChangeEvent : Event {
+    open val oldVersion: Int
+    open val newVersion: Int?
+}
+
+/**
  * Exposes the JavaScript [IDBFactory](https://developer.mozilla.org/en/docs/Web/API/IDBFactory) to Kotlin
  */
 public external abstract class IDBFactory {
