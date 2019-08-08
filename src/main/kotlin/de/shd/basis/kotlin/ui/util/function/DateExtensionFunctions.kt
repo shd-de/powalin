@@ -48,6 +48,17 @@ fun Date.toDayMonthYearHourMinutes(): String {
 }
 
 /**
+ * Konvertiert dieses [Date] in das DateFormat "dd.MM.yyyy HH:mm:ss"
+ *
+ * @author Tobias Isekeit (ist)
+ */
+@Suppress("unused")
+fun Date.toDayMonthYearHourMinutesSeconds(): String {
+    val dateFields = DateFields(this)
+    return "${dateFields.day}.${dateFields.month}.${dateFields.year} ${dateFields.hours}:${dateFields.minutes}:${dateFields.seconds}"
+}
+
+/**
  * Mapped ein [Date] und seine Information auf Strings um und stellt dabei sicher, das die Werte immer zwei Ziffern haben
  *
  * @author Tobias Isekeit (ist)
