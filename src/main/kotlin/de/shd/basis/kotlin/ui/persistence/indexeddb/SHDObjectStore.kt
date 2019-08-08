@@ -108,7 +108,7 @@ class SHDObjectStore internal constructor(private val name: String, private val 
             doInTransaction(IDBTransactionMode.READWRITE) { store ->
                 val deleteRequest = store.delete(value)
 
-                deleteRequest.onerror = { reject(SHDRuntimeException("Der ObjectStore '$name' konnte das value '$value' nicht löschen")) }
+                deleteRequest.onerror = { reject(SHDRuntimeException("Der ObjectStore '$name' konnte das Objekt '$value' nicht loeschen")) }
                 deleteRequest.onsuccess = { resolve(null) }
             }
         }
