@@ -29,6 +29,7 @@ import de.shd.basis.kotlin.ui.util.function.withPaddingBottom
 import de.shd.basis.kotlin.ui.util.function.withPaddingLeft
 import de.shd.basis.kotlin.ui.util.function.withPaddingRight
 import de.shd.basis.kotlin.ui.util.function.withPaddingTop
+import de.shd.basis.kotlin.ui.util.function.withSizeFull
 import de.shd.basis.kotlin.ui.util.function.withSizeUndefined
 import de.shd.basis.kotlin.ui.util.function.withStyle
 import de.shd.basis.kotlin.ui.util.function.withStyleName
@@ -119,6 +120,15 @@ interface SHDFluentUIComponent<COMPONENT : SHDFluentUIComponent<COMPONENT>> : SH
     @Suppress("UNCHECKED_CAST")
     fun withHeightUndefined(): COMPONENT {
         rootNode.withHeightUndefined()
+        return this as COMPONENT
+    }
+
+    /**
+     * Ruft intern die Methode [HTMLElement.withSizeFull] des Wurzelknotens von dieser UI-Komponente auf.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun withSizeFull(): COMPONENT {
+        rootNode.withSizeFull()
         return this as COMPONENT
     }
 

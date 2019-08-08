@@ -695,8 +695,23 @@ fun HTMLTag.generateID(): String {
 }
 
 /**
+ * Setzt die Höhe und die Breite des Inhaltsbereichs dieses Elements auf 100%. Der Inhaltsbereich ist innerhalb des Innenabstands, Rahmens und
+ * Außenabstands dieses Elements.
+ *
+ * @see [withFullWidth]
+ * @see [withFullHeight]
+ * @author Florian Steitz (fst)
+ */
+@Suppress("unused")
+fun HTMLElement.withSizeFull(): HTMLElement {
+    return this.withFullWidth().withFullHeight()
+}
+
+/**
  * Setzt die Höhe und Breite des Elements auf 'unset'.
  *
+ * @see [withWidthUndefined]
+ * @see [withHeightUndefined]
  * @author Marcel Ziganow (zim)
  */
 @Suppress("unused")
@@ -705,7 +720,7 @@ fun HTMLElement.withSizeUndefined(): HTMLElement {
 }
 
 /**
- * Setzt die Breite des Elements auf 'unset'.
+ * Setzt die Breite des Elements auf [CSSKeyword.UNSET].
  *
  * @author Marcel Ziganow (zim)
  */
@@ -715,7 +730,7 @@ fun HTMLElement.withWidthUndefined(): HTMLElement {
 }
 
 /**
- * Setzt die Höhe des Elements auf 'unset'.
+ * Setzt die Höhe des Elements auf [CSSKeyword.UNSET].
  *
  * @author Marcel Ziganow (zim)
  */
