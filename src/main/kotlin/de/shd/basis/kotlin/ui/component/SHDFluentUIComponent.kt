@@ -2,8 +2,11 @@ package de.shd.basis.kotlin.ui.component
 
 import de.shd.basis.kotlin.ui.css.CSSDisplay
 import de.shd.basis.kotlin.ui.css.CSSUnit
+import de.shd.basis.kotlin.ui.util.function.clearStyle
 import de.shd.basis.kotlin.ui.util.function.getDisplay
 import de.shd.basis.kotlin.ui.util.function.isVisible
+import de.shd.basis.kotlin.ui.util.function.removeStyleName
+import de.shd.basis.kotlin.ui.util.function.removeStyleNames
 import de.shd.basis.kotlin.ui.util.function.withColor
 import de.shd.basis.kotlin.ui.util.function.withDisplay
 import de.shd.basis.kotlin.ui.util.function.withFontSize
@@ -11,6 +14,7 @@ import de.shd.basis.kotlin.ui.util.function.withFontWeight
 import de.shd.basis.kotlin.ui.util.function.withFullHeight
 import de.shd.basis.kotlin.ui.util.function.withFullWidth
 import de.shd.basis.kotlin.ui.util.function.withHeight
+import de.shd.basis.kotlin.ui.util.function.withHeightUndefined
 import de.shd.basis.kotlin.ui.util.function.withID
 import de.shd.basis.kotlin.ui.util.function.withLineHeight
 import de.shd.basis.kotlin.ui.util.function.withMargin
@@ -25,12 +29,14 @@ import de.shd.basis.kotlin.ui.util.function.withPaddingBottom
 import de.shd.basis.kotlin.ui.util.function.withPaddingLeft
 import de.shd.basis.kotlin.ui.util.function.withPaddingRight
 import de.shd.basis.kotlin.ui.util.function.withPaddingTop
+import de.shd.basis.kotlin.ui.util.function.withSizeUndefined
 import de.shd.basis.kotlin.ui.util.function.withStyle
 import de.shd.basis.kotlin.ui.util.function.withStyleName
 import de.shd.basis.kotlin.ui.util.function.withStyleNames
 import de.shd.basis.kotlin.ui.util.function.withTextAlign
 import de.shd.basis.kotlin.ui.util.function.withVisible
 import de.shd.basis.kotlin.ui.util.function.withWidth
+import de.shd.basis.kotlin.ui.util.function.withWidthUndefined
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.css.CSSStyleDeclaration
 
@@ -72,6 +78,15 @@ interface SHDFluentUIComponent<COMPONENT : SHDFluentUIComponent<COMPONENT>> : SH
     }
 
     /**
+     * Ruft intern die Methode [HTMLElement.withWidthUndefined] des Wurzelknotens von dieser UI-Komponente auf.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun withWidthUndefined(): COMPONENT {
+        rootNode.withWidthUndefined()
+        return this as COMPONENT
+    }
+
+    /**
      * Ruft intern die Methode [HTMLElement.withFullHeight] des Wurzelknotens von dieser UI-Komponente auf.
      */
     @Suppress("UNCHECKED_CAST")
@@ -95,6 +110,24 @@ interface SHDFluentUIComponent<COMPONENT : SHDFluentUIComponent<COMPONENT>> : SH
     @Suppress("UNCHECKED_CAST")
     fun withHeight(height: Double, unit: CSSUnit): COMPONENT {
         rootNode.withHeight(height, unit)
+        return this as COMPONENT
+    }
+
+    /**
+     * Ruft intern die Methode [HTMLElement.withHeightUndefined] des Wurzelknotens von dieser UI-Komponente auf.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun withHeightUndefined(): COMPONENT {
+        rootNode.withHeightUndefined()
+        return this as COMPONENT
+    }
+
+    /**
+     * Ruft intern die Methode [HTMLElement.withSizeUndefined] des Wurzelknotens von dieser UI-Komponente auf.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun withSizeUndefined(): COMPONENT {
+        rootNode.withSizeUndefined()
         return this as COMPONENT
     }
 
@@ -392,6 +425,33 @@ interface SHDFluentUIComponent<COMPONENT : SHDFluentUIComponent<COMPONENT>> : SH
     @Suppress("UNCHECKED_CAST")
     fun withStyleNames(vararg styleNames: String): COMPONENT {
         rootNode.withStyleNames(*styleNames)
+        return this as COMPONENT
+    }
+
+    /**
+     * Ruft intern die Methode [HTMLElement.removeStyleName] des Wurzelknotens von dieser UI-Komponente mit den übergebenen Argumenten auf.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun removeStyleName(styleName: String): COMPONENT {
+        rootNode.removeStyleName(styleName)
+        return this as COMPONENT
+    }
+
+    /**
+     * Ruft intern die Methode [HTMLElement.removeStyleNames] des Wurzelknotens von dieser UI-Komponente mit den übergebenen Argumenten auf.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun removeStyleNames(vararg styleNames: String): COMPONENT {
+        rootNode.removeStyleNames(*styleNames)
+        return this as COMPONENT
+    }
+
+    /**
+     * Ruft intern die Methode [HTMLElement.clearStyle] des Wurzelknotens von dieser UI-Komponente auf.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun clearStyle(): COMPONENT {
+        rootNode.clearStyle()
         return this as COMPONENT
     }
 

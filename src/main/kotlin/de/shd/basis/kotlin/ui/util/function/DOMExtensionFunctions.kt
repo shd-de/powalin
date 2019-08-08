@@ -8,7 +8,9 @@ import de.shd.basis.kotlin.ui.util.constant.EMPTY_STRING
 import kotlinx.html.HTMLTag
 import org.w3c.dom.Document
 import org.w3c.dom.Element
+import org.w3c.dom.HTMLButtonElement
 import org.w3c.dom.HTMLElement
+import org.w3c.dom.HTMLInputElement
 import org.w3c.dom.Node
 import org.w3c.dom.css.CSSStyleDeclaration
 import org.w3c.dom.events.Event
@@ -693,7 +695,8 @@ fun HTMLTag.generateID(): String {
 }
 
 /**
- * Setzt die Höhe und Breite des Elements auf 'unset'
+ * Setzt die Höhe und Breite des Elements auf 'unset'.
+ *
  * @author Marcel Ziganow (zim)
  */
 @Suppress("unused")
@@ -702,7 +705,8 @@ fun HTMLElement.withSizeUndefined(): HTMLElement {
 }
 
 /**
- * Setzt die Breite des Elements auf 'unset'
+ * Setzt die Breite des Elements auf 'unset'.
+ *
  * @author Marcel Ziganow (zim)
  */
 fun HTMLElement.withWidthUndefined(): HTMLElement {
@@ -711,7 +715,8 @@ fun HTMLElement.withWidthUndefined(): HTMLElement {
 }
 
 /**
- * Setzt die Höhe des Elements auf 'unset'
+ * Setzt die Höhe des Elements auf 'unset'.
+ *
  * @author Marcel Ziganow (zim)
  */
 fun HTMLElement.withHeightUndefined(): HTMLElement {
@@ -727,7 +732,7 @@ fun HTMLElement.withHeightUndefined(): HTMLElement {
  */
 @Suppress("unused")
 fun HTMLElement.withZeroMargin(): HTMLElement {
-    this.style.margin = "0";
+    this.style.margin = "0"
     return this
 }
 
@@ -739,7 +744,7 @@ fun HTMLElement.withZeroMargin(): HTMLElement {
  */
 @Suppress("unused")
 fun HTMLElement.withZeroMarginTop(): HTMLElement {
-    this.style.marginTop = "0";
+    this.style.marginTop = "0"
     return this
 }
 
@@ -751,7 +756,7 @@ fun HTMLElement.withZeroMarginTop(): HTMLElement {
  */
 @Suppress("unused")
 fun HTMLElement.withZeroMarginRight(): HTMLElement {
-    this.style.marginRight = "0";
+    this.style.marginRight = "0"
     return this
 }
 
@@ -763,7 +768,7 @@ fun HTMLElement.withZeroMarginRight(): HTMLElement {
  */
 @Suppress("unused")
 fun HTMLElement.withZeroMarginBottom(): HTMLElement {
-    this.style.marginBottom = "0";
+    this.style.marginBottom = "0"
     return this
 }
 
@@ -775,7 +780,43 @@ fun HTMLElement.withZeroMarginBottom(): HTMLElement {
  */
 @Suppress("unused")
 fun HTMLElement.withZeroMarginLeft(): HTMLElement {
-    this.style.marginLeft = "0";
+    this.style.marginLeft = "0"
+    return this
+}
+
+/**
+ * Legt fest, ob der Wert dieses Eingabeelements änderbar sein soll oder nicht.
+ *
+ * @see HTMLInputElement.readOnly
+ * @author Florian Steitz (fst)
+ */
+@Suppress("unused")
+fun HTMLInputElement.withReadOnly(readOnly: Boolean): HTMLElement {
+    this.readOnly = readOnly
+    return this
+}
+
+/**
+ * Legt fest, ob dieses Eingabeelement aktiviert sein soll oder nicht.
+ *
+ * @see HTMLInputElement.disabled
+ * @author Florian Steitz (fst)
+ */
+@Suppress("unused")
+fun HTMLInputElement.withEnabled(enabled: Boolean): HTMLElement {
+    this.disabled = !enabled
+    return this
+}
+
+/**
+ * Legt fest, ob dieses Button-Element aktiviert sein soll oder nicht.
+ *
+ * @see HTMLButtonElement.disabled
+ * @author Florian Steitz (fst)
+ */
+@Suppress("unused")
+fun HTMLButtonElement.withEnabled(enabled: Boolean): HTMLElement {
+    this.disabled = !enabled
     return this
 }
 
