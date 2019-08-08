@@ -1,6 +1,5 @@
 package de.shd.basis.kotlin.ui.util.sort
 
-import kotlinx.serialization.Serializable
 import kotlin.math.min
 
 /**
@@ -22,22 +21,8 @@ import kotlin.math.min
  * @author Tobias Isekeit (ist)
  * @author Florian Steitz (fst)
  */
-@Serializable
-class AlphanumericSorting : Comparator<String> {
-
-    /**
-     * Da diese Klasse zustandslos ist, soll sie nicht mehr als einmal instanziiert werden können.
-     */
-    private constructor() {
-        // Keine Initialisierung notwendig.
-    }
-
-    companion object {
-        /**
-         * Zustandslose Singleton-Instanz von {@link AlphanumericSorting}.
-         */
-        val INSTANCE: AlphanumericSorting = AlphanumericSorting()
-    }
+@Suppress("unused")
+object AlphanumericSorting : Comparator<String> {
 
     /**
      * Beispiel einer Sortierung: <br/>
