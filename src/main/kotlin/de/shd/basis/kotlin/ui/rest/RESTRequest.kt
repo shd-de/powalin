@@ -1,5 +1,6 @@
 package de.shd.basis.kotlin.ui.rest
 
+import de.shd.basis.kotlin.ui.rest.read.filter.Filter
 import kotlinx.serialization.Serializable
 
 /**
@@ -53,4 +54,12 @@ data class RESTReadElementByIdRequest<DATATYPE>(val id: DATATYPE) : AbstractREST
  */
 @Serializable
 @Suppress("unused")
-data class RESTLoginRequest<DATATYPE>(val username: String, val password: String) : AbstractRESTRequest()
+data class RESTLoginRequest(val username: String, val password: String) : AbstractRESTRequest()
+
+/**
+ * Standard-Request zum Auslesen einer Liste anhand eines Filters. Er ist das Gegenstück zum gleichnamigen, serverseitigen Request.
+ * @author Marcel Ziganow (zim)
+ */
+@Serializable
+@Suppress("unused")
+data class RESTReadListByFilterRequest<FILTER_TYPE : Filter>(val filter: FILTER_TYPE) : AbstractRESTReadListRequest()

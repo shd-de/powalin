@@ -62,23 +62,23 @@ data class RESTLink(
  */
 @Serializable
 @Suppress("unused")
-class RESTList<ITEM>(val totalNumberOfElements: Int, val from: Int, val to: Int, private val elements: Collection<ITEM>) : Collection<ITEM> {
+class RESTList<ITEM>(val totalNumberOfElements: Int, val from: Int, val to: Int, private val value: Collection<ITEM>) : Collection<ITEM> {
     override val size: Int
-        get() = elements.size
+        get() = value.size
 
     override fun contains(element: ITEM): Boolean {
-        return elements.contains(element)
+        return value.contains(element)
     }
 
     override fun containsAll(elements: Collection<ITEM>): Boolean {
-        return this.elements.containsAll(elements)
+        return this.value.containsAll(elements)
     }
 
     override fun isEmpty(): Boolean {
-        return elements.isEmpty()
+        return value.isEmpty()
     }
 
     override fun iterator(): Iterator<ITEM> {
-        return elements.iterator()
+        return value.iterator()
     }
 }
