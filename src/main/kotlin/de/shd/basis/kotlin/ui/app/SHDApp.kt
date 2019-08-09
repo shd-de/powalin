@@ -151,9 +151,9 @@ class SHDApp(private val appTitle: String) {
 
     /**
      * Aktiviert eine zusätzliche, regelmäßige Prüfung der Netzwerkverbindung via [ConnectivityChecker.enablePeriodicConnectionCheck], die
-     * [HEAD-Requests][HTTPMethod.HEAD] im angegebenen Intervall an die spezifizierte URL sendet und am Erfolg jeder einzelnen Anfrage festmacht, ob
-     * eine Netzwerkverbindung besteht oder nicht. Eine solche Anfrage wird auch umgehend einmalig im Rahmen der Ausführung dieser Methode
-     * durchgeführt (sprich ohne Einbezug des angegebenen Intervalls).
+     * [HEAD-Requests][HTTPMethod.HEAD] im angegebenen Intervall in Millisekunden an die spezifizierte URL sendet und am Erfolg jeder einzelnen
+     * Anfrage festmacht, ob eine Netzwerkverbindung besteht oder nicht. Eine solche Anfrage wird auch umgehend einmalig im Rahmen der Ausführung
+     * dieser Methode durchgeführt (sprich ohne Einbezug des angegebenen Intervalls).
      *
      * @see ConnectivityChecker
      */
@@ -164,9 +164,9 @@ class SHDApp(private val appTitle: String) {
 
     /**
      * Aktiviert eine zusätzliche, regelmäßige Prüfung der Netzwerkverbindung via [ConnectivityChecker.enablePeriodicConnectionCheck], die
-     * [HEAD-Requests][HTTPMethod.HEAD] im angegebenen Intervall an die URL sendet, die von der übergebenen Funktion in einem [Promise] zurückgegeben
-     * wird. Daraufhin wird am Erfolg jeder einzelnen Anfrage festgemacht, ob eine Netzwerkverbindung besteht oder nicht. Eine solche Anfrage wird
-     * auch umgehend einmalig im Rahmen der Ausführung dieser Methode durchgeführt (sprich ohne Einbezug des angegebenen Intervalls).
+     * [HEAD-Requests][HTTPMethod.HEAD] im angegebenen Intervall in Millisekunden an die URL sendet, die von der übergebenen Funktion in einem
+     * [Promise] zurückgegeben wird. Daraufhin wird am Erfolg jeder einzelnen Anfrage festgemacht, ob eine Netzwerkverbindung besteht oder nicht. Eine
+     * solche Anfrage wird auch umgehend einmalig im Rahmen der Ausführung dieser Methode durchgeführt (sprich ohne Einbezug des angegebenen Intervalls).
      *
      * @see ConnectivityChecker
      */
