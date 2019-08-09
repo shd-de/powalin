@@ -61,8 +61,7 @@ fun Date.toDayMonthYearHourMinutesSeconds(): String {
 /**
  * Mapped ein [Date] und seine Information auf Strings um und stellt dabei sicher, das die Werte immer zwei Ziffern haben
  *
- * @author Tobias Isekeit (ist)
- * @author Florian Steitz (fst)
+ * @author Tobias Isekeit (ist), Florian Steitz (fst)
  */
 private class DateFields(date: Date) {
     val year: String = date.getFullYear().toString()

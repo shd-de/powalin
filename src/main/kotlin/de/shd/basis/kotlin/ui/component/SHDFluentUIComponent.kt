@@ -7,6 +7,7 @@ import de.shd.basis.kotlin.ui.util.function.getDisplay
 import de.shd.basis.kotlin.ui.util.function.isVisible
 import de.shd.basis.kotlin.ui.util.function.removeStyleName
 import de.shd.basis.kotlin.ui.util.function.removeStyleNames
+import de.shd.basis.kotlin.ui.util.function.toggleStyleName
 import de.shd.basis.kotlin.ui.util.function.withColor
 import de.shd.basis.kotlin.ui.util.function.withDisplay
 import de.shd.basis.kotlin.ui.util.function.withFontSize
@@ -453,6 +454,24 @@ interface SHDFluentUIComponent<COMPONENT : SHDFluentUIComponent<COMPONENT>> : SH
     @Suppress("UNCHECKED_CAST")
     fun removeStyleNames(vararg styleNames: String): COMPONENT {
         rootNode.removeStyleNames(*styleNames)
+        return this as COMPONENT
+    }
+
+    /**
+     * Ruft intern die Methode [HTMLElement.toggleStyleName] des Wurzelknotens von dieser UI-Komponente mit den übergebenen Argumenten auf.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun toggleStyleName(styleName: String): COMPONENT {
+        rootNode.toggleStyleName(styleName)
+        return this as COMPONENT
+    }
+
+    /**
+     * Ruft intern die Methode [HTMLElement.toggleStyleName] des Wurzelknotens von dieser UI-Komponente mit den übergebenen Argumenten auf.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun toggleStyleName(styleName: String, add: Boolean): COMPONENT {
+        rootNode.toggleStyleName(styleName, add)
         return this as COMPONENT
     }
 

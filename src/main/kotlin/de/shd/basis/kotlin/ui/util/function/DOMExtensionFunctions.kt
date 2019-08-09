@@ -6,15 +6,19 @@ import de.shd.basis.kotlin.ui.css.CSSKeyword
 import de.shd.basis.kotlin.ui.css.CSSUnit
 import de.shd.basis.kotlin.ui.util.constant.EMPTY_STRING
 import kotlinx.html.HTMLTag
+import org.w3c.dom.DOMTokenList
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 import org.w3c.dom.HTMLButtonElement
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.HTMLInputElement
+import org.w3c.dom.HTMLSelectElement
+import org.w3c.dom.HTMLTextAreaElement
 import org.w3c.dom.Node
 import org.w3c.dom.css.CSSStyleDeclaration
 import org.w3c.dom.events.Event
 import org.w3c.dom.events.EventTarget
+import org.w3c.dom.get
 import kotlin.dom.removeClass
 
 /**
@@ -79,6 +83,29 @@ fun Element.prependChild(element: Element): Element? {
  */
 fun Element.prependChild(component: SHDUIComponent): Element? {
     return prependChild(component.rootNode)
+}
+
+/**
+ * Gibt die Anzahl an Kindelementen dieses Elements zurück.
+ *
+ * @see HTMLElement.children
+ * @author Florian Steitz (fst)
+ */
+@Suppress("unused")
+fun HTMLElement.getChildCount(): Int {
+    return children.length
+}
+
+/**
+ * Gibt das Kindelement dieses Elements zurück, das sich an der spezifizierten Position befindet. Falls eine ungültige Position angegeben wird, wird
+ * `null` zurückgegeben.
+ *
+ * @see HTMLElement.children
+ * @author Florian Steitz (fst)
+ */
+@Suppress("unused")
+fun HTMLElement.getChild(position: Int): Element? {
+    return children[position]
 }
 
 /**
@@ -522,14 +549,56 @@ fun HTMLElement.withStyleNames(vararg styleNames: String): HTMLElement {
 }
 
 /**
- * Entfernt die CSS Klasse.
+ * Entfernt den übergebenen, sog. "Style-Namen" von diesem Element. Bei einem Style-Namen handelt es sich technisch um eine sog. CSS-Klasse.
  *
- * Für ausführliche Dokumentation siehe [withStyleName].
+ * In CSS-Dateien muss ein Punkt vor dem Namen jeder CSS-Klasse sein. Dieser Punkt darf allerdings nicht an diese Methode übergeben werden. D.h. es
+ * wird nur der eigentliche Name der CSS-Klasse übergeben.
+ *
+ * @see HTMLElement.classList
  * @author Marcel Ziganow (zim)
  */
 @Suppress("unused")
 fun HTMLElement.removeStyleName(styleName: String): HTMLElement {
     this.removeClass(styleName)
+    return this
+}
+
+/**
+ * Fügt den übergebenen, sog. "Style-Namen" zu diesem Element hinzu oder entfernt ihn, je nachdem ob er bereits hinzugefügt wurde oder nicht . Bei
+ * einem Style-Namen handelt es sich technisch um eine sog. CSS-Klasse. Über CSS-Klassen kann u.a. die Darstellung dieses Elements geändert bzw.
+ * beeinflusst werden.
+ *
+ * In CSS-Dateien muss ein Punkt vor dem Namen jeder CSS-Klasse sein. Dieser Punkt darf allerdings nicht an diese Methode übergeben werden. D.h. es
+ * wird nur der eigentliche Name der CSS-Klasse übergeben.
+ *
+ * @see HTMLElement.classList
+ * @see DOMTokenList.toggle
+ * @see [HTMLElement.withStyleName]
+ * @author Tobias Isekeit (ist), Florian Steitz (fst)
+ */
+@Suppress("unused")
+fun HTMLElement.toggleStyleName(styleName: String): HTMLElement {
+    this.classList.toggle(styleName)
+    return this
+}
+
+/**
+ * Fügt den übergebenen, sog. "Style-Namen" zu diesem Element hinzu, wenn `true` übergeben wird oder entfernt ihn, wenn `false` übergeben wird.
+ *
+ * Bei einem Style-Namen handelt es sich technisch um eine sog. CSS-Klasse. Über CSS-Klassen kann u.a. die Darstellung dieses Elements geändert bzw.
+ * beeinflusst werden.
+ *
+ * In CSS-Dateien muss ein Punkt vor dem Namen jeder CSS-Klasse sein. Dieser Punkt darf allerdings nicht an diese Methode übergeben werden. D.h. es
+ * wird nur der eigentliche Name der CSS-Klasse übergeben.
+ *
+ * @see HTMLElement.classList
+ * @see DOMTokenList.toggle
+ * @see [HTMLElement.withStyleName]
+ * @author Tobias Isekeit (ist), Florian Steitz (fst)
+ */
+@Suppress("unused")
+fun HTMLElement.toggleStyleName(styleName: String, add: Boolean): HTMLElement {
+    this.classList.toggle(styleName, add)
     return this
 }
 
@@ -806,7 +875,7 @@ fun HTMLElement.withZeroMarginLeft(): HTMLElement {
  * @author Florian Steitz (fst)
  */
 @Suppress("unused")
-fun HTMLInputElement.withReadOnly(readOnly: Boolean): HTMLElement {
+fun HTMLInputElement.withReadOnly(readOnly: Boolean): HTMLInputElement {
     this.readOnly = readOnly
     return this
 }
@@ -818,8 +887,56 @@ fun HTMLInputElement.withReadOnly(readOnly: Boolean): HTMLElement {
  * @author Florian Steitz (fst)
  */
 @Suppress("unused")
-fun HTMLInputElement.withEnabled(enabled: Boolean): HTMLElement {
+fun HTMLInputElement.withEnabled(enabled: Boolean): HTMLInputElement {
     this.disabled = !enabled
+    return this
+}
+
+/**
+ * Leert dieses Eingabeelement, indem dessen aktueller Wert mit [EMPTY_STRING] überschrieben wird.
+ *
+ * @see HTMLInputElement.disabled
+ * @author Tobias Isekeit (ist), Florian Steitz (fst)
+ */
+@Suppress("unused")
+fun HTMLInputElement.clear(): HTMLInputElement {
+    this.value = EMPTY_STRING
+    return this
+}
+
+/**
+ * Legt fest, ob der Wert dieses Textfelds änderbar sein soll oder nicht.
+ *
+ * @see HTMLTextAreaElement.readOnly
+ * @author Florian Steitz (fst)
+ */
+@Suppress("unused")
+fun HTMLTextAreaElement.withReadOnly(readOnly: Boolean): HTMLTextAreaElement {
+    this.readOnly = readOnly
+    return this
+}
+
+/**
+ * Legt fest, ob dieses Textfeld aktiviert sein soll oder nicht.
+ *
+ * @see HTMLTextAreaElement.disabled
+ * @author Florian Steitz (fst)
+ */
+@Suppress("unused")
+fun HTMLTextAreaElement.withEnabled(enabled: Boolean): HTMLTextAreaElement {
+    this.disabled = !enabled
+    return this
+}
+
+/**
+ * Leert dieses Textfeld, indem dessen aktueller Wert mit [EMPTY_STRING] überschrieben wird.
+ *
+ * @see HTMLTextAreaElement.disabled
+ * @author Tobias Isekeit (ist), Florian Steitz (fst)
+ */
+@Suppress("unused")
+fun HTMLTextAreaElement.clear(): HTMLTextAreaElement {
+    this.value = EMPTY_STRING
     return this
 }
 
@@ -830,8 +947,20 @@ fun HTMLInputElement.withEnabled(enabled: Boolean): HTMLElement {
  * @author Florian Steitz (fst)
  */
 @Suppress("unused")
-fun HTMLButtonElement.withEnabled(enabled: Boolean): HTMLElement {
+fun HTMLButtonElement.withEnabled(enabled: Boolean): HTMLButtonElement {
     this.disabled = !enabled
+    return this
+}
+
+/**
+ * Selektiert den ersten Wert dieses Elements.
+ *
+ * @see HTMLSelectElement.selectedIndex
+ * @author Florian Steitz (fst)
+ */
+@Suppress("unused")
+fun HTMLSelectElement.selectFirst(): HTMLSelectElement {
+    this.selectedIndex = 0
     return this
 }
 
