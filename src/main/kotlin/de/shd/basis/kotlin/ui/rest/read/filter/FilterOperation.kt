@@ -4,6 +4,7 @@ package de.shd.basis.kotlin.ui.rest.read.filter
  * @see de.shd.basis.api.read.filter.FilterOperation
  * @author Marcel Ziganow (zim)
  */
+@Suppress("unused")
 enum class FilterOperation {
   EQUAL_TO,
   STARTS_WITH,

@@ -7,10 +7,8 @@ import kotlinx.serialization.Serializable
  * Das erste Element hat den Index 0.
  *
  * @see de.shd.basis.api.read.limit.Range
- * @author Marcel Ziganow (zim)
+ * @author Marcel Ziganow (zim), Florian Steitz (fst)
  */
 @Serializable
-class Range(
-    var from: Int = 0,
-    var to: Int = -1
-)
+@Suppress("unused")
+data class Range(var from: Int = 0, var to: Int = -1)

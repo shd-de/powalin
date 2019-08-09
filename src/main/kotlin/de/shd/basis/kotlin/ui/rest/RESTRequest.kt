@@ -1,7 +1,9 @@
 package de.shd.basis.kotlin.ui.rest
 
 import de.shd.basis.kotlin.ui.rest.read.filter.Filter
+import de.shd.basis.kotlin.ui.rest.read.limit.Range
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 
 /**
  * Allgemeines, clientseitiges Basis-Interface für REST-Request-Klassen. Es ist das Gegenstück zum gleichnamigen, serverseitigen Interface.
@@ -18,6 +20,16 @@ interface RESTRequest
  */
 @Serializable
 abstract class AbstractRESTRequest : RESTRequest
+
+/**
+ * Ein abstrakter Standard-Request für REST-Request-Klassen zum Auslesen beliebig vieler Elemente. Sie ist das Gegenstück zur gleichnamigen,
+ * serverseitigen Klasse.
+ *
+ * @author Marcel Ziganow (zim), Florian Steitz (fst)
+ */
+@Serializable
+@Suppress("unused")
+abstract class AbstractRESTReadListRequest(open var range: Range? = null) : AbstractRESTRequest()
 
 /**
  * Standard-Request zum Erstellen und Aktualisieren eines Elements. Er ist das Gegenstück zum gleichnamigen, serverseitigen Request.
@@ -57,9 +69,13 @@ data class RESTReadElementByIdRequest<DATATYPE>(val id: DATATYPE) : AbstractREST
 data class RESTLoginRequest(val username: String, val password: String) : AbstractRESTRequest()
 
 /**
- * Standard-Request zum Auslesen einer Liste anhand eines Filters. Er ist das Gegenstück zum gleichnamigen, serverseitigen Request.
- * @author Marcel Ziganow (zim)
+ * Standard-Request zum Auslesen einer Liste von Elementen anhand eines Filters. Er ist das Gegenstück zum gleichnamigen, serverseitigen Request.
+ *
+ * @author Marcel Ziganow (zim), Florian Steitz (fst)
  */
 @Serializable
 @Suppress("unused")
-data class RESTReadListByFilterRequest<FILTER_TYPE : Filter>(val filter: FILTER_TYPE) : AbstractRESTReadListRequest()
+data class RESTReadListByFilterRequest<FILTER : Filter>(
+        val filter: FILTER,
+        @Transient override var range: Range? = null
+) : AbstractRESTReadListRequest(range)
