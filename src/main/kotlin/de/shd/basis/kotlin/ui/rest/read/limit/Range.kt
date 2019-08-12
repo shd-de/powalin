@@ -11,4 +11,14 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 @Suppress("unused")
-data class Range(var from: Int = 0, var to: Int = -1)
+data class Range(var from: Int = 0, var to: Int = -1) {
+  fun withFrom(from: Int): Range {
+    this.from = from
+    return this
+  }
+
+  fun withTo(to: Int): Range {
+    this.to = to
+    return this
+  }
+}
