@@ -6,7 +6,6 @@ import de.shd.basis.kotlin.ui.util.promise.RepeatablePromise
 import org.w3c.dom.events.Event
 import org.w3c.indexeddb.IDBCursorWithValue
 import org.w3c.indexeddb.IDBDatabase
-import org.w3c.indexeddb.IDBKeyRange
 import org.w3c.indexeddb.IDBObjectStore
 import org.w3c.indexeddb.IDBRequest
 import org.w3c.indexeddb.IDBTransaction
@@ -54,8 +53,8 @@ class SHDObjectStore internal constructor(private val name: String, private val 
     /**
      *
      */
-    fun iterator(query: IDBKeyRange): RepeatablePromise<SHDObjectIterator> {
-        return openCursor(query, null)
+    fun iterator(query: SHDKeyRange): RepeatablePromise<SHDObjectIterator> {
+        return openCursor(query.idbKeyRange, null)
     }
 
     /**
@@ -75,8 +74,8 @@ class SHDObjectStore internal constructor(private val name: String, private val 
     /**
      *
      */
-    fun iterator(index: SHDStoreIndex, query: IDBKeyRange): RepeatablePromise<SHDObjectIterator> {
-        return openCursor(query, index)
+    fun iterator(index: SHDStoreIndex, query: SHDKeyRange): RepeatablePromise<SHDObjectIterator> {
+        return openCursor(query.idbKeyRange, index)
     }
 
     /**
