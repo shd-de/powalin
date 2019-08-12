@@ -35,11 +35,11 @@ open class RESTHypermediaResource(open val links: Collection<RESTLink>)
 data class RESTLink(
         val rel: String,
         val href: String,
-        val hreflang: String?,
-        val media: String?,
-        val title: String?,
-        val type: String?,
-        val deprecation: String?
+        val hreflang: String? = null,
+        val media: String? = null,
+        val title: String? = null,
+        val type: String? = null,
+        val deprecation: String? = null
 )
 
 /**

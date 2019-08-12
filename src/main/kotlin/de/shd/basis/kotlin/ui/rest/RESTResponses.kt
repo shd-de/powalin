@@ -12,8 +12,8 @@ import kotlinx.serialization.Serializable
 @Suppress("unused")
 open class RESTResponse<CONTENT>(
         open val status: String,
-        open val errorNumber: String?,
-        open val errorMessage: String?,
+        open val errorNumber: String? = null,
+        open val errorMessage: String? = null,
         open val warningList: Collection<RESTResponseMessage>,
         open val infoList: Collection<RESTResponseMessage>,
         open val content: CONTENT
@@ -29,8 +29,8 @@ open class RESTResponse<CONTENT>(
 @Suppress("unused")
 open class RESTReadElementResponse<CONTENT>(
         open val status: String,
-        open val errorNumber: String?,
-        open val errorMessage: String?,
+        open val errorNumber: String? = null,
+        open val errorMessage: String? = null,
         open val warningList: Collection<RESTResponseMessage>,
         open val infoList: Collection<RESTResponseMessage>,
         @SerialName("value") val content: CONTENT
@@ -46,8 +46,8 @@ open class RESTReadElementResponse<CONTENT>(
 @Suppress("unused")
 open class RESTSavedElementResponse<CONTENT>(
         open val status: String,
-        open val errorNumber: String?,
-        open val errorMessage: String?,
+        open val errorNumber: String? = null,
+        open val errorMessage: String? = null,
         open val warningList: Collection<RESTResponseMessage>,
         open val infoList: Collection<RESTResponseMessage>,
         @SerialName("value") val content: CONTENT?
