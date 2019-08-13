@@ -12,7 +12,7 @@ import kotlinx.serialization.Serializable
  * @author Florian Steitz (fst)
  */
 @Serializable
-data class RESTResponseMessage(val message: String?, val messageCode: Int?)
+data class RESTResponseMessage(val message: String? = null, val messageCode: Int? = null)
 
 /**
  * Eine Basisklasse für Datentransferobjekte, die von REST-Endpunkten innerhalb von Response-Objekten zurückgegeben werden können, die Hypermedia auf
