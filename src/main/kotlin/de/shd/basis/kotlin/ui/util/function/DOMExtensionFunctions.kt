@@ -143,6 +143,27 @@ fun HTMLElement.withWidth(width: Double, unit: CSSUnit): HTMLElement {
 }
 
 /**
+ * Legt die minimale Breite des Inhaltsbereichs dieses Elements fest.
+ *
+ * @see CSSStyleDeclaration.width
+ * @author Marcel Ziganow (zim)
+ */
+fun HTMLElement.withMinWidth(minWidth: Int, unit: CSSUnit): HTMLElement {
+    return withMinWidth(minWidth.toDouble(), unit)
+}
+
+/**
+ * Legt die minimale Breite des Inhaltsbereichs dieses Elements fest.
+ *
+ * @see CSSStyleDeclaration.width
+ * @author Marcel Ziganow (zim)
+ */
+fun HTMLElement.withMinWidth(minWidth: Double, unit: CSSUnit): HTMLElement {
+    this.style.minWidth = joinValueWithUnit(minWidth, unit)
+    return this
+}
+
+/**
  * Setzt die Höhe des Inhaltsbereichs dieses Elements auf 100%. Der Inhaltsbereich ist innerhalb des Innenabstands, Rahmens und Außenabstands dieses
  * Elements.
  *
@@ -173,6 +194,27 @@ fun HTMLElement.withHeight(height: Int, unit: CSSUnit): HTMLElement {
  */
 fun HTMLElement.withHeight(height: Double, unit: CSSUnit): HTMLElement {
     this.style.height = joinValueWithUnit(height, unit)
+    return this
+}
+
+/**
+ * Legt die minimale Höhe des Inhaltsbereichs dieses Elements fest.
+ *
+ * @see CSSStyleDeclaration.minHeight
+ * @author Marcel Ziganow (zim)
+ */
+fun HTMLElement.withMinHeight(minHeight: Int, unit: CSSUnit): HTMLElement {
+    return withMinHeight(minHeight.toDouble(), unit)
+}
+
+/**
+ * Legt die minimale Höhe des Inhaltsbereichs dieses Elements fest.
+ *
+ * @see CSSStyleDeclaration.minHeight
+ * @author Marcel Ziganow (zim)
+ */
+fun HTMLElement.withMinHeight(minHeight: Double, unit: CSSUnit): HTMLElement {
+    this.style.minHeight = joinValueWithUnit(minHeight, unit)
     return this
 }
 

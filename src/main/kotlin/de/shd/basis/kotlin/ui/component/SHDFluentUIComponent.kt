@@ -25,6 +25,8 @@ import de.shd.basis.kotlin.ui.util.function.withMarginLeft
 import de.shd.basis.kotlin.ui.util.function.withMarginRight
 import de.shd.basis.kotlin.ui.util.function.withMarginTop
 import de.shd.basis.kotlin.ui.util.function.withMarginTopAuto
+import de.shd.basis.kotlin.ui.util.function.withMinHeight
+import de.shd.basis.kotlin.ui.util.function.withMinWidth
 import de.shd.basis.kotlin.ui.util.function.withPadding
 import de.shd.basis.kotlin.ui.util.function.withPaddingBottom
 import de.shd.basis.kotlin.ui.util.function.withPaddingLeft
@@ -80,6 +82,24 @@ interface SHDFluentUIComponent<COMPONENT : SHDFluentUIComponent<COMPONENT>> : SH
     }
 
     /**
+     * Ruft intern die Methode [HTMLElement.withMinWidth] des Wurzelknotens von dieser UI-Komponente mit den übergebenen Argumenten auf.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun withMinWidth(width: Int, unit: CSSUnit): COMPONENT {
+        rootNode.withMinWidth(width, unit)
+        return this as COMPONENT
+    }
+
+    /**
+     * Ruft intern die Methode [HTMLElement.withMinWidth] des Wurzelknotens von dieser UI-Komponente mit den übergebenen Argumenten auf.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun withMinWidth(width: Double, unit: CSSUnit): COMPONENT {
+        rootNode.withMinWidth(width, unit)
+        return this as COMPONENT
+    }
+
+    /**
      * Ruft intern die Methode [HTMLElement.withWidthUndefined] des Wurzelknotens von dieser UI-Komponente auf.
      */
     @Suppress("UNCHECKED_CAST")
@@ -112,6 +132,24 @@ interface SHDFluentUIComponent<COMPONENT : SHDFluentUIComponent<COMPONENT>> : SH
     @Suppress("UNCHECKED_CAST")
     fun withHeight(height: Double, unit: CSSUnit): COMPONENT {
         rootNode.withHeight(height, unit)
+        return this as COMPONENT
+    }
+
+    /**
+     * Ruft intern die Methode [HTMLElement.withHeight] des Wurzelknotens von dieser UI-Komponente mit den übergebenen Argumenten auf.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun withMinHeight(height: Int, unit: CSSUnit): COMPONENT {
+        rootNode.withMinHeight(height, unit)
+        return this as COMPONENT
+    }
+
+    /**
+     * Ruft intern die Methode [HTMLElement.withHeight] des Wurzelknotens von dieser UI-Komponente mit den übergebenen Argumenten auf.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun withMinHeight(height: Double, unit: CSSUnit): COMPONENT {
+        rootNode.withMinHeight(height, unit)
         return this as COMPONENT
     }
 
