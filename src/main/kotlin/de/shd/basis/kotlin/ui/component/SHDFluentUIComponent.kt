@@ -1,6 +1,7 @@
 package de.shd.basis.kotlin.ui.component
 
 import de.shd.basis.kotlin.ui.css.CSSDisplay
+import de.shd.basis.kotlin.ui.css.CSSTextAlign
 import de.shd.basis.kotlin.ui.css.CSSUnit
 import de.shd.basis.kotlin.ui.util.function.clearStyle
 import de.shd.basis.kotlin.ui.util.function.getDisplay
@@ -16,6 +17,7 @@ import de.shd.basis.kotlin.ui.util.function.withFullHeight
 import de.shd.basis.kotlin.ui.util.function.withFullWidth
 import de.shd.basis.kotlin.ui.util.function.withHeight
 import de.shd.basis.kotlin.ui.util.function.withHeightUndefined
+import de.shd.basis.kotlin.ui.util.function.withHiddenOverflow
 import de.shd.basis.kotlin.ui.util.function.withID
 import de.shd.basis.kotlin.ui.util.function.withLineHeight
 import de.shd.basis.kotlin.ui.util.function.withMargin
@@ -238,7 +240,7 @@ interface SHDFluentUIComponent<COMPONENT : SHDFluentUIComponent<COMPONENT>> : SH
      * Ruft intern die Methode [HTMLElement.withTextAlign] des Wurzelknotens von dieser UI-Komponente mit den übergebenen Argumenten auf.
      */
     @Suppress("UNCHECKED_CAST")
-    fun withTextAlign(textAlign: String): COMPONENT {
+    fun withTextAlign(textAlign: CSSTextAlign): COMPONENT {
         rootNode.withTextAlign(textAlign)
         return this as COMPONENT
     }
@@ -474,6 +476,15 @@ interface SHDFluentUIComponent<COMPONENT : SHDFluentUIComponent<COMPONENT>> : SH
     @Suppress("UNCHECKED_CAST")
     fun withStyleNames(vararg styleNames: String): COMPONENT {
         rootNode.withStyleNames(*styleNames)
+        return this as COMPONENT
+    }
+
+    /**
+     * Ruft intern die Methode [HTMLElement.withHiddenOverflow] des Wurzelknotens von dieser UI-Komponente mit den übergebenen Argumenten auf.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun withHiddenOverflow(): COMPONENT {
+        rootNode.withHiddenOverflow()
         return this as COMPONENT
     }
 

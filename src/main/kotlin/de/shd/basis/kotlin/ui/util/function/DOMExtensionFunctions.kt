@@ -3,6 +3,7 @@ package de.shd.basis.kotlin.ui.util.function
 import de.shd.basis.kotlin.ui.component.SHDUIComponent
 import de.shd.basis.kotlin.ui.css.CSSDisplay
 import de.shd.basis.kotlin.ui.css.CSSKeyword
+import de.shd.basis.kotlin.ui.css.CSSTextAlign
 import de.shd.basis.kotlin.ui.css.CSSUnit
 import de.shd.basis.kotlin.ui.util.constant.EMPTY_STRING
 import kotlinx.html.HTMLTag
@@ -288,8 +289,8 @@ fun HTMLElement.withColor(color: String): HTMLElement {
  * @see CSSStyleDeclaration.lineHeight
  * @author Marcel Ziganow (zim)
  */
-fun HTMLElement.withTextAlign(textAlign: String): HTMLElement {
-    this.style.textAlign = textAlign
+fun HTMLElement.withTextAlign(textAlign: CSSTextAlign): HTMLElement {
+    this.style.textAlign = textAlign.value
     return this
 }
 
@@ -907,6 +908,18 @@ fun HTMLElement.withZeroMarginBottom(): HTMLElement {
 @Suppress("unused")
 fun HTMLElement.withZeroMarginLeft(): HTMLElement {
     this.style.marginLeft = "0"
+    return this
+}
+
+/**
+ * Setzt den overflow-x und overflow-y auf `hidden`
+ *
+ * @author Marcel Ziganow (zim)
+ */
+@Suppress("unused")
+fun HTMLElement.withHiddenOverflow(): HTMLElement {
+    this.style.overflowX = "hidden"
+    this.style.overflowY = this.style.overflowX
     return this
 }
 
