@@ -2,9 +2,11 @@ package de.shd.basis.kotlin.ui.util.function
 
 import de.shd.basis.kotlin.ui.component.SHDUIComponent
 import de.shd.basis.kotlin.ui.css.CSSDisplay
+import de.shd.basis.kotlin.ui.css.CSSFloat
 import de.shd.basis.kotlin.ui.css.CSSKeyword
 import de.shd.basis.kotlin.ui.css.CSSTextAlign
 import de.shd.basis.kotlin.ui.css.CSSUnit
+import de.shd.basis.kotlin.ui.css.CSSWhiteSpace
 import de.shd.basis.kotlin.ui.util.constant.EMPTY_STRING
 import kotlinx.html.HTMLTag
 import org.w3c.dom.DOMTokenList
@@ -930,6 +932,28 @@ fun HTMLElement.withZeroMarginLeft(): HTMLElement {
 fun HTMLElement.withHiddenOverflow(): HTMLElement {
     this.style.overflowX = "hidden"
     this.style.overflowY = this.style.overflowX
+    return this
+}
+
+/**
+ * Setzt den `float` auf den übergebenen Wert
+ *
+ * @author Marcel Ziganow (zim)
+ */
+@Suppress("unused")
+fun HTMLElement.withFloat(float: CSSFloat): HTMLElement {
+    this.style.cssFloat = float.value
+    return this
+}
+
+/**
+ * Setzt den `white-space` auf den übergebenen Wert
+ *
+ * @author Marcel Ziganow (zim)
+ */
+@Suppress("unused")
+fun HTMLElement.withWhiteSpace(whiteSpace: CSSWhiteSpace): HTMLElement {
+    this.style.whiteSpace = whiteSpace.value
     return this
 }
 
