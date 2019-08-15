@@ -652,8 +652,18 @@ fun HTMLElement.toggleStyleName(styleName: String, add: Boolean): HTMLElement {
  */
 @Suppress("unused")
 fun HTMLElement.clearStyle(): HTMLElement {
-    className = EMPTY_STRING
     style.cssText = EMPTY_STRING
+    return this
+}
+
+/**
+ * Entfernt alle CSS Klassen
+ *
+ * @author Marcel Ziganow (zim)
+ */
+@Suppress("unused")
+fun HTMLElement.clearStyleNames(): HTMLElement {
+    className = EMPTY_STRING
     return this
 }
 
