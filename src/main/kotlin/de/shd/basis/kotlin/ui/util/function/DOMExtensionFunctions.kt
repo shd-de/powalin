@@ -284,7 +284,7 @@ fun HTMLElement.withColor(color: String): HTMLElement {
 }
 
 /**
- * Legt die font-size dieses Elements fest.
+ * Legt den text-align dieses Elements fest.
  *
  * @see CSSStyleDeclaration.lineHeight
  * @author Marcel Ziganow (zim)
