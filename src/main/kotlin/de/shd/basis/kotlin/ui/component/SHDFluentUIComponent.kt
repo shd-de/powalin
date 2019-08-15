@@ -564,4 +564,14 @@ interface SHDFluentUIComponent<COMPONENT : SHDFluentUIComponent<COMPONENT>> : SH
     fun isVisible(): Boolean {
         return rootNode.isVisible()
     }
+
+    /**
+     * Ruft intern die Methode [HTMLElement.focus] des Wurzelknotens von dieser UI-Komponente auf, wodurch dieses Element fokussiert wird, sofern es
+     * denn fokussiert werden kann.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun focus(): COMPONENT {
+        rootNode.focus()
+        return this as COMPONENT
+    }
 }
