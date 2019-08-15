@@ -646,7 +646,7 @@ fun HTMLElement.toggleStyleName(styleName: String, add: Boolean): HTMLElement {
 }
 
 /**
- * Entfernt alle CSS Klassen und leert das Style Attribut
+ * Leert das Attribut `style` dieses Elements.
  *
  * @author Marcel Ziganow (zim)
  */
@@ -657,7 +657,7 @@ fun HTMLElement.clearStyle(): HTMLElement {
 }
 
 /**
- * Entfernt alle CSS Klassen
+ * Entfernt alle CSS Klassen dieses Elements.
  *
  * @author Marcel Ziganow (zim)
  */
