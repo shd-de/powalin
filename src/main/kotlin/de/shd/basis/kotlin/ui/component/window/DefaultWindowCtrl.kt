@@ -11,7 +11,7 @@ class DefaultWindowCtrl : AbstractMVCController<DefaultWindowView>() {
     fun showWindow(window: SHDWindow) {
         view.replaceWindow(window)
         view.withVisible(true)
-        view.focus()
+        window.focus()
     }
 
     fun closeWindow(window: SHDWindow) {
