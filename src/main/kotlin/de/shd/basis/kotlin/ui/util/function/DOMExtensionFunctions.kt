@@ -80,6 +80,18 @@ fun Node.addKeyDownListener(listener: (Event) -> Unit): Node {
 }
 
 /**
+ * Entfernt den übergebenen KeyDown-Listener von diesem Element.
+ *
+ * @see EventTarget.removeEventListener
+ * @author Florian Steitz (fst)
+ */
+@Suppress("unused")
+fun Node.removeKeyDownListener(listener: (Event) -> Unit): Node {
+    this.removeEventListener("keydown", listener)
+    return this
+}
+
+/**
  * Fügt einen Event-Listener zu diesem Element hinzu, der ausgeführt wird, wenn die Enter-Taste betätigt wird.
  *
  * Es gilt zu beachten, dass diese Methode auch jegliches Standardverhalten dieses Elements, dass bei Betätigung der Enter-Taste ausgelöst werden
