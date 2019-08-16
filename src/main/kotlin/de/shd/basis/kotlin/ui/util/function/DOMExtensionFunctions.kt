@@ -21,6 +21,7 @@ import org.w3c.dom.Node
 import org.w3c.dom.css.CSSStyleDeclaration
 import org.w3c.dom.events.Event
 import org.w3c.dom.events.EventTarget
+import org.w3c.dom.events.KeyboardEvent
 import org.w3c.dom.get
 import kotlin.dom.removeClass
 
@@ -65,6 +66,37 @@ fun Node.addClickListener(listener: () -> Unit) {
  */
 fun Node.addClickListener(listener: (Event) -> Unit) {
     addEventListener("click", listener)
+}
+
+/**
+ * Fügt einen Event-Listener zu diesem Element hinzu, der ausgeführt wird, wenn eine Taste betätigt wird (`keydown`).
+ *
+ * @see EventTarget.addEventListener
+ * @author Tobias Isekeit (ist), Florian Steitz (fst)
+ */
+fun Node.addKeyDownListener(listener: (Event) -> Unit): Node {
+    this.addEventListener("keydown", listener::invoke)
+    return this
+}
+
+/**
+ * Fügt einen Event-Listener zu diesem Element hinzu, der ausgeführt wird, wenn die Enter-Taste betätigt wird.
+ *
+ * Es gilt zu beachten, dass diese Methode auch jegliches Standardverhalten dieses Elements, dass bei Betätigung der Enter-Taste ausgelöst werden
+ * kann, deaktiviert. Ebenso verhindert sie, dass das Enter-Event an Elternelemente propagiert wird.
+ *
+ * @see addKeyDownListener
+ * @author Tobias Isekeit (ist), Florian Steitz (fst)
+ */
+@Suppress("unused")
+fun Node.addEnterListener(listener: (Event) -> Unit): Node {
+    return this.addKeyDownListener { event ->
+        if (event is KeyboardEvent && event.isEnterEvent()) {
+            event.preventDefault()
+            listener.invoke(event)
+            event.stopPropagation()
+        }
+    }
 }
 
 /**
@@ -958,6 +990,30 @@ fun HTMLElement.withWhiteSpace(whiteSpace: CSSWhiteSpace): HTMLElement {
 }
 
 /**
+ * Fügt einen Event-Listener zu diesem Element hinzu, der ausgeführt wird, wenn die Tab-Taste betätigt wird.
+ *
+ * @see addKeyDownListener
+ * @author Tobias Isekeit (ist), Florian Steitz (fst)
+ */
+@Suppress("unused")
+fun HTMLElement.addTabListener(listener: (Event) -> Unit): HTMLElement {
+    this.addKeyDownListener { event -> if (event is KeyboardEvent && event.isTabEvent()) listener.invoke(event) }
+    return this
+}
+
+/**
+ * Fügt einen Event-Listener zu diesem Element hinzu, der ausgeführt wird, sobald dieses Element den Fokus verliert (`blur`).
+ *
+ * @see EventTarget.addEventListener
+ * @author Tobias Isekeit (ist), Florian Steitz (fst)
+ */
+@Suppress("unused")
+fun HTMLElement.addBlurListener(listener: (Event) -> Unit): HTMLElement {
+    this.addEventListener("blur", listener::invoke)
+    return this
+}
+
+/**
  * Legt fest, ob der Wert dieses Eingabeelements änderbar sein soll oder nicht.
  *
  * @see HTMLInputElement.readOnly
@@ -994,6 +1050,35 @@ fun HTMLInputElement.clear(): HTMLInputElement {
 }
 
 /**
+ * Fügt einen Event-Listener zu diesem Eingabeelement hinzu, der immer dann ausgeführt wird, wenn sich der Wert dieses Eingabeelements ändert
+ * (`input`).
+ *
+ * @see EventTarget.addEventListener
+ * @author Tobias Isekeit (ist), Florian Steitz (fst)
+ */
+@Suppress("unused")
+fun HTMLInputElement.addInputListener(listener: (Event) -> Unit): HTMLInputElement {
+    this.addEventListener("input", listener::invoke)
+    return this
+}
+
+/**
+ * Fügt einen Event-Listener zu diesem Eingabeelement hinzu, der ausgeführt wird, wenn sich der Wert dieses Eingabeelements ändert (`change`). Was
+ * aber im Gegensatz zu [addInputListener] nicht zwingend bedeutet, dass der Listener bei jeder Wertänderung unmittelbar ausgeführt wird. Je nach
+ * Input-Typ wird der Listener bspw. erst aufgerufen, wenn das Eingabeelement den Fokus verliert.
+ *
+ * Das konkrete Verhalten bestimmt der Webbrowser.
+ *
+ * @see EventTarget.addEventListener
+ * @author Tobias Isekeit (ist), Florian Steitz (fst)
+ */
+@Suppress("unused")
+fun HTMLInputElement.addChangeListener(listener: (Event) -> Unit): HTMLInputElement {
+    this.addEventListener("change", listener::invoke)
+    return this
+}
+
+/**
  * Legt fest, ob der Wert dieses Textfelds änderbar sein soll oder nicht.
  *
  * @see HTMLTextAreaElement.readOnly
@@ -1026,6 +1111,32 @@ fun HTMLTextAreaElement.withEnabled(enabled: Boolean): HTMLTextAreaElement {
 @Suppress("unused")
 fun HTMLTextAreaElement.clear(): HTMLTextAreaElement {
     this.value = EMPTY_STRING
+    return this
+}
+
+/**
+ * Fügt einen Event-Listener zu diesem Textfeld hinzu, der immer dann ausgeführt wird, wenn sich der Wert dieses Textfelds ändert (`input`).
+ *
+ * @see EventTarget.addEventListener
+ * @author Tobias Isekeit (ist), Florian Steitz (fst)
+ */
+@Suppress("unused")
+fun HTMLTextAreaElement.addInputListener(listener: (Event) -> Unit): HTMLTextAreaElement {
+    this.addEventListener("input", listener::invoke)
+    return this
+}
+
+/**
+ * Fügt einen Event-Listener zu diesem Textfeld hinzu, der ausgeführt wird, wenn sich der Wert dieses Textfelds ändert (`change`). Was aber im
+ * Gegensatz zu [addInputListener] nicht bedeutet, dass der Listener bei jeder Wertänderung unmittelbar ausgeführt wird. Stattdessen wird er erst
+ * aufgerufen, wenn dieses Textfeld den Fokus verliert.
+ *
+ * @see EventTarget.addEventListener
+ * @author Tobias Isekeit (ist), Florian Steitz (fst)
+ */
+@Suppress("unused")
+fun HTMLTextAreaElement.addChangeListener(listener: (Event) -> Unit): HTMLTextAreaElement {
+    this.addEventListener("change", listener::invoke)
     return this
 }
 
