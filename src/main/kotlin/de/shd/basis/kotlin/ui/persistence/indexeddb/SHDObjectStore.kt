@@ -128,6 +128,20 @@ class SHDObjectStore internal constructor(private val name: String, private val 
     }
 
     /**
+     * @author Marcel Ziganow (zim)
+     */
+    fun count(): Promise<Int> {
+        return Promise { resolve, reject ->
+            doInTransaction(IDBTransactionMode.READONLY) { store ->
+                val countRequest = store.count()
+
+                countRequest.onerror = { reject(SHDRuntimeException("Der ObjectStore '$name' konnte nicht gezählt werden")) }
+                countRequest.onsuccess = { resolve(extractRequest(it).result as Int) }
+            }
+        }
+    }
+
+    /**
      *
      */
     fun doInTransaction(transactionMode: IDBTransactionMode, accessStore: (IDBObjectStore) -> Unit) {
