@@ -135,7 +135,7 @@ class SHDObjectStore internal constructor(private val name: String, private val 
             doInTransaction(IDBTransactionMode.READONLY) { store ->
                 val countRequest = store.count()
 
-                countRequest.onerror = { reject(SHDRuntimeException("Der ObjectStore '$name' konnte nicht gezählt werden")) }
+                countRequest.onerror = { reject(SHDRuntimeException("Die Objekte des ObjectStores '$name' konnten nicht gezaehlt werden")) }
                 countRequest.onsuccess = { resolve(extractRequest(it).result as Int) }
             }
         }

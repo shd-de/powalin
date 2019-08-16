@@ -151,7 +151,7 @@ class SHDDatabaseBuilder<STORE : Enum<STORE>>() {
      * Die erzeugte [SHDDatabase] wird schließlich an die übergebene Funktion `resolve` übergeben.
      */
     private fun resolve(storeMapper: (SHDStoreConfig<STORE>) -> SHDObjectStore, resolve: (SHDDatabase<STORE>) -> Unit) {
-        return resolve(SHDDatabase(storeConfigs.associateBy({ config -> config.storeType }, storeMapper)))
+        return resolve(SHDDatabase(databaseName, storeConfigs.associateBy({ config -> config.storeType }, storeMapper)))
     }
 
     /**

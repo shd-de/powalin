@@ -1,5 +1,10 @@
 package de.shd.basis.kotlin.ui.persistence.indexeddb
 
+import de.shd.basis.kotlin.ui.util.exception.SHDRuntimeException
+import org.w3c.dom.indexedDB
+import org.w3c.indexeddb.IDBFactory
+import kotlin.js.Promise
+
 /**
  * Diese Klasse repräsentiert eine lokale Datenbank, die sich im Webbrowser befindet und auch von dieser verwaltet wird. Das bedeutet, die
  * Möglichkeiten und Beschränkungen (wie z.B. der verfügbare Speicherplatz), werden individuell vom Webbrowser festgelegt.
@@ -28,7 +33,7 @@ package de.shd.basis.kotlin.ui.persistence.indexeddb
  * @author Florian Steitz (fst)
  */
 @Suppress("unused")
-class SHDDatabase<STORE : Enum<STORE>> internal constructor(private val storeMap: Map<STORE, SHDObjectStore>) {
+class SHDDatabase<STORE : Enum<STORE>> internal constructor(private val databaseName: String, private val storeMap: Map<STORE, SHDObjectStore>) {
 
     /**
      * Gibt den [SHDObjectStore] zurück, der dem übergebenen Enum-Wert zugewiesen wurde. Falls diesem Enum-Wert (noch) kein [SHDObjectStore]
@@ -37,6 +42,20 @@ class SHDDatabase<STORE : Enum<STORE>> internal constructor(private val storeMap
     fun getStore(storeType: STORE): SHDObjectStore {
         return storeMap.getOrElse(storeType) {
             throw NoSuchElementException("Es wurde (noch) kein ObjectStore vom Typ '$storeType' zur Datenbank hinzugefuegt")
+        }
+    }
+
+    /**
+     * Löscht diese Datenbank unwiderruflich.
+     *
+     * @see IDBFactory.deleteDatabase
+     */
+    fun delete(): Promise<Nothing?> {
+        return Promise { resolve, reject ->
+            val deleteRequest = indexedDB.deleteDatabase(databaseName)
+
+            deleteRequest.onerror = { reject(SHDRuntimeException("Die Datenbank '$databaseName' konnte nicht geloescht werden")) }
+            deleteRequest.onsuccess = { resolve(null) }
         }
     }
 }
