@@ -75,7 +75,7 @@ fun Node.addClickListener(listener: (Event) -> Unit) {
  * @author Tobias Isekeit (ist), Florian Steitz (fst)
  */
 fun Node.addKeyDownListener(listener: (Event) -> Unit): Node {
-    this.addEventListener("keydown", listener::invoke)
+    this.addEventListener("keydown", listener)
     return this
 }
 
@@ -101,14 +101,16 @@ fun Node.removeKeyDownListener(listener: (Event) -> Unit): Node {
  * @author Tobias Isekeit (ist), Florian Steitz (fst)
  */
 @Suppress("unused")
-fun Node.addEnterListener(listener: (Event) -> Unit): Node {
-    return this.addKeyDownListener { event ->
+fun Node.addEnterListener(listener: (Event) -> Unit): (Event) -> Unit {
+    val enterListener: (Event) -> Unit = { event ->
         if (event is KeyboardEvent && event.isEnterEvent()) {
             event.preventDefault()
             listener.invoke(event)
             event.stopPropagation()
         }
     }
+    this.addKeyDownListener(enterListener)
+    return enterListener
 }
 
 /**
@@ -1021,7 +1023,7 @@ fun HTMLElement.addTabListener(listener: (Event) -> Unit): HTMLElement {
  */
 @Suppress("unused")
 fun HTMLElement.addBlurListener(listener: (Event) -> Unit): HTMLElement {
-    this.addEventListener("blur", listener::invoke)
+    this.addEventListener("blur", listener)
     return this
 }
 
@@ -1070,7 +1072,7 @@ fun HTMLInputElement.clear(): HTMLInputElement {
  */
 @Suppress("unused")
 fun HTMLInputElement.addInputListener(listener: (Event) -> Unit): HTMLInputElement {
-    this.addEventListener("input", listener::invoke)
+    this.addEventListener("input", listener)
     return this
 }
 
@@ -1086,7 +1088,7 @@ fun HTMLInputElement.addInputListener(listener: (Event) -> Unit): HTMLInputEleme
  */
 @Suppress("unused")
 fun HTMLInputElement.addChangeListener(listener: (Event) -> Unit): HTMLInputElement {
-    this.addEventListener("change", listener::invoke)
+    this.addEventListener("change", listener)
     return this
 }
 
@@ -1134,7 +1136,7 @@ fun HTMLTextAreaElement.clear(): HTMLTextAreaElement {
  */
 @Suppress("unused")
 fun HTMLTextAreaElement.addInputListener(listener: (Event) -> Unit): HTMLTextAreaElement {
-    this.addEventListener("input", listener::invoke)
+    this.addEventListener("input", listener)
     return this
 }
 
@@ -1148,7 +1150,7 @@ fun HTMLTextAreaElement.addInputListener(listener: (Event) -> Unit): HTMLTextAre
  */
 @Suppress("unused")
 fun HTMLTextAreaElement.addChangeListener(listener: (Event) -> Unit): HTMLTextAreaElement {
-    this.addEventListener("change", listener::invoke)
+    this.addEventListener("change", listener)
     return this
 }
 
