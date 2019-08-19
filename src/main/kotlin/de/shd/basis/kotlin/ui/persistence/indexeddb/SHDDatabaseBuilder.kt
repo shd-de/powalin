@@ -47,7 +47,7 @@ import kotlin.js.Promise
  * @author Florian Steitz (fst)
  */
 @Suppress("unused", "MemberVisibilityCanBePrivate")
-class SHDDatabaseBuilder<STORE : Enum<STORE>>() {
+class SHDDatabaseBuilder<STORE : Enum<STORE>> {
 
     private val storeConfigs = mutableListOf<SHDStoreConfig<STORE>>()
     private var databaseName = "shd"
@@ -91,30 +91,33 @@ class SHDDatabaseBuilder<STORE : Enum<STORE>>() {
     }
 
     /**
-     * Stellt asynchron eine Verbindung zur Standard-Datenbank (oder zur konfigurierten Datenbank) her, konfiguriert bzw. initialisiert sie, falls
-     * notwendig, und erzeugt bei Bedarf auch die konfigurierten `ObjectStores`. Sobald dieser asynchrone Prozess abgeschlossen ist, wird die Methode
-     * [Promise.then] des zurückgegebenen [Promises][Promise] mit der von diesem Builder erstellten Instanz von [SHDDatabase] als Argument aufgerufen.
-     * Dieses Datenbankobjekt repräsentiert dabei die Datenbankverbindung und ermöglicht Zugriffe auf die konfigurierten `ObjectStores`.
+     * Stellt asynchron eine Verbindung zur Standard- bzw. konfigurierten Datenbank her und initialisiert bzw. konfiguriert sie zuvor bei Bedarf,
+     * indem bspw. alle konfigurierten `ObjectStores` und Indizes erzeugt werden. Über den zurückgegebenen [SHDDatabaseConnector] kann anschließend
+     * auf bestimmte Ereignisse in Form von Listenern reagiert werden. Alle "positiven" Listener erhalten dann die von diesem Builder erstellte
+     * Instanz von [SHDDatabase] als Argument.
      *
-     * Falls keine Verbindung zur Datenbank hergestellt werden konnte oder ein anderer Fehler auftrat, wird die Methode [Promise.catch] des
-     * zurückgegebenen [Promises][Promise] mit einer [SHDRuntimeException] als Argument aufgerufen.
+     *
+     * Listener können wie folgt registriert werden:
+     * - Via [SHDDatabaseConnector.onUpgrade]: Wird informiert, wenn die Datenbank (oder eine neue Version davon) initialisiert wird.
+     * - Via [SHDDatabaseConnector.onSuccess]: Wird informiert, nachdem die Datenbankverbindung hergestellt und die Datenbank ggf. initialisiert wurde.
+     * - Via [SHDDatabaseConnector.onError]: Wird informiert, wenn ein Fehler bei der Initialisierung oder bei der Herstellung der Datenbankverbindung
+     * auftritt.
+     *
+     * Das [SHDDatabase]-Objekt, das Listener als Argument erhalten, repräsentiert dabei die eigentliche Datenbankverbindung und ermöglicht u.a.
+     * Zugriffe auf die konfigurierten `ObjectStores`.
      */
-    fun build(): Promise<SHDDatabase<STORE>> {
-        return Promise { resolve, reject ->
-            val openDBRequest = indexedDB.open(databaseName, databaseVersion)
+    fun build(): SHDDatabaseConnector<STORE> {
+        val openDBRequest = indexedDB.open(databaseName, databaseVersion)
+        val connector = SHDDatabaseConnector<STORE>(
+                Promise { resolve, _ -> openDBRequest.onupgradeneeded = { resolveWithNewStores(openDBRequest.result as IDBDatabase, resolve) } },
+                Promise { resolve, _ -> openDBRequest.onsuccess = { resolveWithExistingStores(openDBRequest.result as IDBDatabase, resolve) } }
+        )
 
-            openDBRequest.onupgradeneeded = {
-                resolveWithNewStores(openDBRequest.result as IDBDatabase, resolve)
-            }
-
-            openDBRequest.onsuccess = {
-                resolveWithExistingStores(openDBRequest.result as IDBDatabase, resolve)
-            }
-
-            openDBRequest.onerror = {
-                reject(SHDRuntimeException("Es konnte keine Verbindung zur lokalen IndexedDB aufgebaut werden"))
-            }
+        openDBRequest.onerror = {
+            connector.propagateError(SHDRuntimeException("Es konnte keine Verbindung zur lokalen IndexedDB aufgebaut werden"))
         }
+
+        return connector
     }
 
     /**
