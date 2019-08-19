@@ -4,6 +4,7 @@ import de.shd.basis.kotlin.ui.component.SHDUIComponent
 import de.shd.basis.kotlin.ui.css.CSSDisplay
 import de.shd.basis.kotlin.ui.css.CSSFloat
 import de.shd.basis.kotlin.ui.css.CSSKeyword
+import de.shd.basis.kotlin.ui.css.CSSPosition
 import de.shd.basis.kotlin.ui.css.CSSTextAlign
 import de.shd.basis.kotlin.ui.css.CSSUnit
 import de.shd.basis.kotlin.ui.css.CSSWhiteSpace
@@ -1024,6 +1025,18 @@ fun HTMLElement.addTabListener(listener: (Event) -> Unit): HTMLElement {
 @Suppress("unused")
 fun HTMLElement.addBlurListener(listener: (Event) -> Unit): HTMLElement {
     this.addEventListener("blur", listener)
+    return this
+}
+
+/**
+ * Setzt das CSS Attribut `position` auf den übergegeben Wert
+ *
+ * @see CSSStyleDeclaration.position
+ * @author Marcel Ziganow (zim)
+ */
+@Suppress("unused")
+fun HTMLElement.withPosition(position: CSSPosition): HTMLElement {
+    this.style.position = position.value
     return this
 }
 

@@ -1,9 +1,13 @@
 package de.shd.basis.kotlin.ui.component
 
 import de.shd.basis.kotlin.ui.css.CSSDisplay
+import de.shd.basis.kotlin.ui.css.CSSFloat
+import de.shd.basis.kotlin.ui.css.CSSPosition
 import de.shd.basis.kotlin.ui.css.CSSTextAlign
 import de.shd.basis.kotlin.ui.css.CSSUnit
+import de.shd.basis.kotlin.ui.css.CSSWhiteSpace
 import de.shd.basis.kotlin.ui.util.function.clearStyle
+import de.shd.basis.kotlin.ui.util.function.clearStyleNames
 import de.shd.basis.kotlin.ui.util.function.getDisplay
 import de.shd.basis.kotlin.ui.util.function.isVisible
 import de.shd.basis.kotlin.ui.util.function.removeStyleName
@@ -11,6 +15,7 @@ import de.shd.basis.kotlin.ui.util.function.removeStyleNames
 import de.shd.basis.kotlin.ui.util.function.toggleStyleName
 import de.shd.basis.kotlin.ui.util.function.withColor
 import de.shd.basis.kotlin.ui.util.function.withDisplay
+import de.shd.basis.kotlin.ui.util.function.withFloat
 import de.shd.basis.kotlin.ui.util.function.withFontSize
 import de.shd.basis.kotlin.ui.util.function.withFontWeight
 import de.shd.basis.kotlin.ui.util.function.withFullHeight
@@ -34,6 +39,7 @@ import de.shd.basis.kotlin.ui.util.function.withPaddingBottom
 import de.shd.basis.kotlin.ui.util.function.withPaddingLeft
 import de.shd.basis.kotlin.ui.util.function.withPaddingRight
 import de.shd.basis.kotlin.ui.util.function.withPaddingTop
+import de.shd.basis.kotlin.ui.util.function.withPosition
 import de.shd.basis.kotlin.ui.util.function.withSizeFull
 import de.shd.basis.kotlin.ui.util.function.withSizeUndefined
 import de.shd.basis.kotlin.ui.util.function.withStyle
@@ -41,6 +47,7 @@ import de.shd.basis.kotlin.ui.util.function.withStyleName
 import de.shd.basis.kotlin.ui.util.function.withStyleNames
 import de.shd.basis.kotlin.ui.util.function.withTextAlign
 import de.shd.basis.kotlin.ui.util.function.withVisible
+import de.shd.basis.kotlin.ui.util.function.withWhiteSpace
 import de.shd.basis.kotlin.ui.util.function.withWidth
 import de.shd.basis.kotlin.ui.util.function.withWidthUndefined
 import org.w3c.dom.HTMLElement
@@ -489,6 +496,33 @@ interface SHDFluentUIComponent<COMPONENT : SHDFluentUIComponent<COMPONENT>> : SH
     }
 
     /**
+     * Ruft intern die Methode [HTMLElement.withFloat] des Wurzelknotens von dieser UI-Komponente mit den übergebenen Argumenten auf.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun withFloat(float: CSSFloat): COMPONENT {
+        rootNode.withFloat(float)
+        return this as COMPONENT
+    }
+
+    /**
+     * Ruft intern die Methode [HTMLElement.withWhiteSpace] des Wurzelknotens von dieser UI-Komponente mit den übergebenen Argumenten auf.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun withWhiteSpace(whiteSpace: CSSWhiteSpace): COMPONENT {
+        rootNode.withWhiteSpace(whiteSpace)
+        return this as COMPONENT
+    }
+
+    /**
+     * Ruft intern die Methode [HTMLElement.withPosition] des Wurzelknotens von dieser UI-Komponente mit den übergebenen Argumenten auf.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun withPosition(position: CSSPosition): COMPONENT {
+        rootNode.withPosition(position)
+        return this as COMPONENT
+    }
+
+    /**
      * Ruft intern die Methode [HTMLElement.removeStyleName] des Wurzelknotens von dieser UI-Komponente mit den übergebenen Argumenten auf.
      */
     @Suppress("UNCHECKED_CAST")
@@ -530,6 +564,15 @@ interface SHDFluentUIComponent<COMPONENT : SHDFluentUIComponent<COMPONENT>> : SH
     @Suppress("UNCHECKED_CAST")
     fun clearStyle(): COMPONENT {
         rootNode.clearStyle()
+        return this as COMPONENT
+    }
+
+    /**
+     * Ruft intern die Methode [HTMLElement.clearStyleNames] des Wurzelknotens von dieser UI-Komponente auf.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun clearStyleNames(): COMPONENT {
+        rootNode.clearStyleNames()
         return this as COMPONENT
     }
 
