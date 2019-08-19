@@ -95,7 +95,19 @@ class SHDApp(private val appTitle: String) {
     }
 
     /**
-     * Legt die Implementierung von [I18nMessageProvider] fest, die von [I18n.getText] zum Auflösen von Übersetzung auf Basis von I18n-Schlüsseln
+     * Erzeugt eine Implementierung von [I18nMessageProvider] auf Basis der übergebenen Funktion und übergibt sie an [withI18nMessageProvider],
+     * wodurch sie von [I18n.getText] zum Auflösen von Übersetzungem auf Basis von I18n-Schlüsseln verwendet wird.
+     */
+    fun withI18nMessageProvider(messageProvider: (String, String, Array<out String?>) -> String): SHDApp {
+        return withI18nMessageProvider(object : I18nMessageProvider {
+            override fun getMessage(language: String, i18nKey: String, vararg args: String?): String {
+                return messageProvider.invoke(language, i18nKey, args)
+            }
+        })
+    }
+
+    /**
+     * Legt die Implementierung von [I18nMessageProvider] fest, die von [I18n.getText] zum Auflösen von Übersetzungen auf Basis von I18n-Schlüsseln
      * verwendet werden soll.
      */
     fun withI18nMessageProvider(messageProvider: I18nMessageProvider): SHDApp {
