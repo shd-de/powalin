@@ -65,6 +65,16 @@ interface SHDLayout<LAYOUT : SHDLayout<LAYOUT>> : SHDFluentUIComponent<LAYOUT> {
     }
 
     /**
+     * Prüft mit Hilfe von [HTMLElement.contains] ob das übergebene [Node] schon in der Liste der Kindknoten vorhanden ist.
+     */
+    fun contains(node: Node): Boolean
+
+    /**
+     * Prüft mit Hilfe von [HTMLElement.contains] ob das übergebene [SHDUIComponent] schon in der Liste der Kindknoten vorhanden ist.
+     */
+    fun contains(component: SHDUIComponent): Boolean
+
+    /**
      * Entfernt alle Kindelemente bzw. Kindkomponenten aus dieser Layout-Komponente.
      */
     fun clear(): LAYOUT

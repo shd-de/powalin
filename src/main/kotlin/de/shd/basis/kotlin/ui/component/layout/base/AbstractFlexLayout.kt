@@ -1,5 +1,6 @@
 package de.shd.basis.kotlin.ui.component.layout.base
 
+import de.shd.basis.kotlin.ui.component.SHDUIComponent
 import de.shd.basis.kotlin.ui.theme.BasisTheme
 import de.shd.basis.kotlin.ui.util.function.prependChild
 import de.shd.basis.kotlin.ui.util.function.withFullWidth
@@ -68,6 +69,14 @@ abstract class AbstractFlexLayout<LAYOUT : AbstractFlexLayout<LAYOUT>> : Abstrac
         }
 
         return super<AbstractLayout>.remove(element)
+    }
+
+    override fun contains(node: Node): Boolean {
+        return rootNode.contains(node)
+    }
+
+    override fun contains(component: SHDUIComponent): Boolean {
+        return contains(component.rootNode)
     }
 
     @Suppress("UNCHECKED_CAST")
