@@ -26,7 +26,7 @@ import kotlin.js.Promise
  *
  * Instanzen von dieser Klasse sollen ausschließlich indirekt über den [SHDDatabaseBuilder] erzeugt werden.
  *
- * @author Florian Steitz (fst)
+ * @author Florian Steitz (fst), Marcel Ziganow (zim), Tobias Isekeit (ist)
  */
 @Suppress("unused", "MemberVisibilityCanBePrivate")
 class SHDObjectStore internal constructor(private val name: String, private val indexedDB: IDBDatabase) {
@@ -38,43 +38,24 @@ class SHDObjectStore internal constructor(private val name: String, private val 
      * Sobald über die Objekte iteriert werden kann, wird die Methode [RepeatablePromise.then] des zurückgegebenen [Promises][RepeatablePromise] mit
      * dem erzeugten [SHDObjectIterator] als Argument aufgerufen. Falls ein Fehler auftritt, wird stattdessen die Methode [RepeatablePromise.catch]
      * mit einer [SHDRuntimeException] als Argument aufgerufen.
+     *
+     * DOKU überarbeiten
      */
-    fun iterator(): RepeatablePromise<SHDObjectIterator> {
-        return openCursor(undefined, null)
+    fun iterator(index: SHDStoreIndex? = null): RepeatablePromise<SHDObjectIterator> {
+        return openCursor(index, null)
     }
 
     /**
      *
      */
-    fun iterator(query: String): RepeatablePromise<SHDObjectIterator> {
-        return openCursor(query, null)
-    }
-
-    /**
-     *
-     */
-    fun iterator(query: SHDKeyRange): RepeatablePromise<SHDObjectIterator> {
-        return openCursor(query.idbKeyRange, null)
-    }
-
-    /**
-     *
-     */
-    fun iterator(index: SHDStoreIndex): RepeatablePromise<SHDObjectIterator> {
-        return openCursor(undefined, index)
-    }
-
-    /**
-     *
-     */
-    fun iterator(index: SHDStoreIndex, query: String): RepeatablePromise<SHDObjectIterator> {
+    fun iterator(index: SHDStoreIndex? = null, query: String): RepeatablePromise<SHDObjectIterator> {
         return openCursor(query, index)
     }
 
     /**
      *
      */
-    fun iterator(index: SHDStoreIndex, query: SHDKeyRange): RepeatablePromise<SHDObjectIterator> {
+    fun iterator(index: SHDStoreIndex? = null, query: SHDKeyRange): RepeatablePromise<SHDObjectIterator> {
         return openCursor(query.idbKeyRange, index)
     }
 
@@ -128,24 +109,24 @@ class SHDObjectStore internal constructor(private val name: String, private val 
     }
 
     /**
-     * @author Marcel Ziganow (zim)
+     *
      */
-    fun count(): Promise<Int> {
-        return count(null as Any?)
+    fun count(index: SHDStoreIndex? = null): Promise<Int> {
+        return countObjects(null, index)
     }
 
     /**
-     * @author Tobias Isekeit (ist)
+     *
      */
-    fun count(query: String): Promise<Int> {
-        return count(query as Any?)
+    fun count(index: SHDStoreIndex? = null, query: String): Promise<Int> {
+        return countObjects(query, index)
     }
 
     /**
-     * @author Tobias Isekeit (ist)
+     *
      */
-    fun count(query: SHDKeyRange): Promise<Int> {
-        return count(query as Any?)
+    fun count(index: SHDStoreIndex? = null, query: SHDKeyRange): Promise<Int> {
+        return countObjects(query, index)
     }
 
     /**
@@ -209,16 +190,23 @@ class SHDObjectStore internal constructor(private val name: String, private val 
     }
 
     /**
-     * @author Tobias Isekeit (ist)
+     *
      */
-    private fun count(query: Any?): Promise<Int> {
+    private fun countObjects(query: Any?, index: SHDStoreIndex?): Promise<Int> {
         return Promise { resolve, reject ->
             doInTransaction(IDBTransactionMode.READONLY) { store ->
-                val countRequest = if (query == null) store.count() else store.count(query)
+                val countRequest = countObjects(query, index, store)
 
                 countRequest.onerror = { reject(SHDRuntimeException("Die Objekte des ObjectStores '$name' konnten nicht gezaehlt werden")) }
                 countRequest.onsuccess = { resolve(extractRequest(it).result as Int) }
             }
         }
+    }
+
+    /**
+     *
+     */
+    private fun countObjects(query: Any?, index: SHDStoreIndex?, objectStore: IDBObjectStore): IDBRequest {
+        return if (index == null) objectStore.count(query) else objectStore.index(index.name).count(query)
     }
 }
