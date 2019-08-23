@@ -131,14 +131,21 @@ class SHDObjectStore internal constructor(private val name: String, private val 
      * @author Marcel Ziganow (zim)
      */
     fun count(): Promise<Int> {
-        return Promise { resolve, reject ->
-            doInTransaction(IDBTransactionMode.READONLY) { store ->
-                val countRequest = store.count()
+        return count(null as Any?)
+    }
 
-                countRequest.onerror = { reject(SHDRuntimeException("Die Objekte des ObjectStores '$name' konnten nicht gezaehlt werden")) }
-                countRequest.onsuccess = { resolve(extractRequest(it).result as Int) }
-            }
-        }
+    /**
+     * @author Tobias Isekeit (ist)
+     */
+    fun count(query: String): Promise<Int> {
+        return count(query as Any?)
+    }
+
+    /**
+     * @author Tobias Isekeit (ist)
+     */
+    fun count(query: SHDKeyRange): Promise<Int> {
+        return count(query as Any?)
     }
 
     /**
@@ -199,5 +206,19 @@ class SHDObjectStore internal constructor(private val name: String, private val 
 
         putRequest.onerror = { reject(SHDRuntimeException("Objekt '$value' konnte nicht im ObjectStore '$name' persistiert werden")) }
         putRequest.onsuccess = { resolve(null) }
+    }
+
+    /**
+     * @author Tobias Isekeit (ist)
+     */
+    private fun count(query: Any?): Promise<Int> {
+        return Promise { resolve, reject ->
+            doInTransaction(IDBTransactionMode.READONLY) { store ->
+                val countRequest = if (query == null) store.count() else store.count(query)
+
+                countRequest.onerror = { reject(SHDRuntimeException("Die Objekte des ObjectStores '$name' konnten nicht gezaehlt werden")) }
+                countRequest.onsuccess = { resolve(extractRequest(it).result as Int) }
+            }
+        }
     }
 }
