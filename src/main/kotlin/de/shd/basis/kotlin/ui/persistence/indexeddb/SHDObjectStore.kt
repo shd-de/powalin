@@ -42,7 +42,7 @@ class SHDObjectStore internal constructor(private val name: String, private val 
      * DOKU überarbeiten
      */
     fun iterator(index: SHDStoreIndex? = null): RepeatablePromise<SHDObjectIterator> {
-        return openCursor(index, null)
+        return openCursor(null, index)
     }
 
     /**
