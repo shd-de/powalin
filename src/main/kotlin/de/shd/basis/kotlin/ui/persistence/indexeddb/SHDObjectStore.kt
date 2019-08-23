@@ -126,7 +126,7 @@ class SHDObjectStore internal constructor(private val name: String, private val 
      *
      */
     fun count(index: SHDStoreIndex? = null, query: SHDKeyRange): Promise<Int> {
-        return countObjects(query, index)
+        return countObjects(query.idbKeyRange, index)
     }
 
     /**
