@@ -66,7 +66,7 @@ data class RESTReadElementByIdRequest<DATATYPE>(val id: DATATYPE) : AbstractREST
  */
 @Serializable
 @Suppress("unused")
-data class RESTLoginRequest(val username: String, val password: String) : AbstractRESTRequest()
+data class RESTLoginRequest(val username: String, val password: String, val checkPermission: Boolean) : AbstractRESTRequest()
 
 /**
  * Standard-Request zum Auslesen einer Liste von Elementen anhand eines Filters. Er ist das Gegenstück zum gleichnamigen, serverseitigen Request.
