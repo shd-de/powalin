@@ -2,6 +2,7 @@
 
 package de.shd.basis.kotlin.ui.app
 
+import de.shd.basis.kotlin.ui.appinstaller.AppInstaller
 import de.shd.basis.kotlin.ui.checker.ConnectivityChecker
 import de.shd.basis.kotlin.ui.component.menu.app.AppMenuController
 import de.shd.basis.kotlin.ui.http.HTTPMethod
@@ -205,6 +206,9 @@ class SHDApp(private val appTitle: String) {
 
         // Auf Änderungen des Anwendungszustands lauschen, damit die DOM-Struktur entsprechend aktualisiert werden kann.
         AppStateManager.addStateChangeListener(this::replaceAppSubTree)
+
+        // Auf die Fähigkeit des Browsers lauschen, die PWA zu installieren (d.h. zum Startbildschirm zufügen)
+        AppInstaller.checkIsAppInstallable()
     }
 
     /**
