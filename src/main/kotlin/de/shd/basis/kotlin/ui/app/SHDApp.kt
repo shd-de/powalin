@@ -11,6 +11,8 @@ import de.shd.basis.kotlin.ui.i18n.I18nMessageProvider
 import de.shd.basis.kotlin.ui.mvc.controller.MVCController
 import de.shd.basis.kotlin.ui.mvc.controller.MVCControllerFactory
 import de.shd.basis.kotlin.ui.state.AppStateManager
+import de.shd.basis.kotlin.ui.util.function.ScriptTagSettings
+import de.shd.basis.kotlin.ui.util.function.StyleLinkSettings
 import de.shd.basis.kotlin.ui.util.function.appendChild
 import de.shd.basis.kotlin.ui.util.function.appendScript
 import de.shd.basis.kotlin.ui.util.function.appendScripts
@@ -87,11 +89,29 @@ class SHDApp(private val appTitle: String) {
     }
 
     /**
+     * Importiert die spezifizierten JavaScript-Dateien, indem via [appendScript] ein zusätzliches `script`-Element zum DOM
+     * hinzugefügt wird.
+     */
+    fun withScript(scriptURL: String, configurator: (ScriptTagSettings.() -> Unit)? = null): SHDApp {
+        appendScript(scriptURL, configurator)
+        return this
+    }
+
+    /**
      * Importiert die spezifizierten CSS-Dateien, indem via [appendStylesheet] ein zusätzliches `link`-Element pro übergebener Datei-URL zum DOM
      * hinzugefügt wird.
      */
     fun withStylesheets(vararg stylesheetURLs: String): SHDApp {
         customStylesheets.addAll(stylesheetURLs)
+        return this
+    }
+
+    /**
+     * Importiert die spezifizierten CSS-Dateien, indem via [appendStylesheet] ein zusätzliches `link`-Element zum DOM
+     * hinzugefügt wird.
+     */
+    fun withStylesheet(stylesheetURL: String, configurator: (StyleLinkSettings.() -> Unit)? = null): SHDApp {
+        appendStylesheet(stylesheetURL, configurator)
         return this
     }
 

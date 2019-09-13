@@ -10,6 +10,7 @@ import de.shd.basis.kotlin.ui.css.CSSUnit
 import de.shd.basis.kotlin.ui.css.CSSWhiteSpace
 import de.shd.basis.kotlin.ui.util.constant.EMPTY_STRING
 import kotlinx.html.HTMLTag
+import kotlinx.html.SCRIPT
 import org.w3c.dom.DOMTokenList
 import org.w3c.dom.Document
 import org.w3c.dom.Element
@@ -1041,6 +1042,26 @@ fun HTMLElement.withPosition(position: CSSPosition): HTMLElement {
 }
 
 /**
+ * Fügt ein Attribut zum Element hinzu.
+ *
+ * @author Marcel Ziganow (zim)
+ */
+fun HTMLElement.withAttribute(attribute: String, value: String): HTMLElement {
+    this.setAttribute(attribute, value)
+    return this
+}
+
+/**
+ * Entfernt ein Attribut dieses Elements.
+ *
+ * @author Marcel Ziganow (zim)
+ */
+fun HTMLElement.withoutAttribute(attribute: String): HTMLElement {
+    this.removeAttribute(attribute)
+    return this
+}
+
+/**
  * Legt fest, ob der Wert dieses Eingabeelements änderbar sein soll oder nicht.
  *
  * @see HTMLInputElement.readOnly
@@ -1190,6 +1211,16 @@ fun HTMLSelectElement.selectFirst(): HTMLSelectElement {
     this.selectedIndex = 0
     return this
 }
+
+/**
+ * Erweitert das [SCRIPT] um das `rel` Attribut
+ */
+var SCRIPT.rel: String
+    get() = this.attributes.get("rel") ?: EMPTY_STRING
+    set(value) {
+        this.attributes.put("rel", value)
+    }
+
 
 /**
  * Legt den Wert der Eigenschaft `display` dieses Elements fest.

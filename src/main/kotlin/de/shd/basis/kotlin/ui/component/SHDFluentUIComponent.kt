@@ -13,6 +13,7 @@ import de.shd.basis.kotlin.ui.util.function.isVisible
 import de.shd.basis.kotlin.ui.util.function.removeStyleName
 import de.shd.basis.kotlin.ui.util.function.removeStyleNames
 import de.shd.basis.kotlin.ui.util.function.toggleStyleName
+import de.shd.basis.kotlin.ui.util.function.withAttribute
 import de.shd.basis.kotlin.ui.util.function.withColor
 import de.shd.basis.kotlin.ui.util.function.withDisplay
 import de.shd.basis.kotlin.ui.util.function.withFloat
@@ -50,6 +51,7 @@ import de.shd.basis.kotlin.ui.util.function.withVisible
 import de.shd.basis.kotlin.ui.util.function.withWhiteSpace
 import de.shd.basis.kotlin.ui.util.function.withWidth
 import de.shd.basis.kotlin.ui.util.function.withWidthUndefined
+import de.shd.basis.kotlin.ui.util.function.withoutAttribute
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.css.CSSStyleDeclaration
 
@@ -591,6 +593,24 @@ interface SHDFluentUIComponent<COMPONENT : SHDFluentUIComponent<COMPONENT>> : SH
     @Suppress("UNCHECKED_CAST")
     fun withStyle(configure: CSSStyleDeclaration.() -> Unit): COMPONENT {
         rootNode.withStyle(configure)
+        return this as COMPONENT
+    }
+
+    /**
+     * Ruft intern die Methode [HTMLElement.withAttribute] des Wurzelknotens von dieser UI-Komponente mit den übergebenen Argumenten auf.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun withAttribute(attribute: String, value: String): COMPONENT {
+        rootNode.withAttribute(attribute, value)
+        return this as COMPONENT
+    }
+
+    /**
+     * Ruft intern die Methode [HTMLElement.withAttribute] des Wurzelknotens von dieser UI-Komponente mit den übergebenen Argumenten auf.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun withoutAttribute(attribute: String): COMPONENT {
+        rootNode.withoutAttribute(attribute)
         return this as COMPONENT
     }
 

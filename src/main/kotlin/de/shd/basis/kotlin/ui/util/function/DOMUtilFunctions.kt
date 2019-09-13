@@ -18,16 +18,27 @@ fun appendScripts(scriptURLs: Collection<String>) {
 }
 
 /**
+ * Hiermit können weitere Parameter für das `script` Element gesetzt werden
+ *
+ * @author Marcel Ziganow (zim)
+ */
+data class ScriptTagSettings(var preload: Boolean)
+
+/**
  * Fügt ein zusätzliches `script`-Element mit den Attributen `type=text/javascript` und `src` via [appendHeadNode] zum aktuellen Dokument hinzu. Die
  * spezifizierte URL einer JavaScript-Datei wird dabei als Wert von `src` gesetzt.
  *
  * @author Florian Steitz (fst)
  */
-fun appendScript(scriptURL: String) {
+fun appendScript(scriptURL: String, configurer: (ScriptTagSettings.() -> Unit)? = null) {
+    val scriptTagSettings = ScriptTagSettings(false)
+    configurer?.invoke(scriptTagSettings)
+
     appendHeadNode {
         script {
             type = "text/javascript"
             src = scriptURL
+            if (scriptTagSettings.preload) rel = "preload"
         }
     }
 }
@@ -42,17 +53,27 @@ fun appendStylesheets(stylesheetURLs: Collection<String>) {
 }
 
 /**
+ * Hiermit können weitere Parameter für das `link` Element für Stylesheets gesetzt werden
+ *
+ * @author Marcel Ziganow (zim)
+ */
+data class StyleLinkSettings(var preload: Boolean)
+
+/**
  * Fügt ein zusätzliches `link`-Element mit den Attributen `rel=stylesheet`, `type=text/css` und `href` via [appendHeadNode] zum aktuellen Dokument
  * hinzu. Die spezifizierte URL einer CSS-Datei wird dabei als Wert von `href` gesetzt.
  *
  * @author Florian Steitz (fst)
  */
-fun appendStylesheet(stylesheetURL: String) {
+fun appendStylesheet(stylesheetURL: String, configurer: (StyleLinkSettings.() -> Unit)? = null) {
+    val styleLinkSettings = StyleLinkSettings(false)
+    configurer?.invoke(styleLinkSettings)
     appendHeadNode {
         link {
             rel = "stylesheet"
             type = "text/css"
             href = stylesheetURL
+            if (styleLinkSettings.preload) rel = "preload"
         }
     }
 }
