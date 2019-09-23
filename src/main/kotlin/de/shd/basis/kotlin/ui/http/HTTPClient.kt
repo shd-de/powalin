@@ -68,6 +68,7 @@ class HTTPClient {
      * leitet diese Methode dabei vom übergebenen [HTTPRequest] ab. Dazu gehört u.a. die Entscheidung, was für HTTP-Header mitgesendet werden sollen.
      */
     private fun openXMLHttpRequest(request: HTTPRequest): XMLHttpRequest {
+        val authorization = request.authorization
         val mediaType = request.mediaType
         val httpRequest = XMLHttpRequest()
 
@@ -79,6 +80,10 @@ class HTTPClient {
         if (mediaType != null) {
             httpRequest.setRequestHeader("Content-Type", mediaType.type)
             httpRequest.setRequestHeader("Accept", mediaType.type)
+        }
+
+        if (authorization != null) {
+            httpRequest.setRequestHeader("Authorization", authorization.toAuthorizationHeaderValue())
         }
 
         return httpRequest

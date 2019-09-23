@@ -8,6 +8,13 @@ package de.shd.basis.kotlin.ui.util.constant
 const val EMPTY_STRING = ""
 
 /**
+ * Ein Leerzeichen.
+ *
+ * @author Florian Steitz (fst)
+ */
+const val SPACE = " "
+
+/**
  * Ein Slash (`/`).
  *
  * @author Florian Steitz (fst)
@@ -23,6 +30,13 @@ const val SLASH = "/"
 const val SEMICOLON = ";"
 
 /**
+ * Ein Doppelpunkt (`:`).
+ *
+ * @author Florian Steitz (fst)
+ */
+const val COLON = ":"
+
+/**
  * Ein Bindestrich (`-`).
  *
  * @author Florian Steitz (fst)
@@ -34,4 +48,5 @@ const val DASH = "-"
  *
  * @author Marcel Ziganow (zim)
  */
+@Suppress("unused")
 const val ELLIPSIS = "..."

@@ -1,6 +1,7 @@
 package de.shd.basis.kotlin.ui.http
 
 import de.shd.basis.kotlin.ui.http.HTTPRequest.Companion.buildFor
+import de.shd.basis.kotlin.ui.http.auth.HTTPAuthorization
 import de.shd.basis.kotlin.ui.media.MediaType
 import de.shd.basis.kotlin.ui.serialization.generator.SHDGenerator
 import de.shd.basis.kotlin.ui.time.TimeUnit
@@ -22,6 +23,7 @@ class HTTPRequest private constructor(internal val url: String) {
     internal var mediaType: MediaType? = null // Standardmäßig legt ein Request nicht fest, was für Daten er erwartet oder versendet.
     internal var timeout = 0                  // Ist der Standardwert von Webbrowsern und bedeutet "kein Timeout". Wird aber in der init-Methode überschrieben.
     internal var body: HTTPBody<*>? = null    // Standardmäßig werden keine Daten im Body des HTTP-Requests mitgesendet.
+    internal var authorization: HTTPAuthorization? = null
 
     /**
      * Timeout des HTTP-Requests standardmäßig auf 30 Sekunden setzen.
@@ -44,6 +46,14 @@ class HTTPRequest private constructor(internal val url: String) {
      */
     fun withTimeout(duration: Int, unit: TimeUnit): HTTPRequest {
         timeout = unit.toMillis(duration)
+        return this
+    }
+
+    /**
+     *
+     */
+    fun withAuthorization(authorization: HTTPAuthorization): HTTPRequest {
+        this.authorization = authorization
         return this
     }
 
