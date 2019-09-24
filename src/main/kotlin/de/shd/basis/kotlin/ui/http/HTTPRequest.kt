@@ -19,11 +19,11 @@ import kotlinx.serialization.KSerializer
 @Suppress("unused", "MemberVisibilityCanBePrivate")
 class HTTPRequest private constructor(internal val url: String) {
 
-    internal var method = HTTPMethod.GET      // Standardmäßig nur einen lesenden HTTP-Request senden.
-    internal var mediaType: MediaType? = null // Standardmäßig legt ein Request nicht fest, was für Daten er erwartet oder versendet.
-    internal var timeout = 0                  // Ist der Standardwert von Webbrowsern und bedeutet "kein Timeout". Wird aber in der init-Methode überschrieben.
-    internal var body: HTTPBody<*>? = null    // Standardmäßig werden keine Daten im Body des HTTP-Requests mitgesendet.
-    internal var authorization: HTTPAuthorization? = null
+    internal var method = HTTPMethod.GET                    // Standardmäßig nur einen lesenden HTTP-Request senden.
+    internal var mediaType: MediaType? = null               // Standardmäßig legt ein Request nicht fest, was für Daten er erwartet oder versendet.
+    internal var timeout = 0                                // Ist der Standardwert von Webbrowsern und bedeutet "kein Timeout". Wird aber in der init-Methode überschrieben.
+    internal var body: HTTPBody<*>? = null                  // Standardmäßig werden keine Daten im Body des HTTP-Requests mitgesendet.
+    internal var authorization: HTTPAuthorization? = null   // Standardmäßig muss ein HTTP-Request nicht authentifiziert oder authorisiert werden.
 
     /**
      * Timeout des HTTP-Requests standardmäßig auf 30 Sekunden setzen.
@@ -50,7 +50,8 @@ class HTTPRequest private constructor(internal val url: String) {
     }
 
     /**
-     *
+     * Legt anhand der übergebenen Implementierung von [HTTPAuthorization] fest, wie sich dieser HTTP-Request gegen ein Backend authentifiziert bzw.
+     * authorisiert.
      */
     fun withAuthorization(authorization: HTTPAuthorization): HTTPRequest {
         this.authorization = authorization

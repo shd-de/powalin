@@ -82,6 +82,7 @@ class HTTPClient {
             httpRequest.setRequestHeader("Accept", mediaType.type)
         }
 
+        // Der HTTP-Header `Authorization` soll nur gesetzt werden, wenn eine Implementierung von HTTPAuthorization vorhanden ist.
         if (authorization != null) {
             httpRequest.setRequestHeader("Authorization", authorization.toAuthorizationHeaderValue())
         }
