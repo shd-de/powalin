@@ -10,6 +10,7 @@ import de.shd.basis.kotlin.ui.css.CSSUnit
 import de.shd.basis.kotlin.ui.css.CSSWhiteSpace
 import de.shd.basis.kotlin.ui.util.constant.EMPTY_STRING
 import kotlinx.html.HTMLTag
+import kotlinx.html.LINK
 import kotlinx.html.SCRIPT
 import org.w3c.dom.DOMTokenList
 import org.w3c.dom.Document
@@ -1219,6 +1220,16 @@ var SCRIPT.rel: String
     get() = this.attributes.get("rel") ?: EMPTY_STRING
     set(value) {
         this.attributes.put("rel", value)
+    }
+
+
+/**
+ * Erweitert das [LINK] um das `as` Attribut
+ */
+var LINK.asHTML: String
+    get() = this.attributes.get("as") ?: EMPTY_STRING
+    set(value) {
+        this.attributes.put("as", value)
     }
 
 

@@ -73,7 +73,10 @@ fun appendStylesheet(stylesheetURL: String, configurer: (StyleLinkSettings.() ->
             rel = "stylesheet"
             type = "text/css"
             href = stylesheetURL
-            if (styleLinkSettings.preload) rel = "preload"
+            if (styleLinkSettings.preload) {
+                rel = "preload"
+                asHTML = "style"
+            }
         }
     }
 }
