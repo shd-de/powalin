@@ -1222,7 +1222,6 @@ var SCRIPT.rel: String
         this.attributes.put("rel", value)
     }
 
-
 /**
  * Erweitert das [LINK] um das `as` Attribut
  */
@@ -1231,7 +1230,6 @@ var LINK.asHTML: String
     set(value) {
         this.attributes.put("as", value)
     }
-
 
 /**
  * Legt den Wert der Eigenschaft `display` dieses Elements fest.
