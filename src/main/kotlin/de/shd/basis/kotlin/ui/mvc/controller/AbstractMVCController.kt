@@ -98,7 +98,7 @@ abstract class AbstractMVCController<VIEW : MVCView> : MVCController<VIEW> {
      *
      * @see ConnectivityChecker.isOnline
      */
-    fun isOnline(): Boolean {
+    protected fun isOnline(): Boolean {
         return ConnectivityChecker.isOnline()
     }
 
@@ -110,7 +110,7 @@ abstract class AbstractMVCController<VIEW : MVCView> : MVCController<VIEW> {
      *
      * @see ConnectivityChecker.whenOnline
      */
-    fun whenOnline(): ResolvablePromise<Nothing?> {
+    protected fun whenOnline(): ResolvablePromise<Nothing?> {
         return ConnectivityChecker.whenOnline()
     }
 
@@ -122,7 +122,7 @@ abstract class AbstractMVCController<VIEW : MVCView> : MVCController<VIEW> {
      *
      * @see ConnectivityChecker.whenOffline
      */
-    fun whenOffline(): ResolvablePromise<Nothing?> {
+    protected fun whenOffline(): ResolvablePromise<Nothing?> {
         return ConnectivityChecker.whenOffline()
     }
 
