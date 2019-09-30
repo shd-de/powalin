@@ -65,6 +65,19 @@ object ConnectivityChecker {
     }
 
     /**
+     * Gibt an, ob laut diesem Verbindungsprüfer aktuell eine Netzwerkverbindung besteht oder nicht.
+     *
+     * **Achtung:**
+     *
+     * Diese Methode ist nicht dazu gedacht, in regelmäßigen Intervallen (jobartig) aufgerufen zu werden, um den Netzwerkstatus zu prüfen. Wenn eine
+     * Anwendung über Änderungen des Netzwerkstatus informiert werden möchte, soll sie stattdessen entsprechende Listener via [whenOnline] und
+     * [whenOffline] registrieren.
+     */
+    fun isOnline(): Boolean {
+        return isConnectionAvailable
+    }
+
+    /**
      * Registriert ein neues [ResolvablePromise] bei diesem Verbindungsprüfer und gibt es zurück. Anschließend kann über die Methode [ResolvablePromise.then]
      * ein anwendungsspezifischer Listener registriert werden, der immer dann aufgerufen wird, wenn eine Netzwerkverbindung als (wieder)hergestellt
      * gilt. Allerdings nur einmalig pro Änderung der Netzwerkverbindung. Darüber hinaus wird der so registrierte Listener umgehend aufgerufen, falls
