@@ -22,4 +22,18 @@ interface SHDWindow : SHDUIComponent {
         rootNode.focus()
         return this
     }
+
+    /**
+     * Methode welche direkt vor dem Anzeigen des Fenster ausgefuehrt wird
+     */
+    fun onAttach(): SHDWindow {
+        return this
+    }
+
+    /**
+     * Methode welche direkt vor dem Schliessen des Fenster ausgefuehrt wird
+     */
+    fun onDetach(): SHDWindow {
+        return this
+    }
 }

@@ -9,12 +9,14 @@ import de.shd.basis.kotlin.ui.mvc.controller.AbstractMVCController
 class DefaultWindowCtrl : AbstractMVCController<DefaultWindowView>() {
 
     fun showWindow(window: SHDWindow) {
+        window.onAttach()
         view.replaceWindow(window)
         view.withVisible(true)
         window.focus()
     }
 
     fun closeWindow(window: SHDWindow) {
+        window.onDetach()
         view.removeWindow(window)
         view.withVisible(false)
     }
