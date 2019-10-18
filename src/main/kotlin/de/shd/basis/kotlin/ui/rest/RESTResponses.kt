@@ -50,5 +50,5 @@ open class RESTSavedElementResponse<CONTENT>(
         open val errorMessage: String? = null,
         open val warningList: Collection<RESTResponseMessage>,
         open val infoList: Collection<RESTResponseMessage>,
-        @SerialName("value") val content: CONTENT?
+        @SerialName("value") val content: CONTENT? = null
 ) // : RESTResponse<CONTENT>(status, errorNumber, errorMessage, warningList, infoList, content) TODO Verursacht NPE in kotlinx.serialization
