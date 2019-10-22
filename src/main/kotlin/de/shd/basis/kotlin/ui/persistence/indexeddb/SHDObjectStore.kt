@@ -4,12 +4,14 @@ import de.shd.basis.kotlin.ui.util.exception.SHDRuntimeException
 import de.shd.basis.kotlin.ui.util.promise.DefaultRepeatablePromise
 import de.shd.basis.kotlin.ui.util.promise.RepeatablePromise
 import org.w3c.dom.events.Event
+import org.w3c.indexeddb.IDBCursorDirection
 import org.w3c.indexeddb.IDBCursorWithValue
 import org.w3c.indexeddb.IDBDatabase
 import org.w3c.indexeddb.IDBObjectStore
 import org.w3c.indexeddb.IDBRequest
 import org.w3c.indexeddb.IDBTransaction
 import org.w3c.indexeddb.IDBTransactionMode
+import org.w3c.indexeddb.NEXT
 import org.w3c.indexeddb.READONLY
 import org.w3c.indexeddb.READWRITE
 import kotlin.js.Promise
@@ -41,22 +43,22 @@ class SHDObjectStore internal constructor(private val name: String, private val 
      *
      * DOKU überarbeiten
      */
-    fun iterator(index: SHDStoreIndex? = null): RepeatablePromise<SHDObjectIterator> {
-        return openCursor(null, index)
+    fun iterator(index: SHDStoreIndex? = null, direction: IDBCursorDirection? = null): RepeatablePromise<SHDObjectIterator> {
+        return openCursor(null, index, direction)
     }
 
     /**
      *
      */
-    fun iterator(index: SHDStoreIndex? = null, query: String): RepeatablePromise<SHDObjectIterator> {
-        return openCursor(query, index)
+    fun iterator(index: SHDStoreIndex? = null, query: String, direction: IDBCursorDirection? = null): RepeatablePromise<SHDObjectIterator> {
+        return openCursor(query, index, direction)
     }
 
     /**
      *
      */
-    fun iterator(index: SHDStoreIndex? = null, query: SHDKeyRange): RepeatablePromise<SHDObjectIterator> {
-        return openCursor(query.idbKeyRange, index)
+    fun iterator(index: SHDStoreIndex? = null, query: SHDKeyRange, direction: IDBCursorDirection? = null): RepeatablePromise<SHDObjectIterator> {
+        return openCursor(query.idbKeyRange, index, direction)
     }
 
     /**
@@ -147,10 +149,10 @@ class SHDObjectStore internal constructor(private val name: String, private val 
     /**
      *
      */
-    private fun openCursor(query: Any?, index: SHDStoreIndex?): RepeatablePromise<SHDObjectIterator> {
+    private fun openCursor(query: Any?, index: SHDStoreIndex?, cursorDirection: IDBCursorDirection?): RepeatablePromise<SHDObjectIterator> {
         return DefaultRepeatablePromise { invokeThen, invokeCatch ->
             doInTransaction(IDBTransactionMode.READONLY) { store ->
-                val cursorRequest = openCursor(query, index, store)
+                val cursorRequest = openCursor(query, index, cursorDirection, store)
 
                 cursorRequest.onerror = { invokeCatch(SHDRuntimeException("Es konnten keine Daten aus dem ObjectStore '$name' ausgelesen werden")) }
                 cursorRequest.onsuccess = { invokeThen(createIterator(it)) }
@@ -161,8 +163,9 @@ class SHDObjectStore internal constructor(private val name: String, private val 
     /**
      *
      */
-    private fun openCursor(query: Any?, index: SHDStoreIndex?, objectStore: IDBObjectStore): IDBRequest {
-        return if (index == null) objectStore.openCursor(query) else objectStore.index(index.name).openCursor(query)
+    private fun openCursor(query: Any?, index: SHDStoreIndex?, cursorDirection: IDBCursorDirection?, objectStore: IDBObjectStore): IDBRequest {
+        val direction = cursorDirection ?: IDBCursorDirection.NEXT
+        return if (index == null) objectStore.openCursor(query, direction) else objectStore.index(index.name).openCursor(query, direction)
     }
 
     /**
