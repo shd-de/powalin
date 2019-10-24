@@ -51,12 +51,24 @@ class SHDKeyRange(internal val idbKeyRange: IDBKeyRange) {
 
         /**
          * Erzeugt eine Instanz von dieser Klasse, die den übergebenen Mindestwert als `lowerBound` und den übergebenen Mindestwert, konkateniert mit
-         * dem größten Wert vom Typ [Char] als `upperBound`, festlegt.
+         * dem größten Wert vom Typ [Char], als `upperBound` festlegt.
          *
          * @see Char.MAX_VALUE
          */
         fun withLowerToMaxBound(lowerValue: String): SHDKeyRange {
             return withBound(lowerValue, lowerValue + Char.MAX_VALUE)
+        }
+
+        /**
+         * Erzeugt eine Instanz von dieser Klasse, die den übergebenen String in Großbuchstaben als `lowerBound` und den übergebenen String in
+         * Kleinbuchstaben, konkateniert mit dem größten Wert vom Typ [Char], als `upperBound` festlegt.
+         *
+         * Die zu erzeugende [SHDKeyRange] beginnt mit Großbuchstaben, weil deren numerischer Wert kleiner ist, als der von Kleinbuchstaben.
+         *
+         * @see Char.MAX_VALUE
+         */
+        fun startsWithIgnoringCase(value: String): SHDKeyRange {
+            return withBound(value.toUpperCase(), value.toLowerCase() + Char.MAX_VALUE)
         }
     }
 }
