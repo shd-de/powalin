@@ -16,20 +16,37 @@
   /* === Vertikale Darstellung === */
   .shd-flex-layout.shd-vertical {
     flex-direction: column;
+
+    &.shd-with-spacing {
+      > .shd-spacing {
+        height: $default-spacing;
+        display: block;
+      }
+
+      &.shd-with-spacing-min-size {
+        > .shd-spacing {
+          min-height: $default-spacing;
+        }
+      }
+    }
   }
 
-  .shd-flex-layout.shd-vertical.shd-with-spacing > .shd-spacing {
-    height: $default-spacing;
-    display: block;
-  }
 
   /* === Horizontale Darstellung === */
   .shd-flex-layout.shd-horizontal {
     flex-direction: row;
-  }
 
-  .shd-flex-layout.shd-horizontal.shd-with-spacing > .shd-spacing {
-    width: $default-spacing;
-    display: inline-block;
+    .shd-with-spacing {
+      > .shd-spacing {
+        width: $default-spacing;
+        display: inline-block;
+      }
+
+      &.shd-with-spacing-min-size {
+        > .shd-spacing {
+          min-width: $default-spacing;
+        }
+      }
+    }
   }
 }

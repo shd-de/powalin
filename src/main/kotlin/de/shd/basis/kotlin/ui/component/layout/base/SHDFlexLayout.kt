@@ -40,6 +40,12 @@ interface SHDFlexLayout<LAYOUT : SHDFlexLayout<LAYOUT>> : SHDLayout<LAYOUT> {
     fun withSpacing(enabled: Boolean): LAYOUT
 
     /**
+     * Bestimmt, ob die Standard-Abstände zwischen den Kindknoten dieser Layout-Komponente eine Mindesthöhe bzw.
+     * Mindestbreite von `0.75em` erhalten sollen.
+     */
+    fun withSpacingMinSizeEnabled(enabled: Boolean): LAYOUT
+
+    /**
      * Fügt die übergebene [UI-Komponente][SHDUIComponent] via [add] an das Ende der Liste der Kindknoten dieser Layout-Komponente hinzu und legt via
      * [withExpandRatio] fest, dass die übergebene UI-Komponente den verbleibenden Platz einnehmen soll, der Kindknoten dieser Layout-Komponente
      * insgesamt noch zur Verfügung steht. Darüber hinaus wird die Breite der übergebenen UI-Komponente auf `100%` gesetzt.

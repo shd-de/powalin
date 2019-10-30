@@ -104,6 +104,12 @@ abstract class AbstractFlexLayout<LAYOUT : AbstractFlexLayout<LAYOUT>> : Abstrac
         return this as LAYOUT
     }
 
+    @Suppress("UNCHECKED_CAST")
+    override fun withSpacingMinSizeEnabled(enabled: Boolean): LAYOUT {
+        rootNode.classList.toggle(BasisTheme.CLASS_WITH_SPACING_MIN_SIZE, enabled)
+        return this as LAYOUT
+    }
+
     /**
      * Stellt sicher, dass über die übergebene Funktion `insert` ein sog. "Spacing-Div" hinzugefügt wird, falls diese Layout-Komponente bereits
      * mindestens einen Kindknoten enthält.

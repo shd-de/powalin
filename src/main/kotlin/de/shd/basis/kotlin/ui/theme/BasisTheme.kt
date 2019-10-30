@@ -11,6 +11,7 @@ object BasisTheme {
     // Common
     const val CLASS_SPACING = "shd-spacing"
     const val CLASS_WITH_SPACING = "shd-with-spacing"
+    const val CLASS_WITH_SPACING_MIN_SIZE = "shd-with-spacing-min-size"
     const val CLASS_VERTICAL = "shd-vertical"
     const val CLASS_HORIZONTAL = "shd-horizontal"
 
