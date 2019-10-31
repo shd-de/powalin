@@ -36,7 +36,7 @@
   .shd-flex-layout.shd-horizontal {
     flex-direction: row;
 
-    .shd-with-spacing {
+    &.shd-with-spacing {
       > .shd-spacing {
         width: $default-spacing;
         display: inline-block;
