@@ -79,3 +79,13 @@ data class RESTReadListByFilterRequest<FILTER : Filter>(
         val filter: FILTER,
         @Transient override var range: Range? = null
 ) : AbstractRESTReadListRequest(range)
+
+
+/**
+ * Standard-Request zum entfernen eines Elements anhand. Er ist das Gegenstück zum gleichnamigen, serverseitigen Request.
+ *
+ * @author Marcel Ziganow (zim)
+ */
+@Serializable
+@Suppress("unused")
+data class RESTDeleteElementRequest<DATATYPE>(val elementToDelete: DATATYPE) : AbstractRESTRequest()
