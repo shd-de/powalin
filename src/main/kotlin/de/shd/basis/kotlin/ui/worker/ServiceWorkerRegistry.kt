@@ -51,14 +51,37 @@ object ServiceWorkerRegistry {
     }
 
     /**
-     * Deinstalliert den [ServiceWorker](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API), auf den die übergebene URL zeigt und
-     * gibt das Ergebnis von [ServiceWorkerContainer.unregister] zurück. Falls er noch nicht registriert bzw. installiert wurde, wird eine
-     * [SHDRuntimeException] geworfen.
+     * Deinstalliert den [ServiceWorker](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API) asynchron, auf den die übergebene URL
+     * zeigt und gibt das Ergebnis von [ServiceWorkerRegistration.unregister] zurück.
+     *
+     * Falls er noch nicht registriert bzw. installiert wurde oder dessen Installation fehlschlug, wird die Methode [Promise.catch] des
+     * zurückgegebenen [Promises][Promise] mit einer [SHDRuntimeException] als Argument aufgerufen.
      */
     @Suppress("unused")
     fun unregister(scriptURL: String): Promise<Boolean> {
-        val registration = registrationByScriptMap[scriptURL] ?: throw SHDRuntimeException("ServiceWorker '$scriptURL' wurde nicht registriert")
-        return registration.unregister()
+        return findServiceWorkerRegistration(scriptURL)
+                .then(ServiceWorkerRegistration::unregister)
+                .then { it } // Workaround: Siehe https://youtrack.jetbrains.com/issue/KT-19672#focus=streamItem-27-2846223.0-0
+    }
+
+    /**
+     * Prüft, ob der [registrationByScriptMap] das spezifizierte ServiceWorker-Skript bekannt ist. Was nur dann der Fall ist, wenn der zugehörige
+     * ServiceWorker erfolgreich registriert bzw. installiert werden konnte.
+     *
+     * Falls ihr das Skript bekannt ist, wird die zugehörige [ServiceWorkerRegistration] ermittelt und an die Methode [Promise.resolve] des
+     * zurückgegebenen [Promises][Promise] übergeben. Andernfalls wird eine [SHDRuntimeException] an die Methode [Promise.catch] des zurückgegebenen
+     * [Promises][Promise] übergeben.
+     */
+    private fun findServiceWorkerRegistration(scriptURL: String): Promise<ServiceWorkerRegistration> {
+        return Promise { resolve, reject ->
+            val registration = registrationByScriptMap[scriptURL]
+
+            if (registration == null) {
+                reject(SHDRuntimeException("ServiceWorker '$scriptURL' wurde nicht registriert"))
+            } else {
+                resolve(registration)
+            }
+        }
     }
 
     /**
@@ -78,7 +101,7 @@ object ServiceWorkerRegistry {
      */
     private fun handleSuccessfulRegistration(registration: ServiceWorkerRegistration, scriptURL: String) {
         registrationByScriptMap[scriptURL] = registration
-        console.info("ServiceWorker '$scriptURL' wurde erfolgreich registriert");
+        console.info("ServiceWorker '$scriptURL' wurde erfolgreich registriert")
     }
 
     /**
