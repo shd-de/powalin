@@ -130,7 +130,7 @@ class SHDDatabaseBuilder<STORE : Enum<STORE>> {
      * entsprechende Methoden von [SHDObjectStore] aufgerufen werden.
      */
     private fun resolveWithExistingStores(indexedDB: IDBDatabase, resolve: (SHDDatabase<STORE>) -> Unit) {
-        return resolve({ config -> SHDObjectStore(toStoreName(config.storeType), indexedDB) }, resolve)
+        return resolve(indexedDB, { config -> SHDObjectStore(toStoreName(config.storeType), indexedDB) }, resolve)
     }
 
     /**
@@ -143,7 +143,7 @@ class SHDDatabaseBuilder<STORE : Enum<STORE>> {
      * aufgebaut, wenn entsprechende Methoden von [SHDObjectStore] aufgerufen werden.
      */
     private fun resolveWithNewStores(indexedDB: IDBDatabase, resolve: (SHDDatabase<STORE>) -> Unit) {
-        return resolve({ config -> createNewObjectStore(config, indexedDB) }, resolve)
+        return resolve(indexedDB, { config -> createNewObjectStore(config, indexedDB) }, resolve)
     }
 
     /**
@@ -153,8 +153,8 @@ class SHDDatabaseBuilder<STORE : Enum<STORE>> {
      *
      * Die erzeugte [SHDDatabase] wird schließlich an die übergebene Funktion `resolve` übergeben.
      */
-    private fun resolve(storeMapper: (SHDStoreConfig<STORE>) -> SHDObjectStore, resolve: (SHDDatabase<STORE>) -> Unit) {
-        return resolve(SHDDatabase(databaseName, storeConfigs.associateBy({ config -> config.storeType }, storeMapper)))
+    private fun resolve(indexedDB: IDBDatabase, storeMapper: (SHDStoreConfig<STORE>) -> SHDObjectStore, resolve: (SHDDatabase<STORE>) -> Unit) {
+        return resolve(SHDDatabase(databaseName, indexedDB, storeConfigs.associateBy({ config -> config.storeType }, storeMapper)))
     }
 
     /**

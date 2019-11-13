@@ -2,6 +2,7 @@ package de.shd.basis.kotlin.ui.persistence.indexeddb
 
 import de.shd.basis.kotlin.ui.util.exception.SHDRuntimeException
 import org.w3c.dom.indexedDB
+import org.w3c.indexeddb.IDBDatabase
 import org.w3c.indexeddb.IDBFactory
 import kotlin.js.Promise
 
@@ -32,8 +33,8 @@ import kotlin.js.Promise
  *
  * @author Florian Steitz (fst)
  */
-@Suppress("unused")
-class SHDDatabase<STORE : Enum<STORE>> internal constructor(private val databaseName: String, private val storeMap: Map<STORE, SHDObjectStore>) {
+@Suppress("unused", "MemberVisibilityCanBePrivate")
+class SHDDatabase<STORE : Enum<STORE>> internal constructor(private val databaseName: String, private val database: IDBDatabase, private val storeMap: Map<STORE, SHDObjectStore>) {
 
     /**
      * Gibt den [SHDObjectStore] zurück, der dem übergebenen Enum-Wert zugewiesen wurde. Falls diesem Enum-Wert (noch) kein [SHDObjectStore]
@@ -46,15 +47,27 @@ class SHDDatabase<STORE : Enum<STORE>> internal constructor(private val database
     }
 
     /**
+     * TODO Dokumentation
+     */
+    fun close() {
+        database.close()
+    }
+
+    /**
      * Löscht diese Datenbank unwiderruflich.
      *
      * @see IDBFactory.deleteDatabase
      */
     fun delete(): Promise<Nothing?> {
+
+        // Schließt vorher die Verbindung zur Datenbank
+        close()
+
         return Promise { resolve, reject ->
             val deleteRequest = indexedDB.deleteDatabase(databaseName)
 
             deleteRequest.onerror = { reject(SHDRuntimeException("Die Datenbank '$databaseName' konnte nicht geloescht werden")) }
+            deleteRequest.onblocked = { reject(SHDRuntimeException("Die Datenbank '$databaseName' konnte nicht geloescht werden - Die Datenbankverbindung ist noch offen")) }
             deleteRequest.onsuccess = { resolve(null) }
         }
     }
