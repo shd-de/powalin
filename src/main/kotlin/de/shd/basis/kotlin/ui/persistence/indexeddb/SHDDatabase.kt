@@ -34,7 +34,7 @@ import kotlin.js.Promise
  * @author Florian Steitz (fst)
  */
 @Suppress("unused", "MemberVisibilityCanBePrivate")
-class SHDDatabase<STORE : Enum<STORE>> internal constructor(private val databaseName: String, private val database: IDBDatabase, private val storeMap: Map<STORE, SHDObjectStore>) {
+class SHDDatabase<STORE : Enum<STORE>> internal constructor(private val database: IDBDatabase, private val storeMap: Map<STORE, SHDObjectStore>) {
 
     /**
      * Gibt den [SHDObjectStore] zurück, der dem übergebenen Enum-Wert zugewiesen wurde. Falls diesem Enum-Wert (noch) kein [SHDObjectStore]
@@ -47,23 +47,25 @@ class SHDDatabase<STORE : Enum<STORE>> internal constructor(private val database
     }
 
     /**
-     * TODO Dokumentation
+     * Schließt die intern offen gehaltene Verbindung zur lokalen Datenbank unwiderruflich, wodurch dieses Datenbankobjekt nicht mehr für den Zugriff
+     * auf sie verwendet werden kann.
+     *
+     * @see IDBDatabase.close
      */
     fun close() {
         database.close()
     }
 
     /**
-     * Löscht diese Datenbank unwiderruflich.
+     * Schließt die intern offen gehaltene Verbindung zur lokalen Datenbank und löscht sie unwiderruflich.
      *
+     * @see close
      * @see IDBFactory.deleteDatabase
      */
     fun delete(): Promise<Nothing?> {
-
-        // Schließt vorher die Verbindung zur Datenbank
-        close()
-
+        close() // Die Verbindung muss vor dem Löschen geschlossen werden, ansonsten schlägt die Löschung fehl (d.h. onblocked wird aufgerufen).
         return Promise { resolve, reject ->
+            val databaseName = database.name
             val deleteRequest = indexedDB.deleteDatabase(databaseName)
 
             deleteRequest.onerror = { reject(SHDRuntimeException("Die Datenbank '$databaseName' konnte nicht geloescht werden")) }
