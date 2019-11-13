@@ -65,6 +65,15 @@ object ServiceWorkerRegistry {
     }
 
     /**
+     * Gibt `true` zurück, wenn der [ServiceWorker](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API), auf den die übergebene URL
+     * zeigt, bereits [registriert][register] wurde. Andernfalls `false`.
+     */
+    @Suppress("unused")
+    fun isRegistered(scriptURL: String): Boolean {
+        return registrationByScriptMap[scriptURL] != null
+    }
+
+    /**
      * Prüft, ob der [registrationByScriptMap] das spezifizierte ServiceWorker-Skript bekannt ist. Was nur dann der Fall ist, wenn der zugehörige
      * ServiceWorker erfolgreich registriert bzw. installiert werden konnte.
      *
