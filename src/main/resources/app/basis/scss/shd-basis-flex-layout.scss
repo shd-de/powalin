@@ -1,0 +1,52 @@
+@mixin shd-basis-flex-layout {
+  .shd-layout {
+    min-width: 0;
+  }
+
+  .shd-flex-layout {
+    display: flex;
+  }
+
+  .shd-spacing {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+
+  /* === Vertikale Darstellung === */
+  .shd-flex-layout.shd-vertical {
+    flex-direction: column;
+
+    &.shd-with-spacing {
+      > .shd-spacing {
+        height: $default-spacing;
+        display: block;
+      }
+
+      &.shd-with-spacing-min-size {
+        > .shd-spacing {
+          min-height: $default-spacing;
+        }
+      }
+    }
+  }
+
+
+  /* === Horizontale Darstellung === */
+  .shd-flex-layout.shd-horizontal {
+    flex-direction: row;
+
+    &.shd-with-spacing {
+      > .shd-spacing {
+        width: $default-spacing;
+        display: inline-block;
+      }
+
+      &.shd-with-spacing-min-size {
+        > .shd-spacing {
+          min-width: $default-spacing;
+        }
+      }
+    }
+  }
+}

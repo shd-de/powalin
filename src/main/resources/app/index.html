@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <title></title>
+
+        <!-- Meta-Informationen -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!----------------------------------------------------------------->
+        <!-- WICHTIG:                                                    -->
+        <!-- Wenn weitere Skripte oder Bilder verlinkt bzw. hinzugefügt  -->
+        <!-- werden, die auch offline verfügbar sein müssen, dann müssen -->
+        <!-- sie zusätzlich noch zum Array DEFAULT_FILES_TO_CACHE in der -->
+        <!-- JavaScript-Datei 'shd-basis-cache-worker.js' hinzugefügt    -->
+        <!-- werden.                                                     -->
+        <!----------------------------------------------------------------->
+
+        <!-- Icons -->
+        <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+        <!-- Manifest -->
+        <link rel="manifest" href="manifest.json">
+
+        <!-- Skripte von Kotlin -->
+        <script type='text/javascript' src='basis/js/lib/kotlin.js'></script>
+        <script type='text/javascript' src='basis/js/lib/kotlinx-html-js.js'></script>
+        <script type='text/javascript' src='basis/js/lib/kotlinx-serialization-kotlinx-serialization-runtime.js'></script>
+
+        <!-- Skripte des Basis-Frameworks -->
+        <script type='text/javascript' src='basis/js/shd-basis-util.js'></script>
+        <script type='text/javascript' src='basis/js/shd-basis-ui.js'></script>
+
+        <!-- Anwendungsspezifische Skripte -->
+        <script type='text/javascript' src='shd-app.js'></script>
+    </head>
+    <body>
+        <div class="shd-app"></div>
+    </body>
+</html>

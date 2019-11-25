@@ -1,0 +1,85 @@
+* {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary, time, mark, audio, video, button, input {
+  border: 0;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+html, body, div, span, p, h1, h2, h3, h4, h5, button, input, form {
+  box-sizing: border-box;
+  outline: none;
+}
+
+html {
+  font: 400 16px/1.55 "Open Sans", sans-serif;
+}
+
+body {
+  line-height: 1;
+}
+
+h1, h2, h3, h4, h5 {
+  text-align: center;
+}
+
+p {
+  margin: $default-spacing;
+}
+
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after, q:before, q:after {
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+button, input, form {
+  width: 100%;
+}
+
+button {
+  background: $btn-bg-color none;
+  height: $control-height;
+  color: $default-font-color-btn;
+  //font-size: 16px;
+  font-weight: 400;
+  border: 1px solid $field-border-color;
+  border-radius: 4px;
+  margin-top: $default-spacing;
+  cursor: pointer;
+}
+
+button:disabled {
+  background: transparent;
+  border: $button-border-disabled;
+  color: $disabled-color;
+}
